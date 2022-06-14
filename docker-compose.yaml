@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  db: 
+    platform: linux/x86_64
+    image: mysql:8
+    cap_add:
+      - SYS_NICE
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: GOT_user
+      MYSQL_PASSWORD: password2
+      MYSQL_DATABASE: GOT_db
+volumes:
+  db:
+    driver: local
