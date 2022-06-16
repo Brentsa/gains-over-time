@@ -9,3 +9,47 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Account {
+  id          Int       @id @default(autoincrement())
+  firstName   String?    
+  lastName    String?
+  username    String    @unique
+  email       String    @unique
+  password    String    
+  createdAt   DateTime  @default(now())
+  exercises   Exercise[]
+}
+
+model Exercise {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  account     Account   @relation(fields: [accountId], references: [id])
+  accountId   Int
+  muscles     Muscle[] 
+  sets        Set[] 
+}
+
+model Muscle {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  exercises   Exercise[]
+}
+
+model Set {
+  id          Int       @id @default(autoincrement())
+  exercise    Exercise  @relation(fields: [exerciseId], references: [id])
+  exerciseId  Int 
+  reps        Rep[]
+  createdAt   DateTime  @default(now())      
+}
+
+model Rep {
+  id          Int       @id @default(autoincrement())
+  weight      Int
+  quantity    Int
+  set         Set       @relation(fields: [setId], references: [id])
+  setId       Int
+}
