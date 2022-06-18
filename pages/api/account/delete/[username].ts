@@ -5,18 +5,14 @@ import { prisma } from '../../../../db/prisma';
 type Data = Omit<Account, 'password'> | {error: string}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
-    if(req.method !== 'PUT') return res.status(405).json({error: 'Incorrect request method.'});
+    if(req.method !== 'DELETE') return res.status(405).json({error: 'Incorrect request method.'});
 
     const {username} = req.query
 
     try{
-        //try updating the account with the supplied username and return the account minus the password
-        const updatedAccount: Omit<Account, 'password'> = await prisma.account.update({
+        const deletedAccount: Omit<Account, 'password'> = await prisma.account.delete({
             where: {
-                username: <string>username 
-            },
-            data: {
-                ...req.body
+                username: <string>username
             },
             select: {
                 id: true,
@@ -27,24 +23,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 createdAt: true
             }
         })
-    
-        return res.status(200).json(updatedAccount);
+
+        res.status(200).json(deletedAccount)
     }
     catch(e){
         //instantiate general error
-        let error: string = "Account not updated."
+        let error: string = "Account not deleted."
 
         //check error code and if found, specify the message
         if(e instanceof Prisma.PrismaClientKnownRequestError){
             console.log(e.message, e.code);
             switch(e.code){
-                case 'P2002':
-                    console.log(e.message);
-                    error = 'Account not updated. Unique constraint violation.'
-                    break;
                 case 'P2025': 
                     console.log(e.message);
-                    error = 'Account not updated. Account not found.'
+                    error = 'Account not deleted. Account not found.'
                     break;
             }
         }
