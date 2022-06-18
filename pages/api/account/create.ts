@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Account, Prisma } from '@prisma/client'
 import { prisma } from '../../../db/prisma';
+import { getPrismaClientError } from '../../../utils/helpers';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 type Data = Omit<Account, 'password'> | {error: string};
 
@@ -34,19 +36,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         return res.status(200).json(newAccount);
     }
     catch(e){
-        //default error message
-        let error: string = 'Account not created.'
-
-        //if the error is a prisma known error, try to give more information in the error
-        if(e instanceof Prisma.PrismaClientKnownRequestError){
-            switch(e.code){
-                case 'P2002':
-                    error = 'Account not created. Unique constraint violation.'
-                    break;
-            }
-        }
-
-        //return an error object with the message
-        return res.status(400).json({error});
+        return res.status(400).json({error: 'Account not created. ' + getPrismaClientError(<PrismaClientKnownRequestError>e)});
     }
 }

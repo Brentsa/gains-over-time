@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Muscle, Prisma } from '@prisma/client'
+import { Muscle } from '@prisma/client'
 import { prisma } from '../../../db/prisma';
+import { getPrismaClientError } from '../../../utils/helpers';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 type Data = Muscle | {error: string};
 
@@ -18,18 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         return res.status(200).json(newMuscle);
     }
     catch(e){
-        let error = 'Muscle not created.';
-
-        if(e instanceof Prisma.PrismaClientKnownRequestError){
-            switch(e.code){
-                case 'P2002':
-                    console.log(e.message);
-                    error = 'Muscle not created. Unique constraint violation.'
-                    break;
-            }
-        }
-
-        return res.status(400).json({error});
+        return res.status(400).json({error: 'Muscle not created. ' + getPrismaClientError(<PrismaClientKnownRequestError>e)});
     }
     
 }
