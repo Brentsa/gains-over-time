@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Account, PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient();
+import { Account } from '@prisma/client'
+import { prisma } from '../../../db/prisma';
 
 type Data = Account | {error: string};
 

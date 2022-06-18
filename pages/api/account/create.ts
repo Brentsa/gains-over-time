@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Account, Prisma, PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient();
+import { Account, Prisma } from '@prisma/client'
+import { prisma } from '../../../db/prisma';
 
 type Data = Omit<Account, 'password'> | {error: string};
 
