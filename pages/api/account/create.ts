@@ -3,13 +3,14 @@ import { Account, Prisma } from '@prisma/client'
 import { prisma } from '../../../db/prisma';
 import { getPrismaClientError } from '../../../utils/helpers';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+const bcrypt = require('bcrypt');
 
 type Data = Omit<Account, 'password'> | {error: string};
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if(req.method !== 'POST') return res.status(405).json({error: 'Incorrect request method.'});
 
-    const {username, password, email} = req.body;
+    const {username, email, password} = req.body;
 
     try{
         //try creating a user with the supplied credentials
@@ -18,10 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 firstName: req.body?.firstName,
                 lastName: req.body?.lastName,
                 username,
-                password,
-                email
+                email,
+                //hash the supplied password in the database
+                password: await bcrypt.hash(password, 10)
             },
-            //return all account fields but password
             select: {
                 id: true,
                 firstName: true,
