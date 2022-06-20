@@ -9,4 +9,6 @@ npm ci
 docker-compose up -d
 cp .env.sample .env #edit the new .env file with DB credentials
 npx prisma generate
+npx prisma migrate reset #seeds the db as well
+npm run dev
 ```
