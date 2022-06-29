@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const {name, accountId} = req.body;
 
-    //if there is a muscles array in the request, map the array of ids to a muscle id array for prisma
+    //if there is a muscles array in the request, map the array of ids to a muscle id array for prisma [{id: 1},{id: 2},...]
     const muscleIds: number[] = req.body.muscles ?? [];
     const muscles:Muscle[] = muscleIds.map(muscleId => <Muscle>{id: muscleId});
 
