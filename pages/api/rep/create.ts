@@ -4,7 +4,7 @@ import { prisma } from '../../../db/prisma';
 import { getPrismaClientError } from '../../../utils/helpers';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
-type Data = Rep | {error: string};
+type Data = Rep | {error: string} | PrismaClientKnownRequestError;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
     if(req.method !== 'POST') return res.status(405).json({error: 'Incorrect request method'});

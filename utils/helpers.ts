@@ -4,7 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 //return a prisma client error message from a supplied error object
 export function getPrismaClientError(error:  PrismaClientKnownRequestError): string {
     //instantiate blank string
-    let message: string = '';
+    let message: string = error.code;
 
     //check if the supplied error is a prisma client known error
     if(error instanceof Prisma.PrismaClientKnownRequestError){
@@ -16,7 +16,7 @@ export function getPrismaClientError(error:  PrismaClientKnownRequestError): str
                 message = 'Foreign key constraint failed on field: ' + error.meta?.field_name;
                 break;
             case 'P2025': 
-                message = 'Account not found.'
+                message = 'Object not found in database.'
                 break;
         }
     }
