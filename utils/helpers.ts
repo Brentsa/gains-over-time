@@ -23,3 +23,9 @@ export function getPrismaClientError(error:  PrismaClientKnownRequestError): str
    
     return message;
 }
+
+//Check if a supplied string is an email, returns a bool value
+export function isEmail(string: string): boolean {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return string.match(emailRegex) ? true : false;
+}
