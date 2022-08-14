@@ -3,13 +3,18 @@ import { Account } from '@prisma/client'
 import { prisma } from '../../../db/prisma';
 import { getPrismaClientError } from '../../../utils/helpers';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { withIronSessionApiRoute } from "iron-session/next";
+import { ironOptions } from "../../../utils/iron-session-config";
 import bcrypt from 'bcrypt';
 
 type Data = Omit<Account, 'password'> | {error: string};
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+export default withIronSessionApiRoute(handler, ironOptions);
+
+async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if(req.method !== 'POST') return res.status(405).json({error: 'Incorrect request method.'});
 
+    //destructure the username, email, and password from the request body
     const {username, email, password} = req.body;
 
     //hash the supplied password and then run the prisma create operation if no error
@@ -35,6 +40,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                     createdAt: true
                 }
             });
+
+            //once the account has been created, save the user data in the iron session
+            req.session.user = {
+                id: newAccount.id,
+                username: newAccount.username,
+                firstName: newAccount.firstName,
+                lastName: newAccount.lastName,
+                email: newAccount.email
+            }
+
+            //save the iron session as a seal/cookie
+            await req.session.save();
 
             //If there are no errors, return the account details
             return res.status(200).json(newAccount);
