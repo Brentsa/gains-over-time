@@ -55,7 +55,7 @@ export default function LoginForm(){
                         </Link>
                     </p>
                 </div>
-                <form className="mt-8 space-y-6" onSubmit={handleInputSubmit}>
+                <form className="mt-8 space-y-10" onSubmit={handleInputSubmit}>
                     <input type="hidden" name="remember" defaultValue="true" />
                     <div>
                         <div className="rounded-md shadow-sm -space-y-px">
@@ -91,36 +91,35 @@ export default function LoginForm(){
                                 />
                             </div>
                         </div>
-                        {loginError && 
-                            <div className='flex justify-center'>
+                        <div className='relative'>
+                            <div className={`flex justify-center absolute transition duration-300 ${!loginError && '-translate-y-full'} inset-x-0 top-0`}>
                                 <p className="text-red-600 border border-t-0 border-gray-300 bg-red-100 text-center text-sm p-1 w-80 rounded-b shadow-sm">
                                     {loginError}
                                 </p>
+                            </div>    
+                        </div>
+                    </div>
+
+                    <div className='space-y-2'>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <input
+                                    id="remember-me"
+                                    name="remember-me"
+                                    type="checkbox"
+                                    className="h-4 w-4 text-amber-500 focus:ring-amber-400 border-gray-300 rounded"
+                                />
+                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                                    Remember me
+                                </label>
                             </div>
-                        }
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="h-4 w-4 text-amber-500 focus:ring-amber-400 border-gray-300 rounded"
-                            />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                Remember me
-                            </label>
-                        </div>
 
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-amber-500 hover:text-amber-400">
-                                Forgot your password?
-                            </a>
+                            <div className="text-sm">
+                                <a href="#" className="font-medium text-amber-500 hover:text-amber-400">
+                                    Forgot your password?
+                                </a>
+                            </div>
                         </div>
-                    </div>
-
-                    <div>
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
