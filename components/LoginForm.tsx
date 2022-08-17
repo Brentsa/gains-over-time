@@ -2,12 +2,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import { ChangeEvent, SyntheticEvent, useState } from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Inputs = {username: string, password: string}
 
 export default function LoginForm(){
 
+    const router = useRouter();
+
     const [inputs, setInputs] = useState<Inputs>({username: '', password: ''});
+    const [loginError, setLoginError] = useState<string>(''); 
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
         const name = event.target.name;
@@ -15,9 +19,20 @@ export default function LoginForm(){
         setInputs({...inputs, [name]: value});
     }
 
-    function handleInputSubmit(event: SyntheticEvent): void {
+    async function handleInputSubmit(event: SyntheticEvent): Promise<void>{
         event.preventDefault();
-        console.log(inputs);
+       
+        const loginRequest = await fetch('/api/account/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(inputs)
+        })
+
+        const loginData = await loginRequest.json();
+
+        if(!loginRequest.ok) return setLoginError(loginData.error);
+
+        router.push('/');
     }
     
     return (
@@ -42,40 +57,49 @@ export default function LoginForm(){
                 </div>
                 <form className="mt-8 space-y-6" onSubmit={handleInputSubmit}>
                     <input type="hidden" name="remember" defaultValue="true" />
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label htmlFor="email-address-username" className="sr-only">
-                                Email address or Username
-                            </label>
-                            <input
-                                id="email-address-username"
-                                name="username"
-                                value={inputs.username}
-                                onChange={handleInputChange}
-                                type="text"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-10 sm:text-sm"
-                                placeholder="Username / Email Address"
-                            />
+                    <div>
+                        <div className="rounded-md shadow-sm -space-y-px">
+                            <div>
+                                <label htmlFor="email-address-username" className="sr-only">
+                                    Email address or Username
+                                </label>
+                                <input
+                                    id="email-address-username"
+                                    name="username"
+                                    value={inputs.username}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="Username / Email Address"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="password" className="sr-only">
+                                    Password
+                                </label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    value={inputs.password}
+                                    onChange={handleInputChange}
+                                    autoComplete="current-password"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="Password"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">
-                                Password
-                            </label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={inputs.password}
-                                onChange={handleInputChange}
-                                autoComplete="current-password"
-                                required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-10 sm:text-sm"
-                                placeholder="Password"
-                            />
-                        </div>
+                        {loginError && 
+                            <div className='flex justify-center'>
+                                <p className="text-red-600 border border-t-0 border-gray-300 bg-red-100 text-center text-sm p-1 w-80 rounded-b shadow-sm">
+                                    {loginError}
+                                </p>
+                            </div>
+                        }
                     </div>
-
+                    
                     <div className="flex items-center justify-between">
                         <div className="flex items-center">
                             <input
