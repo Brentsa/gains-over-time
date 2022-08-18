@@ -4,46 +4,25 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-type Inputs = {username: string, password: string}
+type Inputs = {firstName: string, lastName: string, username: string, email: string, password: string}
 
-export default function LoginForm(){
+export default function RegisterForm(){
 
     //define router with the intent to route the user
     const router = useRouter();
 
     //instantiate state to hold the user login credentials and any login errors
-    const [inputs, setInputs] = useState<Inputs>({username: '', password: ''});
-    const [loginError, setLoginError] = useState<string>(''); 
+    const [inputs, setInputs] = useState<Inputs>({firstName: '', lastName: '', username: '', email: '', password: ''});
 
     //called whenever the user changes the values in the credential inputs
     function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
 
-        //instantiate a copy of the inputs name and value
-        const name = event.target.name;
-        const value = event.target.value;
-
-        //update the corresponding value of the input and leave the other credentials
-        setInputs({...inputs, [name]: value});
     }
 
     //called when the login form has been submitted
     async function handleInputSubmit(event: SyntheticEvent): Promise<void>{
         event.preventDefault();
        
-        //submit a api POST request to login the user
-        const loginRequest = await fetch('/api/account/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(inputs)
-        })
-
-        const loginData = await loginRequest.json();
-
-        //if the login fails, set an error and stay on the page
-        if(!loginRequest.ok) return setLoginError(loginData.error);
-
-        //redirect the user to the home page
-        router.push('/');
     }
     
     return (
@@ -55,13 +34,13 @@ export default function LoginForm(){
                     </div>
                     
                     <h2 className="mt-6 text-center text-3xl tracking-tight font-bold text-gray-900">
-                        Sign in to your account
+                        Register a new account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or{' '}
-                        <Link href="/register">
+                        <Link href="/login">
                             <a className="font-medium text-amber-500 hover:text-amber-400">
-                                register if you are a new user
+                                login if you are an existing user.
                             </a>
                         </Link>
                     </p>
@@ -71,18 +50,63 @@ export default function LoginForm(){
                     <div>
                         <div className="rounded-md shadow-sm -space-y-px">
                             <div>
-                                <label htmlFor="email-address-username" className="sr-only">
-                                    Email address or Username
+                                <label htmlFor="firstName" className="sr-only">
+                                    First Name
                                 </label>
                                 <input
-                                    id="email-address-username"
+                                    id="firstName"
+                                    name="firstName"
+                                    value={inputs.firstName}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="First name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="lastName" className="sr-only">
+                                    Last Name
+                                </label>
+                                <input
+                                    id="lastName"
+                                    name="lastName"
+                                    value={inputs.lastName}
+                                    onChange={handleInputChange}
+                                    type="text"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="Last Name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="username" className="sr-only">
+                                    Username
+                                </label>
+                                <input
+                                    id="username"
                                     name="username"
                                     value={inputs.username}
                                     onChange={handleInputChange}
                                     type="text"
                                     required
-                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
-                                    placeholder="Username / Email Address"
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="Username"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="sr-only">
+                                    Username
+                                </label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    value={inputs.email}
+                                    onChange={handleInputChange}
+                                    type="email"
+                                    required
+                                    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                                    placeholder="Email"
                                 />
                             </div>
                             <div>
@@ -102,17 +126,17 @@ export default function LoginForm(){
                                 />
                             </div>
                         </div>
-                        <div className='relative'>
+                        {/* <div className='relative'>
                             <div className={`flex justify-center absolute transition duration-300 ${!loginError && '-translate-y-full'} inset-x-0 top-0`}>
                                 <p className="text-red-600 border border-t-0 border-gray-300 bg-red-100 text-center text-sm p-1 w-80 rounded-b shadow-sm">
                                     {loginError}
                                 </p>
                             </div>    
-                        </div>
+                        </div> */}
                     </div>
 
                     <div className='space-y-2'>
-                        <div className="flex items-center justify-between">
+                        {/* <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <input
                                     id="remember-me"
@@ -130,12 +154,12 @@ export default function LoginForm(){
                                     Forgot your password?
                                 </a>
                             </div>
-                        </div>
+                        </div> */}
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
                         >
-                            Sign in
+                            Register Account
                         </button>
                     </div>
                 </form>

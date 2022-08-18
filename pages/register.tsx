@@ -1,4 +1,5 @@
 import Head from "next/head"
+import RegisterForm from "../components/RegisterForm"
 
 export default function Register(){
     return (
@@ -8,12 +9,7 @@ export default function Register(){
           <meta name="description" content="Track your workout progess over time." />
           <link rel="icon" href="/favicon.ico"/>
         </Head>
-  
-        <main>
-          <h1 className="text-3xl font-bold underline">
-            Register to start tracking your workouts
-          </h1>
-        </main>
+        <RegisterForm/>
       </div>
     )
   }
