@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
+import LogoutButton from '../components/LogoutButton';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -23,6 +24,7 @@ export default function Home({user}: Props){
         <h1 className="text-3xl font-bold underline">
           Hello world!
         </h1>
+        <LogoutButton/>
       </main>
     </div>
   )
