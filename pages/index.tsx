@@ -1,28 +1,16 @@
 import Head from 'next/head'
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
+import { Account } from '@prisma/client'
 
-export const getServerSideProps = withIronSessionSsr(
-  async function getServerSideProps({ req }) {
-    const user = req.session.user;
+interface Props {
+  user? : Omit<Account, 'password' | 'createdAt'>
+}
 
-    if (!user) return { 
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      }
-    };
+export default function Home({user}: Props){
 
-    return {
-      props: {
-        user: req.session.user,
-      },
-    };
-  },
-  ironOptions
-);
+  console.log(user);
 
-export default function Home(){
   return (
     <div>
       <Head>
@@ -40,3 +28,17 @@ export default function Home(){
   )
 }
 
+export const getServerSideProps = withIronSessionSsr(
+  async function getServerSideProps({ req }) {
+    const user = req.session.user;
+
+    if (!user) return { 
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    };
+
+    return { props: { user: req.session.user} };
+  }, ironOptions
+);

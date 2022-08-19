@@ -37,10 +37,8 @@ export default function LoginForm(){
             body: JSON.stringify(inputs)
         })
 
-        const loginData = await loginRequest.json();
-
         //if the login fails, set an error and stay on the page
-        if(!loginRequest.ok) return setLoginError(loginData.error);
+        if(!loginRequest.ok) return setLoginError('Incorrect credentials used');
 
         //redirect the user to the home page
         router.push('/');

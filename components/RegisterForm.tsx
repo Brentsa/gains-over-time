@@ -13,16 +13,35 @@ export default function RegisterForm(){
 
     //instantiate state to hold the user login credentials and any login errors
     const [inputs, setInputs] = useState<Inputs>({firstName: '', lastName: '', username: '', email: '', password: ''});
+    const [registerError, setRegisterError] = useState<string>('');
 
     //called whenever the user changes the values in the credential inputs
     function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+        //copy name and value from the input change event
+        const name = event.target.name;
+        const value = event.target.value;
 
+        //update the specified property in the input state by name and value
+        setInputs({...inputs, [name]: value});
     }
 
     //called when the login form has been submitted
     async function handleInputSubmit(event: SyntheticEvent): Promise<void>{
         event.preventDefault();
+        console.log(inputs);
        
+        //call fetch api POST route to create a new account
+        const registerResponse = await fetch('/api/account/create', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(inputs)
+        })
+
+        //check if the request was not successfull, set an error if not
+        if(!registerResponse.ok) return setRegisterError('Account registration unsuccsessful')
+
+        //if the request was successful, redirect the user to the homepage
+        router.push('/');
     }
     
     return (
@@ -40,7 +59,7 @@ export default function RegisterForm(){
                         Or{' '}
                         <Link href="/login">
                             <a className="font-medium text-amber-500 hover:text-amber-400">
-                                login if you are an existing user.
+                                sign in if you are an existing user
                             </a>
                         </Link>
                     </p>
@@ -126,35 +145,16 @@ export default function RegisterForm(){
                                 />
                             </div>
                         </div>
-                        {/* <div className='relative'>
-                            <div className={`flex justify-center absolute transition duration-300 ${!loginError && '-translate-y-full'} inset-x-0 top-0`}>
+                        <div className='relative'>
+                            <div className={`flex justify-center absolute transition duration-300 ${!registerError && '-translate-y-full'} inset-x-0 top-0`}>
                                 <p className="text-red-600 border border-t-0 border-gray-300 bg-red-100 text-center text-sm p-1 w-80 rounded-b shadow-sm">
-                                    {loginError}
+                                    {registerError}
                                 </p>
                             </div>    
-                        </div> */}
+                        </div>
                     </div>
 
                     <div className='space-y-2'>
-                        {/* <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <input
-                                    id="remember-me"
-                                    name="remember-me"
-                                    type="checkbox"
-                                    className="h-4 w-4 text-amber-500 focus:ring-amber-400 border-gray-300 rounded"
-                                />
-                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                    Remember me
-                                </label>
-                            </div>
-
-                            <div className="text-sm">
-                                <a href="#" className="font-medium text-amber-500 hover:text-amber-400">
-                                    Forgot your password?
-                                </a>
-                            </div>
-                        </div> */}
                         <button
                             type="submit"
                             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400"
