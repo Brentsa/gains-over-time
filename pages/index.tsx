@@ -2,7 +2,8 @@ import Head from 'next/head'
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
-import LogoutButton from '../components/LogoutButton';
+
+import Navbar from '../components/Navbar';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -21,10 +22,9 @@ export default function Home({user}: Props){
       </Head>
 
       <main>
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-        <LogoutButton/>
+        <Navbar/>
+        <div className='container'>
+        </div>
       </main>
     </div>
   )
