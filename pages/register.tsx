@@ -1,6 +1,6 @@
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head"
-import RegisterForm from "../components/RegisterForm"
+import RegisterForm from "../components/forms/RegisterForm"
 import { ironOptions } from "../utils/iron-session-config";
 
 export default function Register(){

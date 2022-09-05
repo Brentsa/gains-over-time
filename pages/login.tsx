@@ -1,10 +1,9 @@
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head"
-import LoginForm from "../components/LoginForm"
+import LoginForm from "../components/forms/LoginForm"
 import { ironOptions } from "../utils/iron-session-config";
 
 export default function Login(){
-  
   return (
     <div>
       <Head>
