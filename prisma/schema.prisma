@@ -29,6 +29,8 @@ model Exercise {
   accountId   Int
   muscles     Muscle[] 
   sets        Set[] 
+  color       String?   @default("#FFFFFF")
+  type        RepType   @default(lbs)
 }
 
 model Muscle {
@@ -52,4 +54,9 @@ model Rep {
   quantity    Int
   set         Set       @relation(fields: [setId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   setId       Int
+}
+
+enum RepType {
+  lbs
+  seconds
 }
