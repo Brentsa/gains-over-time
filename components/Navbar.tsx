@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
-import LogoutButton from '../components/LogoutButton';
+import LogoutButton from './buttons/LogoutButton';
 
 export default function Navbar(){
 

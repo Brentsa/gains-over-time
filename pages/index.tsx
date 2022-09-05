@@ -4,6 +4,7 @@ import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 
 import Navbar from '../components/Navbar';
+import Paper from '../components/utilites/paper';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -23,7 +24,10 @@ export default function Home({user}: Props){
 
       <main>
         <Navbar/>
-        <div className='container'>
+        <div className='container pt-4'>
+          <Paper>
+            <div>Hello</div>
+          </Paper>
         </div>
       </main>
     </div>
