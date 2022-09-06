@@ -2,9 +2,9 @@ import Head from 'next/head'
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
-
 import Navbar from '../components/Navbar';
-import Paper from '../components/utilites/paper';
+import Paper from '../components/utilites/paper'
+import VerticalTabs from '../components/utilites/VerticalTabs';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -26,7 +26,7 @@ export default function Home({user}: Props){
         <Navbar/>
         <div className='container pt-4'>
           <Paper>
-            <div>Hello</div>
+            <VerticalTabs/>
           </Paper>
         </div>
       </main>
