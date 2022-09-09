@@ -14,6 +14,8 @@ export default function Home({user}: Props){
 
   console.log(user);
 
+  const names = ['Exercise', 'Workout', 'Misc.', 'Super', 'etc.'];
+
   return (
     <div>
       <Head>
@@ -26,7 +28,13 @@ export default function Home({user}: Props){
         <Navbar/>
         <div className='container pt-4'>
           <Paper>
-            <VerticalTabs/>
+            <VerticalTabs tabNames={names}>
+              <div>hello world 1</div>
+              <div>hello world 2</div>
+              <div>hello world 3</div>
+              <div>hello world 4</div>
+              <div>hello world 5</div>
+            </VerticalTabs>
           </Paper>
         </div>
       </main>

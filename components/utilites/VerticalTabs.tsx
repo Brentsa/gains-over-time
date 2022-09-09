@@ -1,8 +1,9 @@
-import { forwardRef, ReactNode, Ref, useEffect, useRef, useState } from "react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 import TabItem from "./TabItem"
 
 type Props = {
-    children?: ReactNode
+    tabNames: string[]
+    children: Array<ReactNode>
 }
 
 export type TabInfo = {
@@ -11,19 +12,17 @@ export type TabInfo = {
     height: number
 }
 
-export default function VerticalTabs({children}: Props){
+export default function VerticalTabs({tabNames, children}: Props){
 
     //instantiate state to hold current tab height and position for the tab selection slider
-    const [tabInfo, setTabInfo] = useState<TabInfo>({index: 0, position: 0, height: 12});
+    const [tabInfo, setTabInfo] = useState<TabInfo>({index: 0, position: 0, height: 0});
 
     //instantiate state to hold the tab container's top offset for the slider's relative position
     const [parentTopOffset, setParentTopOffset] = useState<number>(0);
 
     //define a reference to each tab's divs as well as a reference to the tab container div to acquire their height and positions
     const tabsRef = useRef<Array<HTMLDivElement | null>>([]);
-    const tabContainerDiv = useRef<HTMLDivElement>(null)
-
-    const names = ['Exercise', 'Workout', 'Misc.', 'Super', 'etc.'];
+    const tabContainerDiv = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         //declare variables to hold the current tabs height and top position as well as the containers top offset
@@ -43,7 +42,7 @@ export default function VerticalTabs({children}: Props){
     return (
        <div className="flex">
             <div className="basis-auto flex flex-col items-end space-y-2">
-                {names.map((name, i)=>
+                {tabNames.map((name, i)=>
                     <TabItem 
                         label={name} 
                         index={i} 
@@ -60,7 +59,7 @@ export default function VerticalTabs({children}: Props){
                 <div className="bg-gray-200 w-0.5 h-full"/>
             </div>
             <div className="basis-full p-2">
-                Hello
+                { children[tabInfo.index] }
             </div>
        </div> 
     )
