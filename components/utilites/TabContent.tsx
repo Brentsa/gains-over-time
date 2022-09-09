@@ -1,14 +1,10 @@
-import { ReactNode } from "react"
+import { ReactElement } from "react"
 
 export type TabContentProps = {
     label: string, 
-    children: ReactNode
+    children: ReactElement
 }
 
 export default function TabContent({children}: TabContentProps){
-    return (
-        <div>
-            {children}
-        </div>
-    )
+    return <div>{children}</div>;
 }

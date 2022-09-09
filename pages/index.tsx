@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import Paper from '../components/utilites/paper'
 import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
+import CreateExerciseForm from '../components/forms/CreateExerciseForm';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -14,8 +15,6 @@ interface Props {
 export default function Home({user}: Props){
 
   console.log(user);
-
-  const names = ['Exercise', 'Workout', 'Misc.', 'Super', 'etc.'];
 
   return (
     <div>
@@ -31,7 +30,7 @@ export default function Home({user}: Props){
           <Paper>
             <VerticalTabs>
               <TabContent label='Exercise'>
-                <div>Hello 1</div>
+                <CreateExerciseForm/>
               </TabContent>
               <TabContent label='Workout'>
                 <div>Hello 2</div>
