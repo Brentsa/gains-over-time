@@ -5,6 +5,7 @@ import { Account } from '@prisma/client'
 import Navbar from '../components/Navbar';
 import Paper from '../components/utilites/paper'
 import VerticalTabs from '../components/utilites/VerticalTabs';
+import TabContent from '../components/utilites/TabContent';
 
 interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -28,12 +29,13 @@ export default function Home({user}: Props){
         <Navbar/>
         <div className='container pt-4'>
           <Paper>
-            <VerticalTabs tabNames={names}>
-              <div>hello world 1</div>
-              <div>hello world 2</div>
-              <div>hello world 3</div>
-              <div>hello world 4</div>
-              <div>hello world 5</div>
+            <VerticalTabs>
+              <TabContent label='Exercise'>
+                <div>Hello 1</div>
+              </TabContent>
+              <TabContent label='Workout'>
+                <div>Hello 2</div>
+              </TabContent>
             </VerticalTabs>
           </Paper>
         </div>

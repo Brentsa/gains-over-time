@@ -1,9 +1,9 @@
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { ReactElement, useEffect, useRef, useState } from "react"
 import TabItem from "./TabItem"
+import {TabContentProps} from "./TabContent";
 
 type Props = {
-    tabNames: string[]
-    children: Array<ReactNode>
+    children: ReactElement<TabContentProps>[]
 }
 
 export type TabInfo = {
@@ -12,7 +12,7 @@ export type TabInfo = {
     height: number
 }
 
-export default function VerticalTabs({tabNames, children}: Props){
+export default function VerticalTabs({children}: Props){
 
     //instantiate state to hold current tab height and position for the tab selection slider
     const [tabInfo, setTabInfo] = useState<TabInfo>({index: 0, position: 0, height: 0});
@@ -42,9 +42,9 @@ export default function VerticalTabs({tabNames, children}: Props){
     return (
        <div className="flex">
             <div className="basis-auto flex flex-col items-end space-y-2">
-                {tabNames.map((name, i)=>
+                {children.map((child, i)=>
                     <TabItem 
-                        label={name} 
+                        label={child.props.label} 
                         index={i} 
                         setActiveTabIndex={setTabInfo}
                         key={i} 
@@ -54,11 +54,15 @@ export default function VerticalTabs({tabNames, children}: Props){
             <div className="relative" ref={tabContainerDiv}>
                 <div 
                     className="bg-amber-500 w-1 absolute transition-all" 
-                    style={{height: tabInfo.height, top: tabInfo.position - parentTopOffset, left: '-100%'}}
+                    style={{
+                        height: tabInfo.height, 
+                        top: tabInfo.position - parentTopOffset, 
+                        left: '-100%'
+                    }}
                 />
                 <div className="bg-gray-200 w-0.5 h-full"/>
             </div>
-            <div className="basis-full p-2">
+            <div className="basis-full py-2 px-4">
                 { children[tabInfo.index] }
             </div>
        </div> 
