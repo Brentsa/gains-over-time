@@ -19,25 +19,47 @@ model Account {
   password    String    
   createdAt   DateTime  @default(now())
   exercises   Exercise[]
+  eTemplates  ExerciseTemplate[]
 }
 
-model Exercise {
+model Workout {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  exercises   ExerciseTemplate[]
+}
+
+model ExerciseTemplate {
   id          Int       @id @default(autoincrement())
   name        String    @unique
   createdAt   DateTime  @default(now())
   account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   accountId   Int
+  workout     Workout?  @relation(fields: [workoutId], references: [id])
+  workoutId   Int?
   muscles     Muscle[] 
-  sets        Set[] 
-  color       String?   @default("#FFFFFF")
+  exercises   Exercise[]
+  targetSets  Int
+  targetReps  Int
   type        RepType   @default(lbs)
+  color       String?
+}
+
+model Exercise {
+  id          Int       @id @default(autoincrement())
+  account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  accountId   Int
+  exerciseT   ExerciseTemplate  @relation(fields: [exerciseTId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  exerciseTId Int
+  sets        Set[]
+  createdAt   DateTime  @default(now()) 
 }
 
 model Muscle {
   id          Int       @id @default(autoincrement())
   name        String    @unique
   createdAt   DateTime  @default(now())
-  exercises   Exercise[]
+  exercises   ExerciseTemplate[]
 }
 
 model Set {

@@ -6,5 +6,9 @@ export type TabContentProps = {
 }
 
 export default function TabContent({children}: TabContentProps){
-    return <div>{children}</div>;
+    return (
+        <div className="w-full h-full">
+            {children}
+        </div>
+    );
 }

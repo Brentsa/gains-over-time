@@ -18,8 +18,8 @@ export default function CreateExerciseForm(){
     }
 
     return (
-        <div>
-            <div>
+        <form className="flex items-center justify-start w-full">
+            <div className="w-1/4">
                 <label htmlFor="exercise-name" className="sr-only">
                     Exercise Name
                 </label>
@@ -28,10 +28,10 @@ export default function CreateExerciseForm(){
                     name="name"
                     value={inputs.name}
                     onChange={handleInputChange}
-                    className="appearance-none rounded relative block w-1/4 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
                     placeholder="Exercise Name"
                 />
             </div>
-        </div>
+        </form>
     )
 }
