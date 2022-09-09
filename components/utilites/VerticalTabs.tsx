@@ -1,62 +1,50 @@
-import { forwardRef, ReactNode, useLayoutEffect, useRef, useState } from "react"
+import { forwardRef, ReactNode, Ref, useEffect, useRef, useState } from "react"
+import TabItem from "./TabItem"
 
 type Props = {
     children?: ReactNode
 }
 
-type TabInfo = {
+export type TabInfo = {
     index: number, 
     position: number, 
     height: number
 }
 
-type TabProps = {
-    label: string,
-    index: number,
-    setActiveTabIndex: any
-}
-
-const Tab = forwardRef((props: TabProps, ref: any) => {
-    const {label, index, setActiveTabIndex} = props;
-
-    function handleClick(event: React.MouseEvent<HTMLButtonElement>){
-        console.log('clicked', index);
-        setActiveTabIndex((prevState: TabInfo) => { return {...prevState, index: index}});
-    }
-
-    return (
-        <div className="p-2 pr-4" ref={ref}>
-            <button onClick={handleClick}>
-                {label}
-            </button>
-        </div>)
-});
-
 export default function VerticalTabs({children}: Props){
 
-    const [tabInfo, setTabInfo] = useState<TabInfo>({index: 0, position: 0, height: 0});
+    //instantiate state to hold current tab height and position for the tab selection slider
+    const [tabInfo, setTabInfo] = useState<TabInfo>({index: 0, position: 0, height: 12});
 
+    //instantiate state to hold the tab container's top offset for the slider's relative position
+    const [parentTopOffset, setParentTopOffset] = useState<number>(0);
+
+    //define a reference to each tab's divs as well as a reference to the tab container div to acquire their height and positions
     const tabsRef = useRef<Array<HTMLDivElement | null>>([]);
+    const tabContainerDiv = useRef<HTMLDivElement>(null)
 
-    const names = ['Exercise', 'Workout', 'Misc.', 'Super'];
+    const names = ['Exercise', 'Workout', 'Misc.', 'Super', 'etc.'];
 
-    useLayoutEffect(()=>{
+    useEffect(() => {
+        //declare variables to hold the current tabs height and top position as well as the containers top offset
         const elementHeight = tabsRef.current[tabInfo.index]?.clientHeight;
         const elementOffset = tabsRef.current[tabInfo.index]?.offsetTop;
-        console.log(tabsRef.current)
+        const parentOffset = tabContainerDiv.current?.offsetTop;
 
-        if(elementHeight && elementOffset){
-            console.log(elementHeight, elementOffset);
-            setTabInfo({...tabInfo, position: elementOffset, height: elementHeight})
-        }
-    }, [tabInfo.index])
+        //if any of the variables above are not set exit the function
+        if(!elementHeight || !elementOffset || !parentOffset) return;
 
+        //set the relevent states if we pass the variable check
+        setTabInfo({...tabInfo, position: elementOffset, height: elementHeight});
+        setParentTopOffset(parentOffset);
+
+    }, [tabInfo.index, tabContainerDiv])
 
     return (
        <div className="flex">
             <div className="basis-auto flex flex-col items-end space-y-2">
                 {names.map((name, i)=>
-                    <Tab 
+                    <TabItem 
                         label={name} 
                         index={i} 
                         setActiveTabIndex={setTabInfo}
@@ -64,10 +52,11 @@ export default function VerticalTabs({children}: Props){
                         ref={(element: HTMLDivElement) => tabsRef.current[i] = element}
                     />)}
             </div>
-            <div className="relative">
-                { tabInfo.height && tabInfo.position &&
-                    <div className="bg-amber-500 w-1 absolute transition-all" style={{height: tabInfo.height, top: tabInfo.position - 100, left: '-100%'}}/>
-                }
+            <div className="relative" ref={tabContainerDiv}>
+                <div 
+                    className="bg-amber-500 w-1 absolute transition-all" 
+                    style={{height: tabInfo.height, top: tabInfo.position - parentTopOffset, left: '-100%'}}
+                />
                 <div className="bg-gray-200 w-0.5 h-full"/>
             </div>
             <div className="basis-full p-2">
