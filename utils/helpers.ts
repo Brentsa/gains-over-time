@@ -18,6 +18,9 @@ export function getPrismaClientError(error:  PrismaClientKnownRequestError): str
             case 'P2025': 
                 message = 'Object not found in database.'
                 break;
+            case 'P2022': 
+                message = 'Object not created.' + error.message;
+                break;
         }
     }
    
