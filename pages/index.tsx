@@ -3,7 +3,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 import Navbar from '../components/Navbar';
-import Paper from '../components/utilites/paper'
+import Paper from '../components/utilites/Paper'
 import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
 import CreateExerciseForm from '../components/forms/CreateExerciseForm';
