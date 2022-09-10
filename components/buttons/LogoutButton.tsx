@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function LogoutButton(){
 
@@ -16,7 +18,7 @@ export default function LogoutButton(){
 
     return (
         <button onClick={handleClick} className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>
-            Logout
+            <FontAwesomeIcon icon={faRightFromBracket} className='mr-2'/> Logout
         </button>
     );
 }
