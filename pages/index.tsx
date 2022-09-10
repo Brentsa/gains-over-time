@@ -8,7 +8,7 @@ import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
 import CreateExerciseForm from '../components/forms/CreateExerciseForm';
 
-interface Props {
+export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
 }
 
@@ -25,7 +25,7 @@ export default function Home({user}: Props){
       </Head>
 
       <main>
-        <Navbar/>
+        <Navbar user={user}/>
         <div className='container pt-4'>
           <Paper>
             <VerticalTabs>

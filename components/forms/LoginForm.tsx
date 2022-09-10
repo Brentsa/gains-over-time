@@ -17,6 +17,8 @@ export default function LoginForm(){
 
     //called whenever the user changes the values in the credential inputs
     function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+        //if there is a login error and input changes remove the error 
+        if(loginError) setLoginError('');
 
         //instantiate a copy of the inputs name and value
         const name = event.target.name;

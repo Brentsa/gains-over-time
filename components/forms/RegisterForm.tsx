@@ -17,6 +17,9 @@ export default function RegisterForm(){
 
     //called whenever the user changes the values in the credential inputs
     function handleInputChange(event: ChangeEvent<HTMLInputElement>): void {
+        //if there is a registration error and input changes remove the error 
+        if(registerError) setRegisterError('');
+
         //copy name and value from the input change event
         const name = event.target.name;
         const value = event.target.value;
