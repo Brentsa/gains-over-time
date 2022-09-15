@@ -22,12 +22,6 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
                     lastName: true,
                     username: true
                 }
-            },
-            muscles: {
-                select: {
-                    id: true,
-                    name: true
-                }
             }
         }
     });
