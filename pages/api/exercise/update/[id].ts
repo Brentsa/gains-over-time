@@ -12,10 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     const { id } = req.query;
 
-    //if there is a muscles array in the request, map the array of ids to a muscle id array for prisma [{id: 1},{id: 2},...]
-    // const muscleIds: number[] | undefined = req.body?.muscles;
-    // const muscles:Muscle[] | undefined = muscleIds ? muscleIds.map(muscleId => <Muscle>{id: muscleId}) : undefined;
-
+    //If there is a sets array in the request, format a new array to connect it with the updated exercise template
     const setIds: number[] | undefined = req.body.sets;
     const sets: Sets[] | undefined = setIds ? setIds.map(setId => <Sets>{id: setId}): undefined;
 
@@ -28,9 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 sets: {
                     set: sets
                 }
-                // muscles: {
-                //     set: muscles
-                // }
             },
             include: {
                 account: {
@@ -38,7 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                         id: true,
                         firstName: true,
                         lastName: true,
-                        username: true
+                        username: true,
+                        email: true
                     }
                 }
             }
