@@ -9,7 +9,7 @@ type Data = Workout | {error: string};
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
     if(req.method !== 'POST') return res.status(405).json({error: 'Incorrect request method.'});
 
-    const {name} = req.body;
+    const {name, accountId} = req.body;
 
     const exerciseTemplateIds: number[] | undefined = req.body?.exerciseTemplates;
     const exerciseTemplates: ExerciseTemplate[] | undefined = exerciseTemplateIds ? exerciseTemplateIds.map(etId => <ExerciseTemplate>{id: etId}) : undefined; 
@@ -18,9 +18,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const newWorkout = await prisma.workout.create({
             data: {
                 name,
+                accountId,
                 exercises: { connect: exerciseTemplates ?? [] }
             },
             include: {
+                account: {
+                    select: {
+                        id: true,
+                        firstName: true, 
+                        lastName: true,
+                        username: true, 
+                        email: true
+                    }
+                },
                 exercises: {
                     select: {
                         id: true,
