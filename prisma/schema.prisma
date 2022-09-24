@@ -29,6 +29,7 @@ model Workout {
   account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   accountId   Int
   name        String    @unique
+  color       String?
   exercises   ExerciseTemplate[]
 }
 
@@ -44,7 +45,6 @@ model ExerciseTemplate {
   targetSets  Int
   targetReps  Int
   type        RepType   @default(lbs)
-  color       String?
 }
 
 model Exercise {
