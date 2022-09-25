@@ -30,7 +30,7 @@ export default function Home({user}: Props){
           <Paper>
             <VerticalTabs>
               <TabContent label='Exercise'>
-                <CreateExerciseForm/>
+                <CreateExerciseForm user={user}/>
               </TabContent>
               <TabContent label='Workout'>
                 <div>Hello 2</div>
