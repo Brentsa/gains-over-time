@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from "react"
-import { Account } from '@prisma/client'
+import { ChangeEvent, MouseEvent, useState } from "react"
+import { Muscle } from "@prisma/client";
 import { Props } from '../../pages/index'
+import MuscleSelect from "./MuscleSelect"
 
 type Inputs = {
     name: string,
@@ -14,11 +15,18 @@ export default function CreateExerciseForm({user}: Props){
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
 
+    const [selectedMuscle, setSelectedMuscle] = useState<Omit<Muscle, 'createdAt'>>({id: 0, name: ''});
+
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
         const value = event.target.value;
 
         setInputs({ ...inputs, [name]: value});
+    }
+
+    function addMuscle(event: MouseEvent<HTMLButtonElement>){
+        event.preventDefault();
+        console.log(selectedMuscle);
     }
 
     return (
@@ -37,24 +45,6 @@ export default function CreateExerciseForm({user}: Props){
                     type="text"
                 />
             </div>
-
-            {/* <div className="w-1/4">
-                <label htmlFor="exercise-name">
-                    Muscles
-                </label>
-                <select
-                    id="exercise-name"
-                    name="name"
-                    value={inputs.name}
-                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
-                    placeholder="Exercise Name"
-                    multiple
-                >
-                    <option>Hello</option>
-                    <option>World</option>
-                    <option>What up</option>
-                </select>
-            </div> */}
 
             <div className="w-1/6">
                 <label htmlFor="exercise-targetSets">
@@ -106,6 +96,16 @@ export default function CreateExerciseForm({user}: Props){
                     <option value="lbs">Pounds</option>
                     <option value="seconds">Seconds</option>
                 </select>
+            </div>
+
+            <div className="w-2/6 flex">
+                <MuscleSelect 
+                    value={selectedMuscle}
+                    setSelectedMuscle={setSelectedMuscle}
+                />
+                <div className="pl-2 flex items-end">
+                    <button onClick={addMuscle} className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>+</button>
+                </div>
             </div>
         </form>
     )

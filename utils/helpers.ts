@@ -32,3 +32,8 @@ export function isEmail(string: string): boolean {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return string.match(emailRegex) ? true : false;
 }
+
+//capitalize first letter of a supplied string
+export function firstLetterToUpperCase(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
