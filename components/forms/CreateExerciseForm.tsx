@@ -1,9 +1,8 @@
-import { ChangeEvent, MouseEvent, useState } from "react"
-import { Muscle } from "@prisma/client";
+import { ChangeEvent, useState } from "react"
 import { Props } from '../../pages/index'
 import MuscleSelect from "./MuscleSelect"
 
-type Inputs = {
+export interface Inputs {
     name: string,
     muscles: string[]
     targetSets: number | '',
@@ -15,19 +14,11 @@ export default function CreateExerciseForm({user}: Props){
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
 
-    const [selectedMuscle, setSelectedMuscle] = useState<Omit<Muscle, 'createdAt'>>({id: 0, name: ''});
-    const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
-
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
         const value = event.target.value;
 
         setInputs({ ...inputs, [name]: value});
-    }
-
-    function addMuscle(event: MouseEvent<HTMLButtonElement>){
-        event.preventDefault();
-        console.log(selectedMuscle);
     }
 
     return (
@@ -102,13 +93,7 @@ export default function CreateExerciseForm({user}: Props){
             </div>
 
             <div className="col-span-12 flex space-x-4">
-                <div className="w-80">
-                    <MuscleSelect 
-                        value={selectedMuscle}
-                        setSelectedMuscle={setSelectedMuscle}
-                        addMuscle={addMuscle}
-                    />
-                </div>
+                <MuscleSelect setInputs={setInputs}/>
             </div>
         </form>
     )
