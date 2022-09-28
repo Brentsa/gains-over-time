@@ -2,12 +2,14 @@ import useSWR from "swr";
 import fetcher from "../../utils/swrFetcher";
 import { Muscle } from "@prisma/client";
 import { firstLetterToUpperCase } from "../../utils/helpers";
-import { ChangeEvent } from "react";
+import { ChangeEvent, MouseEventHandler } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
     value: Omit<Muscle, 'createdAt'>,
     setSelectedMuscle: Function,
-    addMuscle: Function
+    addMuscle: MouseEventHandler
 }
 
 export default function MuscleSelect({value, setSelectedMuscle, addMuscle}: Props){
@@ -54,10 +56,16 @@ export default function MuscleSelect({value, setSelectedMuscle, addMuscle}: Prop
                         className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!value.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
                         required
                     >   
-                        <option defaultValue='' disabled={!!value.id}>Select Muscle</option>
+                        <option defaultValue=''>Select Muscle</option>
                         {data.map((muscle, id) => <option value={muscle.id} key={id} label={firstLetterToUpperCase(muscle.name)}/>)}
                     </select>
-                    <button className='rounded-r bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>+</button>
+                    <button 
+                        className='rounded-r bg-amber-500 text-white p-1 hover:bg-amber-400 px-4 disabled:bg-gray-300' 
+                        onClick={addMuscle}
+                        disabled={!value.id}
+                    >
+                        <FontAwesomeIcon icon={faPlus} />
+                    </button>
                 </div>
             }
         </div>

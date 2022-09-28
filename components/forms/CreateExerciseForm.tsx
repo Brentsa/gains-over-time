@@ -16,6 +16,7 @@ export default function CreateExerciseForm({user}: Props){
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
 
     const [selectedMuscle, setSelectedMuscle] = useState<Omit<Muscle, 'createdAt'>>({id: 0, name: ''});
+    const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
 
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
