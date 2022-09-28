@@ -6,10 +6,11 @@ import { ChangeEvent } from "react";
 
 interface Props {
     value: Omit<Muscle, 'createdAt'>,
-    setSelectedMuscle: Function
+    setSelectedMuscle: Function,
+    addMuscle: Function
 }
 
-export default function MuscleSelect({value, setSelectedMuscle}: Props){
+export default function MuscleSelect({value, setSelectedMuscle, addMuscle}: Props){
 
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
@@ -45,16 +46,19 @@ export default function MuscleSelect({value, setSelectedMuscle}: Props){
             {!data ?
                 <div>loading...</div> 
                 :
-                <select
-                    id="exercise-repType"
-                    name="type"
-                    onChange={handleChange}
-                    className={`rounded relative block w-full px-3 py-2 border border-gray-300 ${!value.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
-                    required
-                >   
-                     <option defaultValue='' disabled={!!value.id}>Select Muscle</option>
-                    {data.map((muscle, id) => <option value={muscle.id} key={id} label={firstLetterToUpperCase(muscle.name)}/>)}
-                </select>
+                <div className="flex">
+                    <select
+                        id="exercise-repType"
+                        name="type"
+                        onChange={handleChange}
+                        className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!value.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
+                        required
+                    >   
+                        <option defaultValue='' disabled={!!value.id}>Select Muscle</option>
+                        {data.map((muscle, id) => <option value={muscle.id} key={id} label={firstLetterToUpperCase(muscle.name)}/>)}
+                    </select>
+                    <button className='rounded-r bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>+</button>
+                </div>
             }
         </div>
     )
