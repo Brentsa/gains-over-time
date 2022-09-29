@@ -4,7 +4,7 @@ import MuscleSelect from "./MuscleSelect"
 
 export interface Inputs {
     name: string,
-    muscles: string[]
+    muscles: number[]
     targetSets: number | '',
     targetReps: number | '',
     type: 'lbs' | 'seconds' | ''
@@ -17,8 +17,13 @@ export default function CreateExerciseForm({user}: Props){
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
         const value = event.target.value;
-
+        
         setInputs({ ...inputs, [name]: value});
+    }
+
+    function submitForm(event: any){
+        event.preventDefault()
+        console.log(inputs)
     }
 
     return (
@@ -95,6 +100,8 @@ export default function CreateExerciseForm({user}: Props){
             <div className="col-span-12 flex space-x-4">
                 <MuscleSelect setInputs={setInputs}/>
             </div>
+
+            <button onClick={submitForm}>Submit</button>
         </form>
     )
 }

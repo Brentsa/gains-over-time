@@ -2,10 +2,11 @@ import useSWR from "swr";
 import fetcher from "../../utils/swrFetcher";
 import { Muscle } from "@prisma/client";
 import { firstLetterToUpperCase } from "../../utils/helpers";
-import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useState  } from "react";
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState  } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
 import { Inputs } from "./CreateExerciseForm";
+import PillButton from "../buttons/PillButton";
 
 interface Props {
     setInputs: Dispatch<SetStateAction<Inputs>>
@@ -45,6 +46,11 @@ export default function MuscleSelect({setInputs}: Props){
         setMuscleArray( prevArray => prevArray.concat(selectedMuscle));
     }
 
+    useEffect(()=> {
+        //whenever the muscle array changes, update the inputs state's muscles array with only the muscle IDs
+        setInputs(prevState => ({...prevState, muscles: muscleArray.map(muscle => muscle.id)}));
+    }, [setInputs, muscleArray]);
+
     if(error) return <div>Could not load muscles.</div>
 
     return (
@@ -75,9 +81,9 @@ export default function MuscleSelect({setInputs}: Props){
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
-                    {
-                        muscleArray.map((muscle, id) => <div key={id}>{muscle.name}</div>)
-                    }
+                    <div className="flex flex-wrap px-4 space-x-2">
+                        {muscleArray.map((muscle, id) => <PillButton key={id} label={muscle.name} id={muscle.id} setArray={setMuscleArray}/>)}
+                    </div>
                 </div>
             }
         </div>
