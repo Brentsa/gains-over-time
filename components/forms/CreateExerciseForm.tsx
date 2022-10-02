@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react"
 import { Props } from '../../pages/index'
 import MuscleSelect from "./MuscleSelect"
 
@@ -21,13 +21,34 @@ export default function CreateExerciseForm({user}: Props){
         setInputs({ ...inputs, [name]: value});
     }
 
-    function submitForm(event: any){
+    async function submitForm(event: FormEvent<HTMLFormElement>){
         event.preventDefault()
-        console.log(inputs)
+
+        const createBody = {
+            ...inputs, 
+            accountId: user?.id, 
+            targetSets: parseInt(inputs.targetSets as string), 
+            targetReps: parseInt(inputs.targetReps as string)
+        };
+
+        const response = await fetch('/api/exercise-template/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(createBody)
+        })
+
+        const data = await response.json();
+
+        if(!response.ok) return console.log(data);
+
+        console.log(data);
+        setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
     }
 
     return (
-        <form className="pl-4 grid gap-y-3">
+        <form className="pl-4 grid gap-y-3" onSubmit={submitForm}>
             <div className="col-span-12 flex flex-wrap space-x-4">
                 <div className="w-96">
                     <label htmlFor="exercise-name">
@@ -101,7 +122,7 @@ export default function CreateExerciseForm({user}: Props){
                 <MuscleSelect setInputs={setInputs}/>
             </div>
 
-            <button onClick={submitForm}>Submit</button>
+            <button type="submit">Submit</button>
         </form>
     )
 }
