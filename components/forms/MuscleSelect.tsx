@@ -17,6 +17,7 @@ export default function MuscleSelect({setInputs}: Props){
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
 
+    //define state to hold the selected muscle and all muscles added to the array
     const [selectedMuscle, setSelectedMuscle] = useState<Omit<Muscle, 'createdAt'>>({id: 0, name: ''});
     const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
 
@@ -41,9 +42,24 @@ export default function MuscleSelect({setInputs}: Props){
         setSelectedMuscle({id: muscleId, name: muscleName});
     }
 
-    function addMuscle(event: MouseEvent<HTMLButtonElement>){
+    //add the muscle from the select menu to the muscle array
+    function addMuscle(event: MouseEvent<HTMLButtonElement>): void{
         event.preventDefault();
+
+        //if the selected muscle is already in the muscle array break out of the function without adding
+        if(bIsMuscleInArray(selectedMuscle.id)) return;
+
+        //add the selected muscle to the muscle array state
         setMuscleArray( prevArray => prevArray.concat(selectedMuscle));
+    }
+
+    //check if the muscle array contains the given muscle based on the supplied ID
+    function bIsMuscleInArray(id: number): boolean{
+        for(let i = 0; i < muscleArray.length; i++){
+            if(muscleArray[i].id === id) return true; 
+        }
+
+        return false;
     }
 
     useEffect(()=> {
@@ -71,12 +87,12 @@ export default function MuscleSelect({setInputs}: Props){
                             required
                         >   
                             <option defaultValue=''>Select Muscle</option>
-                            {data.map((muscle, id) => <option value={muscle.id} key={id} label={firstLetterToUpperCase(muscle.name)}/>)}
+                            {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)} label={firstLetterToUpperCase(muscle.name)}/>)}
                         </select>
                         <button 
                             className='rounded-r bg-amber-500 text-white p-1 hover:bg-amber-400 px-4 disabled:bg-gray-300' 
                             onClick={addMuscle}
-                            disabled={!selectedMuscle.id}
+                            disabled={!selectedMuscle.id || bIsMuscleInArray(selectedMuscle.id)}
                         >
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
