@@ -49,6 +49,13 @@ export default function CreateExerciseForm({user}: Props){
 
     return (
         <form className="pl-4 grid gap-y-3" onSubmit={submitForm}>
+            <div className="flex flex-wrap items-center col-span-12 pb-2 space-x-4 border-b-2 border-amber-300">
+                <h2 className="font-bold text-lg">New Exercise Template</h2>
+                <button type="submit" className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>
+                    Create
+                </button>
+            </div>
+
             <div className="col-span-12 flex flex-wrap space-x-4">
                 <div className="w-96">
                     <label htmlFor="exercise-name">
@@ -121,8 +128,6 @@ export default function CreateExerciseForm({user}: Props){
             <div className="col-span-12 flex space-x-4">
                 <MuscleSelect setInputs={setInputs}/>
             </div>
-
-            <button type="submit">Submit</button>
         </form>
     )
 }
