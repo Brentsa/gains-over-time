@@ -25,8 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 },
                 targetReps,
                 targetSets,
-                type,
-                color: req.body?.color
+                type
             }
         })
 

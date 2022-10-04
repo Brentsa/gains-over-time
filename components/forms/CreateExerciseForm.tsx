@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Props } from '../../pages/index'
 import MuscleSelect from "./MuscleSelect"
 
@@ -10,9 +10,16 @@ export interface Inputs {
     type: 'lbs' | 'seconds' | ''
 }
 
+interface FormFeedback {
+    type: 'success' | 'failure' | '',
+    message: string
+}
+
 export default function CreateExerciseForm({user}: Props){
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
+    const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
+    const [resetMuscleSelect, setResetMuscleSelect] = useState<boolean>(false);
 
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
@@ -27,6 +34,7 @@ export default function CreateExerciseForm({user}: Props){
         const createBody = {
             ...inputs, 
             accountId: user?.id, 
+            name: inputs.name.trim().toLowerCase(),
             targetSets: parseInt(inputs.targetSets as string), 
             targetReps: parseInt(inputs.targetReps as string)
         };
@@ -39,13 +47,26 @@ export default function CreateExerciseForm({user}: Props){
             body: JSON.stringify(createBody)
         })
 
+        if(!response.ok){
+            return setFeedback({type: 'failure', message: 'Exercise template creation was unsuccessful.'});
+        }
+
         const data = await response.json();
 
-        if(!response.ok) return console.log(data);
-
-        console.log(data);
+        //set a feedback success message, reset the form inputs, and trigger a reset for the muscle select component
+        setFeedback({type: 'success', message: `${data.name} exercise template created!`});
         setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
+        setResetMuscleSelect(true);
     }
+
+    useEffect(() => {
+        if(!feedback.type) return; 
+
+        //if there is feedback set, reset it after 5 seconds
+        setTimeout(() => {
+            setFeedback({type: '', message: ''});
+        }, 5000);
+    }, [feedback.type])
 
     return (
         <form className="pl-4 grid gap-y-3" onSubmit={submitForm}>
@@ -54,6 +75,12 @@ export default function CreateExerciseForm({user}: Props){
                 <button type="submit" className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>
                     Create
                 </button>
+                {feedback.type &&
+                    <h2 className={`font-bold text-lg ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                        {feedback.message}
+                    </h2>
+                }
+                
             </div>
 
             <div className="col-span-12 flex flex-wrap space-x-4">
@@ -126,7 +153,7 @@ export default function CreateExerciseForm({user}: Props){
             </div>
 
             <div className="col-span-12 flex space-x-4">
-                <MuscleSelect setInputs={setInputs}/>
+                <MuscleSelect setInputs={setInputs} reset={resetMuscleSelect} resetFunction={setResetMuscleSelect}/>
             </div>
         </form>
     )

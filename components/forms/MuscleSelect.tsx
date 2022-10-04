@@ -9,10 +9,12 @@ import { Inputs } from "./CreateExerciseForm";
 import PillButton from "../buttons/PillButton";
 
 interface Props {
-    setInputs: Dispatch<SetStateAction<Inputs>>
+    setInputs: Dispatch<SetStateAction<Inputs>>,
+    reset: boolean,
+    resetFunction: Dispatch<SetStateAction<boolean>> 
 }
 
-export default function MuscleSelect({setInputs}: Props){
+export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
 
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
@@ -67,6 +69,15 @@ export default function MuscleSelect({setInputs}: Props){
         setInputs(prevState => ({...prevState, muscles: muscleArray.map(muscle => muscle.id)}));
     }, [setInputs, muscleArray]);
 
+    useEffect(()=> {
+        //if the supplied reset variable is true, reset the state of the entire component and flip the reset state to false
+        if(reset){
+            resetFunction(false);
+            setSelectedMuscle({id: 0, name: ''});
+            setMuscleArray([]);
+        }
+    }, [reset, resetFunction])
+
     if(error) return <div>Could not load muscles.</div>
 
     return (
@@ -82,6 +93,7 @@ export default function MuscleSelect({setInputs}: Props){
                         <select
                             id="exercise-repType"
                             name="type"
+                            value={selectedMuscle.id}
                             onChange={handleChange}
                             className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
                             required
@@ -97,8 +109,16 @@ export default function MuscleSelect({setInputs}: Props){
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
-                    <div className="flex flex-wrap px-4 space-x-2">
-                        {muscleArray.map((muscle, id) => <PillButton key={id} label={muscle.name} id={muscle.id} setArray={setMuscleArray}/>)}
+                    <div className="flex flex-wrap items-center px-4">
+                        {muscleArray.length > 0 ?
+                            muscleArray.map((muscle, id) => (
+                                <div key={id} className='p-1 h-10'>
+                                    <PillButton label={muscle.name} id={muscle.id} setArray={setMuscleArray}/>
+                                </div>
+                            ))
+                            :
+                            <h3>Add associated muscles to this template</h3>
+                        }
                     </div>
                 </div>
             }
