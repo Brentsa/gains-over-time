@@ -6,7 +6,7 @@ type Props = {
 
 export default function Paper({children}: Props){
     return (
-        <div className="bg-white shadow p-2 rounded">
+        <div className="bg-white shadow p-3 rounded">
             {children}
         </div>
     )

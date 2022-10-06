@@ -34,10 +34,10 @@ export default function VerticalTabs({children}: Props){
         if(!elementHeight || !elementOffset || !parentOffset) return;
 
         //set the relevent states if we pass the variable check
-        setTabInfo({...tabInfo, position: elementOffset, height: elementHeight});
+        setTabInfo(prevState => ({...prevState, position: elementOffset, height: elementHeight}));
         setParentTopOffset(parentOffset);
 
-    }, [tabInfo.index, tabContainerDiv, tabInfo])
+    }, [tabInfo.index, tabContainerDiv])
 
     return (
        <div className="flex">
@@ -46,6 +46,7 @@ export default function VerticalTabs({children}: Props){
                     <TabItem 
                         label={child.props.label} 
                         index={i} 
+                        active={tabInfo.index === i}
                         setActiveTabIndex={setTabInfo}
                         key={i} 
                         ref={(element: HTMLDivElement) => tabsRef.current[i] = element}

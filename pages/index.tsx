@@ -7,6 +7,7 @@ import Paper from '../components/utilites/Paper'
 import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
 import CreateExerciseForm from '../components/forms/CreateExerciseForm';
+import AddExerciseForm from '../components/forms/AddExerciseForm';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -26,7 +27,7 @@ export default function Home({user}: Props){
 
       <main>
         <Navbar user={user}/>
-        <div className='container pt-4'>
+        <div className='container pt-6 space-y-6'>
           <Paper>
             <VerticalTabs>
               <TabContent label='Exercise'>
@@ -36,6 +37,9 @@ export default function Home({user}: Props){
                 <div>Hello 2</div>
               </TabContent>
             </VerticalTabs>
+          </Paper>
+          <Paper>
+            <AddExerciseForm/>
           </Paper>
         </div>
       </main>
