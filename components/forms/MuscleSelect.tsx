@@ -95,14 +95,14 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                             name="type"
                             value={selectedMuscle.id}
                             onChange={handleChange}
-                            className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
+                            className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
                             required
                         >   
                             <option defaultValue=''>Select Muscle</option>
                             {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)} label={firstLetterToUpperCase(muscle.name)}/>)}
                         </select>
                         <button 
-                            className='rounded-r bg-amber-500 text-white p-1 hover:bg-amber-400 px-4 disabled:bg-gray-300' 
+                            className='rounded-r bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 disabled:bg-gray-300' 
                             onClick={addMuscle}
                             disabled={!selectedMuscle.id || bIsMuscleInArray(selectedMuscle.id)}
                         >

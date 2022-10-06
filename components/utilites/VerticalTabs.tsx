@@ -37,7 +37,7 @@ export default function VerticalTabs({children}: Props){
         setTabInfo({...tabInfo, position: elementOffset, height: elementHeight});
         setParentTopOffset(parentOffset);
 
-    }, [tabInfo.index, tabContainerDiv])
+    }, [tabInfo.index, tabContainerDiv, tabInfo])
 
     return (
        <div className="flex">
@@ -53,7 +53,7 @@ export default function VerticalTabs({children}: Props){
             </div>
             <div className="relative" ref={tabContainerDiv}>
                 <div 
-                    className="bg-amber-500 w-1 absolute transition-all" 
+                    className="bg-violet-400 w-1 absolute transition-all" 
                     style={{
                         height: tabInfo.height, 
                         top: tabInfo.position - parentTopOffset, 

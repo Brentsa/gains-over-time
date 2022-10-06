@@ -70,9 +70,9 @@ export default function CreateExerciseForm({user}: Props){
 
     return (
         <form className="pl-4 grid gap-y-3" onSubmit={submitForm}>
-            <div className="flex flex-wrap items-center col-span-12 pb-2 space-x-4 border-b-2 border-amber-300">
+            <div className="flex flex-wrap items-center col-span-12 pb-2 space-x-4 border-b-2 border-violet-300">
                 <h2 className="font-bold text-lg">New Exercise Template</h2>
-                <button type="submit" className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>
+                <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
                     Create
                 </button>
                 {feedback.type &&
@@ -93,7 +93,7 @@ export default function CreateExerciseForm({user}: Props){
                         name="name"
                         value={inputs.name}
                         onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
                         placeholder="e.g. Bench Press"
                         type="text"
                     />
@@ -108,7 +108,7 @@ export default function CreateExerciseForm({user}: Props){
                         name="targetSets"
                         value={inputs.targetSets}
                         onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
                         placeholder="e.g. 3"
                         type='number'
                         min={1}
@@ -125,7 +125,7 @@ export default function CreateExerciseForm({user}: Props){
                         name="targetReps"
                         value={inputs.targetReps}
                         onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm"
+                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
                         placeholder="e.g. 10"
                         type='number'
                         min={1}
@@ -142,7 +142,7 @@ export default function CreateExerciseForm({user}: Props){
                         name="type"
                         value={inputs.type}
                         onChange={handleInputSelectChange}
-                        className={`rounded relative block w-full px-3 py-2 border border-gray-300 ${!inputs.type ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-amber-400 focus:border-amber-400 focus:z-20 z-10 sm:text-sm`}
+                        className={`rounded relative block w-full px-3 py-2 border border-gray-300 ${!inputs.type ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
                         required
                     >
                         <option defaultValue='' disabled={!!inputs.type}>Select Rep Type</option>

@@ -17,7 +17,7 @@ export default function LogoutButton(){
     }
 
     return (
-        <button onClick={handleClick} className='rounded bg-amber-500 text-white p-1 hover:bg-amber-400 px-4'>
+        <button onClick={handleClick} className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
             <FontAwesomeIcon icon={faRightFromBracket} className='mr-2'/> Logout
         </button>
     );
