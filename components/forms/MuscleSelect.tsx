@@ -82,7 +82,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
 
     return (
         <div className="w-full">
-            <label htmlFor="exercise-repType" className="text-sm">
+            <label htmlFor="exercise-muscle-select" className="text-sm">
                 Add Muscles:
             </label>
             {!data ?
@@ -91,7 +91,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                 <div className="grid grid-cols-12 gap-y-2 gap-x-4">
                     <div className="col-span-full lg:col-span-3 flex w-full" style={{maxHeight: 38}}>
                         <select
-                            id="exercise-repType"
+                            id="exercise-muscle-select"
                             name="type"
                             value={selectedMuscle.id}
                             onChange={handleChange}
@@ -117,7 +117,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                                 </div>
                             ))
                             :
-                            <h3>Add associated muscles to this template</h3>
+                            <h3 className="text-sm md:text-base">Add associated muscles to this template</h3>
                         }
                     </div>
                 </div>
