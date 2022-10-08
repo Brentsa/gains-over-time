@@ -7,8 +7,8 @@ export default function Navbar({user}: Props){
 
     return (
         <nav className="bg-white shadow opacity-90 sticky top-0">
-            <div className="grid grid-cols-12 py-2 px-4">
-                <div className='order-1 col-span-6 md:col-span-2 flex justify-start items-center space-x-4'>
+            <div className="grid grid-cols-12 px-4">
+                <div className='order-1 col-span-6 md:col-span-2 flex justify-start items-center space-x-4 p-1'>
                     <div className='text-rose-500'>
                         <FontAwesomeIcon icon={faDumbbell} size="3x"/>
                     </div>
@@ -17,8 +17,8 @@ export default function Navbar({user}: Props){
                         <h1 className='text-xl'>Time</h1>
                     </div> 
                 </div>
-                <div className='order-last col-span-12 py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center'>
-                    <h1 className='w-full md:w-1/2 text-2xl bg-violet-300 rounded py-2 text-center'>
+                <div className='order-last col-span-12 py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center h-full bg-gradient-to-r from-transparent via-violet-400 to-transparent'>
+                    <h1 className='w-full md:w-1/2 text-4xl rounded text-center '>
                         Welcome {user?.firstName} {user?.lastName}
                     </h1>
                 </div>

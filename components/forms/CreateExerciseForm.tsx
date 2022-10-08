@@ -71,7 +71,7 @@ export default function CreateExerciseForm({user}: Props){
 
     return (
         <form className="grid grid-cols-1 pl-4 gap-y-3" onSubmit={submitForm}>
-            <div className="flex flex-wrap items-center col-span-12 pb-2 space-x-4 border-b-2 border-violet-300">
+            <div className="flex flex-wrap justify-between md:justify-start items-center col-span-12 pb-2 space-x-4 border-b-2 border-violet-300">
                 <h2 className="font-bold text-lg">New Exercise Template</h2>
                 <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
                     Create
@@ -81,7 +81,6 @@ export default function CreateExerciseForm({user}: Props){
                         {feedback.message}
                     </h2>
                 }
-                
             </div>
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-2">
