@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { Props } from '../../pages/index'
+import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
 
 export interface Inputs {
@@ -69,7 +70,7 @@ export default function CreateExerciseForm({user}: Props){
     }, [feedback.type])
 
     return (
-        <form className="pl-4 grid gap-y-3" onSubmit={submitForm}>
+        <form className="grid grid-cols-1 pl-4 gap-y-3" onSubmit={submitForm}>
             <div className="flex flex-wrap items-center col-span-12 pb-2 space-x-4 border-b-2 border-violet-300">
                 <h2 className="font-bold text-lg">New Exercise Template</h2>
                 <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
@@ -83,58 +84,47 @@ export default function CreateExerciseForm({user}: Props){
                 
             </div>
 
-            <div className="col-span-12 flex flex-wrap space-x-4">
-                <div className="w-96">
-                    <label htmlFor="exercise-name">
-                        Exercise Name:
-                    </label>
-                    <input
-                        id="exercise-name"
-                        name="name"
-                        value={inputs.name}
-                        onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
-                        placeholder="e.g. Bench Press"
-                        type="text"
-                    />
-                </div>
+            <div className="grid grid-cols-12 gap-x-4 gap-y-2">
+                
+                <FormInput
+                    id="exercise-name"
+                    name="name"
+                    value={inputs.name}
+                    onChange={handleInputSelectChange}
+                    className="col-span-full lg:col-span-5"
+                    label="Exercise Name:"
+                    placeholder="e.g. Bench Press"
+                    required
+                />
 
-                <div className="w-40">
-                    <label htmlFor="exercise-targetSets">
-                        Target Sets:
-                    </label>
-                    <input
-                        id="exercise-targetSets"
-                        name="targetSets"
-                        value={inputs.targetSets}
-                        onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
-                        placeholder="e.g. 3"
-                        type='number'
-                        min={1}
-                        required
-                    />
-                </div>
+                <FormInput
+                    id="exercise-targetSets"
+                    name="targetSets"
+                    value={inputs.targetSets}
+                    onChange={handleInputSelectChange}
+                    className="col-span-full sm:col-span-4 lg:col-span-2"
+                    label="Target Sets:"
+                    placeholder="e.g. 3"
+                    type='number'
+                    min={1}
+                    required
+                />
 
-                <div className="w-40">
-                    <label htmlFor="exercise-targetReps">
-                        Target Reps:
-                    </label>
-                    <input
-                        id="exercise-targetReps"
-                        name="targetReps"
-                        value={inputs.targetReps}
-                        onChange={handleInputSelectChange}
-                        className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
-                        placeholder="e.g. 10"
-                        type='number'
-                        min={1}
-                        required
-                    />
-                </div>
+                <FormInput
+                    id="exercise-targetReps"
+                    name="targetReps"
+                    value={inputs.targetReps}
+                    onChange={handleInputSelectChange}
+                    className="col-span-full sm:col-span-4 lg:col-span-2"
+                    label="Target Reps:"
+                    placeholder="e.g. 10"
+                    type='number'
+                    min={1}
+                    required
+                />
 
-                <div className="w-40">
-                    <label htmlFor="exercise-repType">
+                <div className="col-span-full sm:col-span-4 lg:col-span-3">
+                    <label htmlFor="exercise-repType" className="text-sm">
                         Rep Type:
                     </label>
                     <select

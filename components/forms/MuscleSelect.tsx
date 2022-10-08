@@ -82,14 +82,14 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
 
     return (
         <div className="w-full">
-            <label htmlFor="exercise-repType">
+            <label htmlFor="exercise-repType" className="text-sm">
                 Add Muscles:
             </label>
             {!data ?
                 <div>loading...</div> 
                 :
-                <div className="flex">
-                    <div className="flex w-80">
+                <div className="grid grid-cols-12 gap-y-2 gap-x-4">
+                    <div className="col-span-full lg:col-span-3 flex w-full" style={{maxHeight: 38}}>
                         <select
                             id="exercise-repType"
                             name="type"
@@ -109,7 +109,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
-                    <div className="flex flex-wrap items-center px-4">
+                    <div className="col-span-full lg:col-span-9 flex flex-wrap items-center">
                         {muscleArray.length > 0 ?
                             muscleArray.map((muscle, id) => (
                                 <div key={id} className='p-1 h-10'>

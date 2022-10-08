@@ -20,9 +20,9 @@ export default function PillButton({label, id, setArray}: Props){
     }
 
     return (
-        <div className="flex justify-between items-center h-full bg-gray-300 rounded-full px-4 space-x-2">
+        <div className="flex justify-between items-center h-full bg-violet-200 rounded-full px-4 space-x-2">
             <p>{firstLetterToUpperCase(label)}</p>
-            <button className="text-amber-500" onClick={removePill}>
+            <button className="text-rose-500" onClick={removePill}>
                 <FontAwesomeIcon icon={faX}/>
             </button>
         </div>
