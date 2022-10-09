@@ -34,8 +34,8 @@ export default function ExerciseTemplateSelect({id}: Props){
             {!data ?
                 <div>loading...</div> 
                 :
-                <div className="w-full grid grid-cols-12 gap-x-4">
-                    <div className="col-span-6 lg:col-span-3">
+                <div className="w-full grid grid-cols-12 gap-x-4 gap-y-2">
+                    <div className="col-span-full sm:col-span-6 lg:col-span-3">
                         <select
                             id="exercise-template-select"
                             name="exercise"
@@ -48,7 +48,7 @@ export default function ExerciseTemplateSelect({id}: Props){
                         </select>
                     </div>
                     {selectedExercise &&
-                        <div className="col-span-6 lg:col-span-9 flex">
+                        <div className="col-span-full sm:col-span-6 lg:col-span-9 flex">
                             <div className="flex items-center">Target: {selectedExercise.targetSets} Sets x {selectedExercise.targetReps} Reps</div>
                         </div>
                     }
