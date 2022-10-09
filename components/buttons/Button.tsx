@@ -4,15 +4,16 @@ import { MouseEvent } from "react"
 
 interface Props {
     label: string,
+    className?: string,
     handleClick?: (event: MouseEvent<HTMLButtonElement>) => void,
     type?: "button" | "submit" | "reset" | undefined,
     icon?: IconDefinition,
     iconRight?: boolean
 }
 
-export default function Button({label, handleClick, type, icon, iconRight}: Props){
+export default function Button({label, className, handleClick, type, icon, iconRight}: Props){
     return (
-        <button onClick={handleClick} type={type} className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
+        <button onClick={handleClick} type={type} className={`rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 ${className}`}>
             {!icon ?
                 <>{label}</>
                 :
