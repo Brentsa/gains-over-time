@@ -41,6 +41,9 @@ export default function Home({user}: Props){
           <Paper>
             <AddExerciseForm user={user}/>
           </Paper>
+          <Paper>
+            
+          </Paper>
         </div>
       </main>
     </div>

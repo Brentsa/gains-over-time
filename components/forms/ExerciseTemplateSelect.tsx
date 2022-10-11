@@ -4,12 +4,13 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "reac
 interface Props{
     exerciseTemplates: ExerciseTemplate[],
     setSelectedExercise: Dispatch<SetStateAction<ExerciseTemplate | undefined>>,
-    className?: string
+    className?: string,
+    reset: boolean, 
 }
 
-export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedExercise, className}: Props){
+export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedExercise, className, reset}: Props){
 
-    const [selectedExerciseId, setSelectedExerciseId] = useState<number | undefined>(undefined);
+    const [selectedExerciseId, setSelectedExerciseId] = useState<number>(0);
 
     function handleSelectChange(event: ChangeEvent<HTMLSelectElement>): void{
         event.preventDefault();
@@ -17,9 +18,17 @@ export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedEx
     }
 
     useEffect(() => {
-        if(!selectedExerciseId) return; 
+        if(!selectedExerciseId){
+            return setSelectedExercise(undefined); 
+        } 
+
+        //find the selected exercise by id and set it into state.
         setSelectedExercise(exerciseTemplates.filter(exercise => selectedExerciseId === exercise.id)[0]);
     }, [selectedExerciseId, setSelectedExercise, exerciseTemplates]);
+
+    useEffect(() =>{ 
+        if(reset) return setSelectedExerciseId(0);
+    }, [reset])
 
     return (
         <div className={className}>
@@ -34,7 +43,7 @@ export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedEx
                     value={selectedExerciseId}
                     onChange={handleSelectChange}
                 >
-                    <option defaultValue={undefined}>Select Exercise</option>
+                    <option defaultValue={0} value={0}>Select Exercise</option>
                     {exerciseTemplates.map((exercise, id) => <option key={id} value={exercise.id}>{exercise.name} - {exercise.targetSets} x {exercise.targetReps}</option>)}
                 </select>
             </div>

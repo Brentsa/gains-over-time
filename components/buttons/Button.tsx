@@ -8,12 +8,13 @@ interface Props {
     handleClick?: (event: MouseEvent<HTMLButtonElement>) => void,
     type?: "button" | "submit" | "reset" | undefined,
     icon?: IconDefinition,
-    iconRight?: boolean
+    iconRight?: boolean,
+    disabled?: boolean
 }
 
-export default function Button({label, className, handleClick, type, icon, iconRight}: Props){
+export default function Button({label, className, handleClick, type, icon, iconRight, disabled}: Props){
     return (
-        <button onClick={handleClick} type={type} className={`rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 ${className}`}>
+        <button onClick={handleClick} type={type} disabled={disabled} className={`rounded bg-rose-500 text-white p-1 hover:bg-rose-400 disabled:bg-gray-300 px-4 ${className}`}>
             {!icon ?
                 <>{label}</>
                 :
