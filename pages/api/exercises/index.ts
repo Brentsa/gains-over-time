@@ -1,6 +1,6 @@
 import { Exercise } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../db/prisma';
+import { prisma } from '../../../db/prisma';
 
 type Data = Exercise[] | {error: string};
 
@@ -16,6 +16,11 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
                     firstName: true,
                     lastName: true,
                     username: true
+                }
+            },
+            sets: {
+                select: {
+                    id: true
                 }
             }
         }
