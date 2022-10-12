@@ -4,7 +4,7 @@ import { Props } from '../../pages/index'
 import Button from '../buttons/Button';
 import ExerciseTemplateSelect from "./ExerciseTemplateSelect";
 import { ExerciseTemplate } from "@prisma/client";
-import useSWR from "swr"
+import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
 
 export default function AddExerciseForm({user}: Props){
@@ -31,11 +31,12 @@ export default function AddExerciseForm({user}: Props){
 
         if(!response.ok) return;
 
-        const data = await response.json();
-        console.log(data);
-
+        //reset the state associated with this form and trigger a reset for the select menu
         setSelectedExercise(undefined);
         setReset(true);
+
+        //on successful submit, trigger an SWR revalidate for the user's exercises
+        mutate(`api/exercises/${user?.id}`);
     }
 
     //if reset changes to true, set it back to false

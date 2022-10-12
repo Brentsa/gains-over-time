@@ -8,6 +8,7 @@ import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
 import CreateExerciseForm from '../components/forms/CreateExerciseForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
+import ExerciseTable from '../components/tables/ExerciseTable';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -42,7 +43,7 @@ export default function Home({user}: Props){
             <AddExerciseForm user={user}/>
           </Paper>
           <Paper>
-            
+            <ExerciseTable user={user}/>
           </Paper>
         </div>
       </main>

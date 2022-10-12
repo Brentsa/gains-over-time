@@ -16,12 +16,13 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
             accountId: parseInt(<string>accountId)
         },
         include: {
-            account: {
+            exerciseT:{
                 select: {
                     id: true,
-                    firstName: true,
-                    lastName: true,
-                    username: true
+                    name: true,
+                    targetReps: true, 
+                    targetSets: true, 
+                    type: true
                 }
             },
             sets: {
@@ -29,6 +30,9 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
                     id: true
                 }
             }
+        },
+        orderBy: {
+            createdAt: 'desc'
         }
     });
 
