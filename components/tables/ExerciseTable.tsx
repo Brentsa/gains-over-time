@@ -22,8 +22,8 @@ export default function ExerciseTable({user}: Props){
     if(!data || error) return <div>Exercises could not load.</div>
 
     return (
-        <div>
+        <ul>
             {data.map((exercise, i) => <ExerciseTableRow key={i} exercise={exercise}/>)}
-        </div>
+        </ul>
     );
 }

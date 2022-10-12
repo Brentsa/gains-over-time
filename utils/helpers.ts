@@ -1,6 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"];
+
 //return a prisma client error message from a supplied error object
 export function getPrismaClientError(error:  PrismaClientKnownRequestError): string {
     //instantiate blank string
@@ -36,4 +39,10 @@ export function isEmail(string: string): boolean {
 //capitalize first letter of a supplied string
 export function firstLetterToUpperCase(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+//format a given date string in this format Day String 
+export function formatDateFullString(dateString: string): string{
+    const date = new Date(dateString);
+    return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
