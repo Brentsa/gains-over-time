@@ -1,7 +1,7 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { MouseEvent } from "react";
+import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
-import Button from "../buttons/Button";
 import IconButton from "../buttons/IconButton";
 import { ExerciseFromSWR } from "./ExerciseTable";
 
@@ -16,6 +16,20 @@ export default function ExerciseTableRow({exercise}: Props){
         console.log('clicked')
     }
 
+    async function deleteExercise(event: MouseEvent<HTMLButtonElement>){
+        event.preventDefault();
+        
+        //try deleting this exercise
+        const response = await fetch(`api/exercise/delete/${exercise.id}`, {
+            method: 'DELETE'
+        });
+
+        if(!response.ok) return;
+
+        //if the delete request is ok, trigger exercise swr revalidation
+        mutate(`api/exercises/${exercise.accountId}`);
+    }
+
     return (
         <li className="w-full grid grid-cols-12 border-b-2 first:border-t-2 border-violet-300 py-1">
             <div className="flex flex-col col-span-10 md:col-span-3 lg:col-span-2 pb-2 sm:pb-0 order-1">
@@ -26,7 +40,7 @@ export default function ExerciseTableRow({exercise}: Props){
 
             </div>
             <div className="col-span-2 md:col-span-1 flex justify-center items-center order-2 sm:order-3">
-                <IconButton icon={faTrash}/>
+                <IconButton icon={faTrash} handleClick={deleteExercise}/>
             </div>
         </li>
     )
