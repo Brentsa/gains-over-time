@@ -17,7 +17,7 @@ export default function Navbar({user}: Props){
                         <h1 className='text-xl'>Time</h1>
                     </div> 
                 </div>
-                <div className='order-last col-span-12 py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center h-full bg-gradient-to-r from-transparent via-violet-400 to-transparent'>
+                <div className='order-last col-span-12 py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center h-full'>
                     <h1 className='w-full md:w-1/2 text-4xl rounded text-center '>
                         Welcome {user?.firstName} {user?.lastName}
                     </h1>
@@ -26,6 +26,7 @@ export default function Navbar({user}: Props){
                     <LogoutButton/>
                 </div>
             </div>
+            <div className='w-full h-3 bg-gradient-to-r from-rose-400 via-violet-500 to-rose-500'/>
         </nav>
     )
 }
