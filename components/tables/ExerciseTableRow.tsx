@@ -1,5 +1,6 @@
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { MouseEvent, useMemo } from "react";
+import { Set } from "@prisma/client";
+import { MouseEvent, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
@@ -12,17 +13,25 @@ interface Props {
 
 export default function ExerciseTableRow({exercise}: Props){
 
+    const [sets, setSets] = useState<Set[]>(exercise.sets);
+
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
-        let setArray: JSX.Element[] = [];
+        const setArray: JSX.Element[] = [];
+
+        //calculate the number of target sets that should show
+        const loopCount: number = exercise.exerciseT.targetSets - sets.length;
+
+        //if the loop count is 0 or negative return an empty array
+        if(loopCount <= 0) return setArray;
 
         //push a pill into the set array for the exercise target sets
-        for(let i = 0; i < exercise.exerciseT.targetSets; i++){
+        for(let i = 0; i < loopCount ; i++){
             setArray.push(<TargetSetPill key={i} numReps={exercise.exerciseT.targetReps}/>)
         }
 
         return setArray;
-    }, [exercise.exerciseT.targetSets, exercise.exerciseT.targetReps]);
+    }, [exercise.exerciseT.targetSets, exercise.exerciseT.targetReps, sets.length]);
 
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();

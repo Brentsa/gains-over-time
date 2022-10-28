@@ -1,4 +1,3 @@
-import { Exercise } from "@prisma/client";
 import useSWR from "swr";
 import { Props } from "../../pages";
 import fetcher from "../../utils/swrFetcher";
@@ -10,14 +9,16 @@ export interface ExerciseFromSWR{
     accountId: number,
     exerciseTId: number,
     createdAt: string,
-    exerciseT: Omit<ExerciseTemplate, 'createdAt' | 'accountId'>,
-    sets: Pick<Set, 'id'>[]
+    exerciseT: ExerciseTemplate,
+    sets: Set[]
 }
 
 export default function ExerciseTable({user}: Props){
 
     //fetch all of the user's exercises using their ID
     const {data, error} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
+
+    console.log(data);
 
     if(!data || error) return <div>Exercises could not load.</div>
 

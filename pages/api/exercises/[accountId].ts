@@ -16,18 +16,10 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
             accountId: parseInt(<string>accountId)
         },
         include: {
-            exerciseT:{
-                select: {
-                    id: true,
-                    name: true,
-                    targetReps: true, 
-                    targetSets: true, 
-                    type: true
-                }
-            },
+            exerciseT: true,
             sets: {
-                select: {
-                    id: true
+                include: {
+                    reps: true
                 }
             }
         },
