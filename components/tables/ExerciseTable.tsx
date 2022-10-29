@@ -23,8 +23,11 @@ export default function ExerciseTable({user}: Props){
     if(!data || error) return <div>Exercises could not load.</div>
 
     return (
-        <ul>
-            {data.map((exercise, i) => <ExerciseTableRow key={i} exercise={exercise}/>)}
-        </ul>
+        <div>
+            <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+            <ul>
+                {data.map((exercise, i) => <ExerciseTableRow key={i} exercise={exercise}/>)}
+            </ul> 
+        </div>  
     );
 }

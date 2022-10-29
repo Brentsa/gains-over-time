@@ -92,7 +92,7 @@ export default function CreateExerciseForm({user}: Props){
                     name="name"
                     value={inputs.name}
                     onChange={handleInputSelectChange}
-                    className="col-span-full lg:col-span-5"
+                    className="col-span-full"
                     label="Exercise Name:"
                     placeholder="e.g. Bench Press"
                     required
@@ -103,7 +103,7 @@ export default function CreateExerciseForm({user}: Props){
                     name="targetSets"
                     value={inputs.targetSets}
                     onChange={handleInputSelectChange}
-                    className="col-span-full sm:col-span-4 lg:col-span-2"
+                    className="col-span-full"
                     label="Target Sets:"
                     placeholder="e.g. 3"
                     type='number'
@@ -116,7 +116,7 @@ export default function CreateExerciseForm({user}: Props){
                     name="targetReps"
                     value={inputs.targetReps}
                     onChange={handleInputSelectChange}
-                    className="col-span-full sm:col-span-4 lg:col-span-2"
+                    className="col-span-full"
                     label="Target Reps:"
                     placeholder="e.g. 10"
                     type='number'
@@ -124,7 +124,7 @@ export default function CreateExerciseForm({user}: Props){
                     required
                 />
 
-                <div className="col-span-full sm:col-span-4 lg:col-span-3">
+                <div className="col-span-full">
                     <label htmlFor="exercise-repType" className="text-sm">
                         Rep Type:
                     </label>
