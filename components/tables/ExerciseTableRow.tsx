@@ -24,14 +24,16 @@ export default function ExerciseTableRow({exercise}: Props){
 
         //if the loop count is 0 or negative return an empty array
         if(loopCount <= 0) return setArray;
+        
+        const {targetReps, type} = exercise.exerciseT;
 
         //push a pill into the set array for the exercise target sets
         for(let i = 0; i < loopCount ; i++){
-            setArray.push(<TargetSetPill key={i} numReps={exercise.exerciseT.targetReps}/>)
+            setArray.push(<TargetSetPill key={i} numReps={targetReps} setType={type}/>)
         }
 
         return setArray;
-    }, [exercise.exerciseT.targetSets, exercise.exerciseT.targetReps, sets.length]);
+    }, [exercise.exerciseT, sets.length]);
 
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();

@@ -39,7 +39,7 @@ export default function Home({user}: Props){
               </TabContent>
             </VerticalTabs>
           </Paper>
-          <Paper className='sticky top-0'>
+          <Paper className='sticky top-0 z-10'>
             <AddExerciseForm user={user}/>
           </Paper>
           <Paper>
