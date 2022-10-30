@@ -28,28 +28,33 @@ export default function Home({user}: Props){
 
       <main>
         <Navbar user={user}/>
-        <section className='container pt-6 space-y-6'>
+        <section className='container pt-4'>
           <div className='grid grid-cols-3 gap-4'>
-            <div className='col-span-full md:col-span-1 grid auto-rows-min gap-4'>
-              <Paper>
-                <VerticalTabs>
-                  <TabContent label='Exercise'>
-                    <CreateExerciseForm user={user}/>
-                  </TabContent>
-                  <TabContent label='Workout'>
-                    <div>Hello 2</div>
-                  </TabContent>
-                </VerticalTabs>
-              </Paper>
-              <Paper>
-                <AddExerciseForm user={user}/>
-              </Paper>
+
+            <div className='col-span-full md:col-span-1'>
+              <div className='flex flex-col space-y-4 sm:sticky sm:top-24'>
+                <Paper>
+                  <VerticalTabs>
+                    <TabContent label='Exercise'>
+                      <CreateExerciseForm user={user}/>
+                    </TabContent>
+                    <TabContent label='Workout'>
+                      <div>Hello 2</div>
+                    </TabContent>
+                  </VerticalTabs>
+                </Paper>
+                <Paper className='z-10 w-full fixed bottom-0 border-t-4 border-rose-500 sm:static sm:border-none'>
+                  <AddExerciseForm user={user}/>
+                </Paper>
+              </div>
             </div>
+
             <div className='col-span-full md:col-span-2'>
               <Paper>
                 <ExerciseTable user={user}/>
               </Paper>
             </div>
+
           </div>
         </section>
       </main>
