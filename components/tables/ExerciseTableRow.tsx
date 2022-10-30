@@ -4,6 +4,7 @@ import { MouseEvent, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
+import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
 import { ExerciseFromSWR } from "./ExerciseTable";
 
@@ -11,9 +12,15 @@ interface Props {
     exercise: ExerciseFromSWR
 }
 
+interface BasicSet{
+    quantity: number,
+    weight: number
+}
+
 export default function ExerciseTableRow({exercise}: Props){
 
-    const [sets, setSets] = useState<Set[]>(exercise.sets);
+    const [sets, setSets] = useState<BasicSet[]>(exercise.sets);
+    const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
 
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
@@ -35,10 +42,14 @@ export default function ExerciseTableRow({exercise}: Props){
         return setArray;
     }, [exercise.exerciseT, sets.length]);
 
+    function toggleShowTargetSets(){
+        setShowTargetSets(prev => !prev);
+    }
+
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
         
-        //setSets((prevSets) => [...prevSets, {id: 1, createdAt:}])
+        setSets((prevSets) => [...prevSets, {quantity: 10, weight: 200}]);
     }
 
     async function deleteExercise(event: MouseEvent<HTMLButtonElement>){
@@ -62,8 +73,16 @@ export default function ExerciseTableRow({exercise}: Props){
                     <div className="font-semibold text-lg">{exercise.exerciseT.name}</div>
                     <div className="text-sm">{formatDateFullString(exercise.createdAt)}</div>
                 </div>
-                <div className="col-span-full md:col-span-7 lg:col-span-8 flex p-1 space-x-1 overflow-hidden bg-gray-200 hover:bg-gray-100 rounded h-14 sm:h-full order-3 sm:order-2" onClick={addSet}>
-                    {targetSetsArray}
+                <div 
+                    className="col-span-full md:col-span-7 lg:col-span-8 flex p-1 space-x-1 overflow-hidden bg-gray-200 hover:bg-gray-100 hover:cursor-pointer rounded h-14 sm:h-full order-3 sm:order-2" 
+                    onClick={addSet}
+                    onMouseOver={toggleShowTargetSets}
+                    onMouseOut={toggleShowTargetSets}
+                >
+                    {sets.length > 0 &&
+                        sets.map((set, i) => <SetPill key={i} quantity={set.quantity} weight={set.weight}/>)
+                    }
+                    {showTargetSets && targetSetsArray}
                 </div>
                 <div className="col-span-2 md:col-span-1 flex justify-center items-center order-2 sm:order-3">
                     <IconButton icon={faTrashCan} handleClick={deleteExercise}/>
