@@ -10,13 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if(req.method !== 'POST') return res.status(405).json({error: 'Incorrect request method'});
 
     //destructure the exercise ID from the request body
-    const {exerciseId} = req.body;
+    const {exerciseId, quantity, weight} = req.body;
 
     try{
         //use prisma to create a new exercise in the db
         const newExercise = await prisma.set.create({
             data: {
-               exerciseId
+               exerciseId,
+               quantity,
+               weight
             }
         })
 

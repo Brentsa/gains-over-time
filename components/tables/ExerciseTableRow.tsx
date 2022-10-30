@@ -37,7 +37,8 @@ export default function ExerciseTableRow({exercise}: Props){
 
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
-        console.log('clicked')
+        
+        //setSets((prevSets) => [...prevSets, {id: 1, createdAt:}])
     }
 
     async function deleteExercise(event: MouseEvent<HTMLButtonElement>){

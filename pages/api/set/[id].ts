@@ -14,9 +14,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const set = await prisma.set.findUnique({
         where: {
             id: parseInt(<string>id)
-        },
-        include: {
-            reps: true
         }
     })
 

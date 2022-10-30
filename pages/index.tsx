@@ -43,7 +43,7 @@ export default function Home({user}: Props){
                     </TabContent>
                   </VerticalTabs>
                 </Paper>
-                <Paper className='z-10 w-full fixed bottom-0 border-t-4 border-rose-500 sm:static sm:border-none'>
+                <Paper className='z-10 w-full fixed bottom-0 border-t-4 border-rose-500 py-4 sm:py-2 sm:static sm:border-none'>
                   <AddExerciseForm user={user}/>
                 </Paper>
               </div>
