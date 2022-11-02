@@ -49,8 +49,8 @@ export default function AddExerciseForm({user}: Props){
 
     return (
         <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2">
-            <ExerciseTemplateSelect exerciseTemplates={data} setSelectedExercise={setSelectedExercise} className="col-span-7 sm:col-span-8" reset={reset}/>
-            <Button label='Add' type='submit' icon={faPlus} iconRight className="col-span-3 sm:col-span-2" disabled={!selectedExercise}/>
+            <ExerciseTemplateSelect exerciseTemplates={data} setSelectedExercise={setSelectedExercise} className="col-span-6 sm:col-span-7" reset={reset}/>
+            <Button label='Add' type='submit' icon={faPlus} iconRight className="col-span-4 sm:col-span-3" disabled={!selectedExercise}/>
         </form>
     )
 }
