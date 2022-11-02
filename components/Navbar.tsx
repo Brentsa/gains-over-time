@@ -6,7 +6,7 @@ import { Props } from '../pages/index';
 export default function Navbar({user}: Props){
 
     return (
-        <nav className="bg-white shadow z-50 static lg:sticky top-0">
+        <nav className="bg-white shadow z-10 static lg:sticky top-0">
             <div className="grid grid-cols-12 px-4">
                 <div className='order-1 col-span-6 md:col-span-2 flex justify-start items-center space-x-4 p-1'>
                     <div className='text-rose-500'>
