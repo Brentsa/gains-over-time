@@ -9,6 +9,7 @@ import TabContent from '../components/utilites/TabContent';
 import CreateExerciseForm from '../components/forms/CreateExerciseForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
+import { useMediaQuery } from 'react-responsive';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -17,6 +18,8 @@ export interface Props {
 export default function Home({user}: Props){
 
   console.log(user);
+
+  const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
 
   return (
     <div>
@@ -29,33 +32,56 @@ export default function Home({user}: Props){
       <main>
         <Navbar user={user}/>
         <section className='container pt-4'>
-          <div className='grid grid-cols-3 gap-4'>
+          {isMobile ?
+            <div className='flex flex-col'>
+              <div className='basis-1/3'>
+                <div className='flex flex-col flex-wrap space-y-4'>
+                    <Paper>
+                      <VerticalTabs>
+                        <TabContent label='Exercise'>
+                          <CreateExerciseForm user={user}/>
+                        </TabContent>
+                        <TabContent label='Workout'>
+                          <div>Hello 2</div>
+                        </TabContent>
+                      </VerticalTabs>
+                    </Paper>
+                    <Paper className='z-10 sticky top-0'>
+                      <AddExerciseForm user={user}/>
+                    </Paper>
+                    <Paper>
+                      <ExerciseTable user={user}/>
+                    </Paper>
+                  </div>
+              </div>
+            </div>
+            :
+            <div className='grid grid-cols-3 gap-4'>
+              <div className='col-span-1'>
+                <div className='sticky top-24 space-y-4'>
+                  <Paper>
+                    <VerticalTabs>
+                      <TabContent label='Exercise'>
+                        <CreateExerciseForm user={user}/>
+                      </TabContent>
+                      <TabContent label='Workout'>
+                        <div>Hello 2</div>
+                      </TabContent>
+                    </VerticalTabs>
+                  </Paper>
+                  <Paper>
+                    <AddExerciseForm user={user}/>
+                  </Paper>
+                </div>
+              </div>
 
-            <div className='col-span-full md:col-span-1'>
-              <div className='flex flex-col space-y-4 sm:sticky sm:top-24'>
+              <div className='col-span-2'>
                 <Paper>
-                  <VerticalTabs>
-                    <TabContent label='Exercise'>
-                      <CreateExerciseForm user={user}/>
-                    </TabContent>
-                    <TabContent label='Workout'>
-                      <div>Hello 2</div>
-                    </TabContent>
-                  </VerticalTabs>
-                </Paper>
-                <Paper className='z-10 w-full fixed bottom-0 border-t-4 border-rose-500 py-4 sm:py-2 sm:static sm:border-none'>
-                  <AddExerciseForm user={user}/>
+                  <ExerciseTable user={user}/>
                 </Paper>
               </div>
             </div>
-
-            <div className='col-span-full md:col-span-2'>
-              <Paper>
-                <ExerciseTable user={user}/>
-              </Paper>
-            </div>
-
-          </div>
+          }
         </section>
       </main>
     </div>

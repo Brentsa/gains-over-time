@@ -17,11 +17,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
         },
         include: {
             exerciseT: true,
-            sets: {
-                include: {
-                    reps: true
-                }
-            }
+            sets: true
         },
         orderBy: {
             createdAt: 'desc'
