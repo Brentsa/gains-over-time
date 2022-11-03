@@ -5,6 +5,7 @@ import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilites/Modal";
 import { MouseEvent, useEffect, useState } from "react";
+import AddSetForm from "../forms/AddSetForm";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -42,6 +43,14 @@ export default function ExerciseTable({user}: Props){
         setModalOpen(false);
     }
 
+    function getExerciseById(id: number){
+        if(!data) return; 
+
+        const filteredExercise = data.filter(exercise => exercise.id === id);
+
+        return filteredExercise[0];
+    }
+
     //once there is a selected exercise id, open the modal to enter set form
     useEffect(() => {
         if(!selectedExerciseId) return; 
@@ -54,7 +63,7 @@ export default function ExerciseTable({user}: Props){
     return (
         <div>
             <Modal open={modalOpen} closeModal={closeModal}>
-                <div>{selectedExerciseId}</div>
+                <AddSetForm exercise={getExerciseById(selectedExerciseId)}/>
             </Modal>
             <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
