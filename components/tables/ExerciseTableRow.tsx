@@ -1,6 +1,6 @@
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Set } from "@prisma/client";
-import { MouseEvent, useMemo, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
@@ -10,6 +10,7 @@ import { ExerciseFromSWR } from "./ExerciseTable";
 
 interface Props {
     exercise: ExerciseFromSWR
+    setSelectedExerciseId: Dispatch<SetStateAction<number>>
 }
 
 interface BasicSet{
@@ -17,7 +18,7 @@ interface BasicSet{
     weight: number
 }
 
-export default function ExerciseTableRow({exercise}: Props){
+export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Props){
 
     const [sets, setSets] = useState<BasicSet[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
@@ -49,6 +50,9 @@ export default function ExerciseTableRow({exercise}: Props){
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
         
+        //when a user adds a set, update the selected set state from the exercise table
+        setSelectedExerciseId(exercise.id)
+
         setSets((prevSets) => [...prevSets, {quantity: 10, weight: 200}]);
     }
 
