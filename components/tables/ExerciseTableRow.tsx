@@ -84,7 +84,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     onMouseOut={toggleShowTargetSets}
                 >
                     {sets.length > 0 &&
-                        sets.map((set, i) => <SetPill key={i} quantity={set.quantity} weight={set.weight}/>)
+                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight}/>)
                     }
                     {showTargetSets && targetSetsArray}
                 </div>

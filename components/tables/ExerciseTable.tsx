@@ -4,7 +4,7 @@ import fetcher from "../../utils/swrFetcher";
 import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilites/Modal";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 
 export interface ExerciseFromSWR{

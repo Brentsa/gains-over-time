@@ -42,19 +42,21 @@ export default function AddSetForm({exercise, close}: Props){
             </h2>
             <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
-                    <FormInput
-                        id="quantity"
-                        name="quantity"
-                        label="Quantity:"
-                        value={inputs.quantity}
-                        className="w-full"
-                        onChange={handleInputChange}
-                        type="number"
-                    />
+                    {exercise.exerciseT.type !== 'seconds' &&
+                        <FormInput
+                            id="quantity"
+                            name="quantity"
+                            label="Quantity:"
+                            value={inputs.quantity}
+                            className="w-full"
+                            onChange={handleInputChange}
+                            type="number"
+                        />
+                    }
                     <FormInput
                         id="weight"
                         name="weight"
-                        label="Weight:"
+                        label={exercise.exerciseT.type === 'seconds' ? 'Seconds:' : "Weight:"}
                         value={inputs.weight}
                         className="w-full"
                         onChange={handleInputChange}

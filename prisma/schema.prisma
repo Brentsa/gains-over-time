@@ -69,7 +69,7 @@ model Set {
   exercise    Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   exerciseId  Int 
   weight      Int
-  quantity    Int
+  quantity    Int       
   createdAt   DateTime  @default(now())      
 }
 
