@@ -10,6 +10,7 @@ import CreateExerciseForm from '../components/forms/CreateExerciseForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from 'react';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -19,7 +20,13 @@ export default function Home({user}: Props){
 
   console.log(user);
 
+  const [showOnMobile, setShowOnMobile] = useState(true);
+
   const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
+
+  useEffect(() => {
+    setShowOnMobile(isMobile);
+  }, [isMobile])
 
   return (
     <div>
@@ -32,7 +39,7 @@ export default function Home({user}: Props){
       <main>
         <Navbar user={user}/>
         <section className='container pt-4'>
-          {isMobile ?
+          {showOnMobile ?
             <div className='flex flex-col'>
               <div className='basis-1/3'>
                 <div className='flex flex-col flex-wrap space-y-4'>
@@ -46,9 +53,9 @@ export default function Home({user}: Props){
                         </TabContent>
                       </VerticalTabs>
                     </Paper>
-                    <div className="bg-white shadow p-2 lg:p-4 sm:rounded z-10 sticky top-0">
+                    <Paper className='z-10 sticky top-0'>
                       <AddExerciseForm user={user}/>
-                    </div>
+                    </Paper>
                     <Paper>
                       <ExerciseTable user={user}/>
                     </Paper>
