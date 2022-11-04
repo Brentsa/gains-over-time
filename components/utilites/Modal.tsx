@@ -1,11 +1,11 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { MouseEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 import Paper from "./Paper";
 
 interface Props {
     open: boolean,
-    closeModal: (event: MouseEvent<HTMLButtonElement | HTMLDivElement>) => void,
+    closeModal: () => void,
     children: ReactNode
 }
 

@@ -33,9 +33,7 @@ export default function ExerciseTable({user}: Props){
     }
 
     //Set the modal open state to false
-    function closeModal(event: MouseEvent<HTMLButtonElement | HTMLDivElement>){
-        event.preventDefault();
-
+    function closeModal(){
         //reset the selected exercise id
         setSelectedExerciseId(0);
 
@@ -63,7 +61,7 @@ export default function ExerciseTable({user}: Props){
     return (
         <div>
             <Modal open={modalOpen} closeModal={closeModal}>
-                <AddSetForm exercise={getExerciseById(selectedExerciseId)}/>
+                <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal}/>
             </Modal>
             <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
