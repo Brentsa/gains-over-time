@@ -19,7 +19,7 @@ export interface ExerciseFromSWR{
 export default function ExerciseTable({user}: Props){
 
     //fetch all of the user's exercises using their ID
-    const {data, error} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
+    const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
 
     //state to control the modal open and close state
     const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -61,11 +61,11 @@ export default function ExerciseTable({user}: Props){
     return (
         <div>
             <Modal open={modalOpen} closeModal={closeModal}>
-                <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal}/>
+                <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
             <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
-                {data.map((exercise, i) => <ExerciseTableRow key={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)}
+                {data.map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)}
             </ul> 
         </div>  
     );

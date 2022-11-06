@@ -59,10 +59,8 @@ export default function LoginForm(){
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or{' '}
-                        <Link href="/register">
-                            <a className="font-medium text-violet-400 hover:text-violet-500">
-                                register if you are a new user
-                            </a>
+                        <Link href="/register" className="font-medium text-violet-400 hover:text-violet-500">
+                            register if you are a new user
                         </Link>
                     </p>
                 </div>

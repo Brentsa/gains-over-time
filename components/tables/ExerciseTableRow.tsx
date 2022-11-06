@@ -1,5 +1,4 @@
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Set } from "@prisma/client";
 import { Dispatch, MouseEvent, SetStateAction, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
@@ -53,7 +52,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         //when a user adds a set, update the selected set state from the exercise table
         setSelectedExerciseId(exercise.id)
 
-        setSets((prevSets) => [...prevSets, {quantity: 10, weight: 200}]);
+        //setSets((prevSets) => [...prevSets, {quantity: 10, weight: 200}]);
     }
 
     async function deleteExercise(event: MouseEvent<HTMLButtonElement>){
