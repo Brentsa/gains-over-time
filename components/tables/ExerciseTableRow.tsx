@@ -1,5 +1,5 @@
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Dispatch, MouseEvent, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { formatDateFullString } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
@@ -68,6 +68,11 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         //if the delete request is ok, trigger exercise swr revalidation
         mutate(`api/exercises/${exercise.accountId}`);
     }
+
+    useEffect(()=>{
+        //update the sets in state if the supplied set array changes
+        setSets(exercise.sets);
+    }, [exercise.sets]);
 
     return (
         <li className="flex flex-col">

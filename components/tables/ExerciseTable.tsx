@@ -44,9 +44,8 @@ export default function ExerciseTable({user}: Props){
     function getExerciseById(id: number){
         if(!data) return; 
 
-        const filteredExercise = data.filter(exercise => exercise.id === id);
-
-        return filteredExercise[0];
+        //return a single exercise that has the given id
+        return data.filter(exercise => exercise.id === id)[0];
     }
 
     //once there is a selected exercise id, open the modal to enter set form
@@ -54,11 +53,9 @@ export default function ExerciseTable({user}: Props){
         if(!selectedExerciseId) return; 
 
         openModal();
-    }, [selectedExerciseId])
+    }, [selectedExerciseId]);
 
-    if(!data || error) return <div>Exercises could not load.</div>
-
-    return (
+    return !error && data ? (
         <div>
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
@@ -68,5 +65,5 @@ export default function ExerciseTable({user}: Props){
                 {data.map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)}
             </ul> 
         </div>  
-    );
+    ): <div>Exercises could not load.</div>;
 }

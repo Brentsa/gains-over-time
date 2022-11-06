@@ -23,8 +23,6 @@ export default function AddSetForm({exercise, close, mutate}: Props){
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         const {name, value} = event.target;
 
-        //if(isNaN(parseInt(value))) return; 
-
         //if the value in the target is a string, change it to a number
         const numValue = value !== '' ? parseInt(value) : value;
     
@@ -46,19 +44,8 @@ export default function AddSetForm({exercise, close, mutate}: Props){
 
         if(!response.ok) return;
 
-        const responseData = await response.json();
-
-        mutate(exerciseArray => {
-            if(!exerciseArray) return; 
-        
-            for(let i = 0; i < exerciseArray.length; i++){
-                if(exerciseArray[i].id === exercise.id){
-                    exerciseArray[i].sets.push(responseData);
-                }
-            }
-    
-            return [...exerciseArray]; 
-        });
+        //revalidate the useSWR data
+        mutate();
 
         //after completion close the form containing modal
         close();
