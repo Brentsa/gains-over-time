@@ -82,13 +82,13 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     <div className="text-sm">{formatDateFullString(exercise.createdAt)}</div>
                 </div>
                 <div 
-                    className="col-span-full md:col-span-7 lg:col-span-8 flex p-1 space-x-1 overflow-hidden bg-gray-200 hover:bg-gray-100 hover:cursor-pointer rounded h-14 sm:h-full order-3 sm:order-2" 
+                    className="col-span-full md:col-span-7 lg:col-span-8 flex p-1 space-x-1 overflow-x-scroll shadow-inner bg-gray-200 hover:bg-gray-100 hover:cursor-pointer rounded h-14 sm:h-full order-3 sm:order-2" 
                     onClick={addSet}
                     onMouseOver={toggleShowTargetSets}
                     onMouseOut={toggleShowTargetSets}
                 >
                     {sets.length > 0 &&
-                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight}/>)
+                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight} setType={exercise.exerciseT.type}/>)
                     }
                     {showTargetSets && targetSetsArray}
                 </div>

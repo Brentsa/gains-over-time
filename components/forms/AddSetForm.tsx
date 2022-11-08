@@ -34,12 +34,16 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         event.preventDefault();
         
         //return out of the function if there is no exercise ID or either of the inputs are not a number
-        if(!exercise?.id || inputs.quantity === '' || inputs.weight === '') return; 
+        if(!exercise?.id || (inputs.quantity === '' && exercise.exerciseT.type === 'lbs') || inputs.weight === '') return; 
 
         const response = await fetch('/api/set/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({...inputs, exerciseId: exercise.id})
+            body: JSON.stringify({
+                quantity: exercise.exerciseT.type === 'lbs' ? inputs.quantity : 0,
+                weight: inputs.weight, 
+                exerciseId: exercise.id
+            })
         })
 
         if(!response.ok) return;
@@ -53,12 +57,12 @@ export default function AddSetForm({exercise, close, mutate}: Props){
     
 
     return exercise ? (
-        <div className="flex flex-col justify-around items-center">
-            <h2 className="font-bold w-full text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
+        <div className="w-8/12 flex flex-col justify-around items-center">
+            <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
                 Add New Set
             </h2>
-            <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className="w-10/12">
+                <div className="space-y-2 mb-4">
                     {exercise.exerciseT.type !== 'seconds' &&
                         <FormInput
                             id="quantity"
