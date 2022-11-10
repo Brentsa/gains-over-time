@@ -21,6 +21,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     const [sets, setSets] = useState<BasicSet[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
+    const [editSets, setEditSets] = useState<boolean>(false);
 
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
@@ -51,8 +52,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         
         //when a user adds a set, update the selected set state from the exercise table
         setSelectedExerciseId(exercise.id)
-
-        //setSets((prevSets) => [...prevSets, {quantity: 10, weight: 200}]);
     }
 
     async function deleteExercise(event: MouseEvent<HTMLButtonElement>){
@@ -71,7 +70,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     function triggerEdit(event: MouseEvent<HTMLButtonElement>){
         event.preventDefault();
-        console.log('clicked')
+        setEditSets(!editSets);
     }
 
     useEffect(()=>{
@@ -93,7 +92,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     onMouseOut={toggleShowTargetSets}
                 >
                     {sets.length > 0 &&
-                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight} setType={exercise.exerciseT.type}/>)
+                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight} setType={exercise.exerciseT.type} editable={editSets}/>)
                     }
                     {showTargetSets && targetSetsArray}
                 </div>
