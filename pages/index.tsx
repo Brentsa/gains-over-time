@@ -56,7 +56,7 @@ export default function Home({user}: Props){
                     <Paper className='z-10 sticky top-0'>
                       <AddExerciseForm user={user}/>
                     </Paper>
-                    <Paper>
+                    <Paper className='w-full'>
                       <ExerciseTable user={user}/>
                     </Paper>
                   </div>

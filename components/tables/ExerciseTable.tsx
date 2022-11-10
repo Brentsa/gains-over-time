@@ -60,7 +60,7 @@ export default function ExerciseTable({user}: Props){
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
-            <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+            <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
                 {data.map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)}
             </ul> 
