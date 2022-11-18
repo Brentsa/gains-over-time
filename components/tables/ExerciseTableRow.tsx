@@ -50,6 +50,9 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
         
+        //if editing, exit the function
+        if(editSets) return; 
+
         //when a user adds a set, update the selected set state from the exercise table
         setSelectedExerciseId(exercise.id)
     }
