@@ -1,8 +1,9 @@
 import { Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 
-const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"];
+const COLORS = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
 
 //return a prisma client error message from a supplied error object
 export function getPrismaClientError(error:  PrismaClientKnownRequestError): string {
@@ -42,7 +43,13 @@ export function firstLetterToUpperCase(string: string): string {
 }
 
 //format a given date string in this format Day String 
-export function formatDateFullString(dateString: string): string{
+export function formatDateFullString(dateString: string): string {
     const date = new Date(dateString);
     return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+}
+
+//return tailwind text color class dependand on the supplied weekday
+export function getWeekdayColor(dateString: string): string {
+    const date = new Date(dateString);
+    return COLORS[date.getDay()];
 }

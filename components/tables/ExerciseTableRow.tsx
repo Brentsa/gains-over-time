@@ -1,7 +1,7 @@
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
-import { formatDateFullString } from "../../utils/helpers";
+import { formatDateFullString, getWeekdayColor } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
 import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
@@ -82,8 +82,10 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         <li className="flex flex-col">
             <div className="w-full flex flex-wrap py-2 md:space-x-4">
                 <div className="flex flex-col basis-8/12 md:basis-auto pb-2 sm:pb-0 order-1">
-                    <div className="font-semibold text-lg">{exercise.exerciseT.name}</div>
-                    <div className="text-sm">{formatDateFullString(exercise.createdAt)}</div>
+                    <p className="font-bold text-lg">{exercise.exerciseT.name}</p>
+                    <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
+                        {formatDateFullString(exercise.createdAt)}
+                    </p>
                 </div>
                 <div 
                     className="flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 hover:cursor-pointer rounded h-14 order-3 sm:order-2" 
