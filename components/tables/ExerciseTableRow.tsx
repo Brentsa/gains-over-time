@@ -91,7 +91,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     </p>
                 </div>
                 <div 
-                    className="flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 hover:cursor-pointer rounded h-14 order-3 sm:order-2" 
+                    className={`flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 ${!editSets && 'hover:cursor-pointer'} rounded h-14 order-3 sm:order-2`}
                     onClick={addSet}
                     onMouseOver={toggleShowTargetSets}
                     onMouseOut={toggleShowTargetSets}
