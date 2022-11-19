@@ -5,7 +5,7 @@ import { MouseEvent } from "react"
 interface Props {
     icon: IconDefinition
     className?: string,
-    handleClick?: (event: MouseEvent<HTMLButtonElement>) => void,
+    handleClick: (event: MouseEvent<HTMLButtonElement>) => void,
     type?: "button" | "submit" | "reset" | undefined,
     disabled?: boolean
 }

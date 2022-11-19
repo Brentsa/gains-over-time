@@ -1,9 +1,14 @@
+import { BasicSet } from "../tables/ExerciseTableRow";
 
-export default function UpdateExerciseForm(){
+interface Props {
+    set: BasicSet | null
+}
 
-    return (
+export default function UpdateExerciseForm({set}: Props){
+    console.log(set);
+    return set ? (
         <div className="text-black">
             WOWOWOWOW
         </div>
-    );
+    ): <></>;
 }

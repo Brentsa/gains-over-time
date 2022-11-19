@@ -7,22 +7,42 @@ import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
 import { ExerciseFromSWR } from "./ExerciseTable";
+import UpdateExerciseForm from "../forms/UpdateExerciseForm";
+import Modal from "../utilites/Modal";
 
 interface Props {
     exercise: ExerciseFromSWR
     setSelectedExerciseId: Dispatch<SetStateAction<number>>
 }
 
-interface BasicSet{
+export interface BasicSet{
+    id: number, 
     quantity: number,
     weight: number
 }
 
 export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Props){
 
+    //state variables to handle set pill rendering
     const [sets, setSets] = useState<BasicSet[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
-    const [editSets, setEditSets] = useState<boolean>(false);
+
+    //state that determines if the sets in the row can be altered
+    const [editRow, setEditRow] = useState<boolean>(false);
+
+    //state that determines which set is being edited
+    const [editSet, setEditSet] = useState<boolean>(false);
+    const [selectedSet, setSelectedSet] = useState<BasicSet | null>(null);
+
+    useEffect(() => {
+        if(!selectedSet) return; 
+        setEditSet(true);
+    }, [selectedSet])
+
+    function closeSetEditModal(){
+        setEditSet(false);
+        setSelectedSet(null);
+    }
 
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
@@ -52,7 +72,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         event.preventDefault();
         
         //if editing, exit the function
-        if(editSets) return; 
+        if(editRow) return; 
 
         //when a user adds a set, update the selected set state from the exercise table
         setSelectedExerciseId(exercise.id)
@@ -74,7 +94,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     function triggerEdit(event: MouseEvent<HTMLButtonElement>){
         event.preventDefault();
-        setEditSets(!editSets);
+        setEditRow(!editRow);
     }
 
     useEffect(()=>{
@@ -92,13 +112,21 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     </p>
                 </div>
                 <div 
-                    className={`flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 ${!editSets && 'hover:cursor-pointer'} rounded h-14 order-3 sm:order-2`}
+                    className={`flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'} rounded h-14 order-3 sm:order-2`}
                     onClick={addSet}
                     onMouseOver={toggleShowTargetSets}
                     onMouseOut={toggleShowTargetSets}
                 >
                     {sets.length > 0 &&
-                        sets.map((set, i) => <SetPill key={i} quantity={set?.quantity} weight={set.weight} setType={exercise.exerciseT.type} editable={editSets}/>)
+                        sets.map((set, i) => 
+                            <SetPill 
+                                key={i} 
+                                set={set}
+                                setType={exercise.exerciseT.type} 
+                                editable={editRow}
+                                setSelectedSet={setSelectedSet}
+                            />
+                        )
                     }
                     {showTargetSets && targetSetsArray}
                 </div>
@@ -108,6 +136,10 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                 </div>
             </div>
             <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+
+            <Modal closeModal={closeSetEditModal} open={editSet}>
+                <UpdateExerciseForm set={selectedSet}/>
+            </Modal>
         </li>
     )
 }
