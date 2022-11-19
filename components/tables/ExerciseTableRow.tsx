@@ -3,6 +3,7 @@ import { Dispatch, MouseEvent, SetStateAction, useEffect, useMemo, useState } fr
 import { mutate } from "swr";
 import { formatDateFullString, getWeekdayColor } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
+import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
 import { ExerciseFromSWR } from "./ExerciseTable";
@@ -102,7 +103,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     {showTargetSets && targetSetsArray}
                 </div>
                 <div className="flex basis-4/12 md:basis-auto justify-center items-center order-2 sm:order-3">
-                    <IconButton icon={faEdit} handleClick={triggerEdit} className="text-amber-500 hover:bg-amber-100"/>
+                    <IconSwitchButton icon={faEdit} handleClick={triggerEdit} iconColor='text-amber-500' bgColor='bg-amber-200'/>
                     <IconButton icon={faTrashCan} handleClick={deleteExercise}/>
                 </div>
             </div>
