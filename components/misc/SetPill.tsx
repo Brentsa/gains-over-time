@@ -1,15 +1,17 @@
 import { RepType } from "@prisma/client"
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from "react"
+import { useSWRConfig } from "swr"
 import { BasicSet } from "../tables/ExerciseTableRow"
 
 interface Props {
     set: BasicSet,
-    setSelectedSet: Dispatch<SetStateAction<BasicSet | null>>
+    setSelectedSet: Dispatch<SetStateAction<BasicSet | null>>,
+    setSets: Dispatch<SetStateAction<BasicSet[]>>,
     setType?: RepType
     editable?: boolean
 }
 
-export default function SetPill({set, setSelectedSet, setType, editable}: Props){
+export default function SetPill({set, setSets, setSelectedSet, setType, editable}: Props){
     const shakeDegrees = 4
     const [rotationDeg, setRotationDeg] = useState<number>(0);
 
@@ -30,9 +32,18 @@ export default function SetPill({set, setSelectedSet, setType, editable}: Props)
         setSelectedSet(set);
     }
 
-    function deleteSet(event: MouseEvent<HTMLButtonElement>){
+    async function deleteSet(event: MouseEvent<HTMLButtonElement>){
         event.preventDefault();
-        console.log('delete')
+        
+        const response = await fetch(`api/set/delete/${set.id}`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'}
+        })
+
+        if(!response.ok) return console.log('Set could not be deleted');
+
+        //remove the set from the exercise row
+        setSets(prevSetArray => prevSetArray.filter(prevSet => prevSet.id !== set.id));
     }
 
     useEffect(()=>{

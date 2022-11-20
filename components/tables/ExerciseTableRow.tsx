@@ -122,6 +122,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                             <SetPill 
                                 key={i} 
                                 set={set}
+                                setSets={setSets}
                                 setType={exercise.exerciseT.type} 
                                 editable={editRow}
                                 setSelectedSet={setSelectedSet}
