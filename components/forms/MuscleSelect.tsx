@@ -88,28 +88,28 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
             {!data ?
                 <div>loading...</div> 
                 :
-                <div className="grid grid-cols-12 gap-y-2 gap-x-4">
+                <div className="grid grid-cols-12 gap-x-4">
                     <div className="col-span-full flex w-full" style={{maxHeight: 38}}>
                         <select
                             id="exercise-muscle-select"
                             name="type"
                             value={selectedMuscle.id}
                             onChange={handleChange}
-                            className={`rounded-l relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
+                            className={`rounded-tl-lg relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
                             required
                         >   
                             <option defaultValue=''>Select Muscle</option>
                             {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)} label={firstLetterToUpperCase(muscle.name)}/>)}
                         </select>
                         <button 
-                            className='rounded-r bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 disabled:bg-gray-300' 
+                            className='rounded-tr-lg bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 disabled:bg-gray-300' 
                             onClick={addMuscle}
                             disabled={!selectedMuscle.id || bIsMuscleInArray(selectedMuscle.id)}
                         >
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>
-                    <div className="col-span-full flex flex-wrap items-center">
+                    <div className="col-span-full flex flex-wrap items-center bg-gray-100 border border-gray-300 border-t-0 rounded-b-lg p-1">
                         {muscleArray.length > 0 ?
                             muscleArray.map((muscle, id) => (
                                 <div key={id} className='p-1 h-10'>
@@ -117,7 +117,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                                 </div>
                             ))
                             :
-                            <h3 className="text-sm md:text-base">Add associated muscles to this template</h3>
+                            <h3 className="text-sm mx-auto p-1">Add associated muscles to this template</h3>
                         }
                     </div>
                 </div>

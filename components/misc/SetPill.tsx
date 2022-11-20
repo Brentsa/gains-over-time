@@ -59,11 +59,11 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
 
     return (
         <div 
-            className={`bg-violet-500 text-white rounded-full transition-all duration-100 ${editable && 'shadow shadow-gray-800 hover:bg-rose-400'}`}
+            className={`bg-violet-500 text-white rounded-full transition-all duration-100 ${editable && 'shadow shadow-gray-800'}`}
             style={editable ? {transform: `rotate(${rotationDeg}deg)`} : undefined}
         >
             <button 
-                className={`h-full w-full rounded-full flex flex-col sm:flex-row items-center justify-center px-3 hover:cursor-pointer`}
+                className={`h-full w-full rounded-full flex flex-col sm:flex-row items-center justify-center px-3 hover:cursor-pointer hover:bg-violet-400`}
                 onClick={handleSetClick}
                 disabled={!editable}
             >
@@ -76,7 +76,12 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
                 
             </button>
             {editable && 
-                <button className="h-5 w-5 rounded-full bg-rose-500 shadow shadow-gray-800 text-sm absolute top-0 right-0" onClick={deleteSet}>x</button>
+                <button 
+                    className="h-5 w-5 rounded-full bg-rose-600 shadow shadow-gray-600 text-sm absolute top-0 right-0 hover:bg-rose-500 hover:text-gray-100" 
+                    onClick={deleteSet}
+                >
+                    x
+                </button>
             }
         </div>
     )
