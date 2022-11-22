@@ -7,24 +7,19 @@ import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
 import { ExerciseFromSWR } from "./ExerciseTable";
-import UpdateExerciseForm from "../forms/UpdateExerciseForm";
 import Modal from "../utilites/Modal";
+import { Set } from "@prisma/client";
+import UpdateSetForm from "../forms/UpdateSetForm";
 
 interface Props {
     exercise: ExerciseFromSWR
     setSelectedExerciseId: Dispatch<SetStateAction<number>>
 }
 
-export interface BasicSet{
-    id: number, 
-    quantity: number,
-    weight: number
-}
-
 export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Props){
 
     //state variables to handle set pill rendering
-    const [sets, setSets] = useState<BasicSet[]>(exercise.sets);
+    const [sets, setSets] = useState<Set[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
 
     //state that determines if the sets in the row can be altered
@@ -32,7 +27,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
-    const [selectedSet, setSelectedSet] = useState<BasicSet | null>(null);
+    const [selectedSet, setSelectedSet] = useState<Set | null>(null);
 
     useEffect(() => {
         if(!selectedSet) return; 
@@ -138,9 +133,11 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
             </div>
             <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
 
-            <Modal closeModal={closeSetEditModal} open={editSet}>
-                <UpdateExerciseForm set={selectedSet}/>
-            </Modal>
+            {selectedSet &&
+                <Modal closeModal={closeSetEditModal} open={editSet}>
+                    <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
+                </Modal>
+            }
         </li>
     )
 }

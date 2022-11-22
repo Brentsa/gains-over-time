@@ -1,12 +1,10 @@
-import { RepType } from "@prisma/client"
+import { RepType, Set } from "@prisma/client"
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from "react"
-import { useSWRConfig } from "swr"
-import { BasicSet } from "../tables/ExerciseTableRow"
 
 interface Props {
-    set: BasicSet,
-    setSelectedSet: Dispatch<SetStateAction<BasicSet | null>>,
-    setSets: Dispatch<SetStateAction<BasicSet[]>>,
+    set: Set,
+    setSelectedSet: Dispatch<SetStateAction<Set | null>>,
+    setSets: Dispatch<SetStateAction<Set[]>>,
     setType?: RepType
     editable?: boolean
 }
