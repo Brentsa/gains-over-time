@@ -1,9 +1,10 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { MouseEvent, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 
 interface Props {
-    icon: IconDefinition
+    icon: IconDefinition,
+    on: boolean,
     className?: string,
     handleClick: (event: MouseEvent<HTMLButtonElement>) => void,
     disabled?: boolean,
@@ -11,9 +12,9 @@ interface Props {
     bgColor?: string
 }
 
-export default function IconSwitchButton({className, handleClick, icon, disabled, iconColor, bgColor}: Props){
+export default function IconSwitchButton({className, on, handleClick, icon, disabled, iconColor, bgColor}: Props){
 
-    const [switchOn, setSwitchOn] = useState<boolean>(false);
+    const [switchOn, setSwitchOn] = useState<boolean>(on);
 
     const colors = `${iconColor ?? 'text-rose-500'} ${switchOn ? (bgColor ?? 'bg-rose-50') : ''}`
 
@@ -22,6 +23,10 @@ export default function IconSwitchButton({className, handleClick, icon, disabled
         handleClick(event);
         setSwitchOn(prev => !prev);
     }
+
+    useEffect(()=>{
+        setSwitchOn(on);
+    }, [on])
 
     return (
         <button 

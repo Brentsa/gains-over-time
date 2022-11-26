@@ -86,7 +86,13 @@ export default function AddSetForm({exercise, close, mutate}: Props){
                         min={0}
                     />
                 </div>
-                <Button icon={faSave} type="submit" label="Save" className="w-full"/>
+                <Button 
+                    icon={faSave} 
+                    type="submit" 
+                    label="Save" 
+                    className="w-full" 
+                    disabled={exercise.exerciseT.type !== 'seconds' ? !inputs.weight || !inputs.quantity : !inputs.weight}
+                />
             </form>
         </div>
     ) : 
