@@ -22,8 +22,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 id: parseInt(<string>id)
             },
             data: {
-               quantity,
-               weight
+               quantity: typeof quantity === 'string' ? parseInt(quantity) : quantity,
+               weight: typeof weight === 'string' ? parseInt(weight) : weight
             }
         })
 

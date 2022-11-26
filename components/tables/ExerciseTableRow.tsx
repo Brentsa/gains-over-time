@@ -100,14 +100,14 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
     return (
         <li className="flex flex-col">
             <div className="w-full flex flex-wrap py-2 md:space-x-4">
-                <div className="flex flex-col basis-8/12 md:basis-auto pb-2 sm:pb-0 order-1">
+                <div className="flex flex-col basis-8/12 md:basis-48 pb-2 sm:pb-0 order-1">
                     <p className="font-bold text-lg">{exercise.exerciseT.name}</p>
                     <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
                         {formatDateFullString(exercise.createdAt)}
                     </p>
                 </div>
                 <div 
-                    className={`flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-scroll shadow-inner bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'} rounded h-14 order-3 sm:order-2`}
+                    className={`flex basis-full md:basis-0 grow p-1 space-x-1 overflow-x-auto shadow-inner bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'} rounded h-14 order-3 sm:order-2`}
                     onClick={addSet}
                     onMouseOver={toggleShowTargetSets}
                     onMouseOut={toggleShowTargetSets}
@@ -131,6 +131,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     <IconButton icon={faTrashCan} handleClick={deleteExercise}/>
                 </div>
             </div>
+            
             <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
 
             {selectedSet &&

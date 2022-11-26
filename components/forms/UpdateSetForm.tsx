@@ -26,7 +26,7 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
 
         //destructure the name and value from the changed input
         const {name, value} = event.target;
-        setInputs(prevInputs => ({...prevInputs, [name]: !value ? parseInt(value) : value}));
+        setInputs(prevInputs => ({...prevInputs, [name]: !value ? value : parseInt(value) }));
     }
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>){
@@ -55,7 +55,7 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
     return (
         <div className="w-8/12 flex flex-col justify-around items-center">
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
-                Add New Set
+                Update Set
             </h2>
             <form onSubmit={handleSubmit} className="w-10/12">
                 <div className="space-y-2 mb-4">
@@ -68,6 +68,7 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
                             className="w-full"
                             onChange={handleInputChange}
                             type="number"
+                            min={0}
                         />
                     }
                     <FormInput
@@ -78,9 +79,16 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
                         className="w-full"
                         onChange={handleInputChange}
                         type="number"
+                        min={0}
                     />
                 </div>
-                <Button icon={faSave} type="submit" label="Save" className="w-full"/>
+                <Button 
+                    icon={faSave} 
+                    type="submit" 
+                    label="Save" 
+                    className="w-full" 
+                    disabled={exercise.exerciseT.type !== 'seconds' ? !inputs.weight || !inputs.quantity : !inputs.weight}
+                />
             </form>
         </div>
     );

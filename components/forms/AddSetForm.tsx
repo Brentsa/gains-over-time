@@ -72,6 +72,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
                             className="w-full"
                             onChange={handleInputChange}
                             type="number"
+                            min={0}
                         />
                     }
                     <FormInput
@@ -82,6 +83,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
                         className="w-full"
                         onChange={handleInputChange}
                         type="number"
+                        min={0}
                     />
                 </div>
                 <Button icon={faSave} type="submit" label="Save" className="w-full"/>
