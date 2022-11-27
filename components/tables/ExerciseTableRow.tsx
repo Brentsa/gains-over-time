@@ -111,7 +111,8 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     return (
         <li className="flex flex-col">
-            <div className="w-full flex flex-wrap py-2 md:space-x-2">
+            <div className="w-full flex flex-wrap py-2 justify-between md:space-x-2">
+
                 <div className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1">
                     <p className="font-bold text-lg">{exercise.exerciseT.name}</p>
                     <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
@@ -120,7 +121,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                 </div>
 
                 <div 
-                    className={`flex basis-full md:basis-0 grow transition-all duration-300 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
+                    className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
                     onClick={addSet}
                     onMouseOver={toggleShowTargetSets}
                     onMouseOut={toggleShowTargetSets}
@@ -140,11 +141,11 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     {showTargetSets && targetSetsArray}
                 </div> 
                 
-                <div className={`flex basis-5/12 md:basis-auto justify-end items-center order-2 sm:order-3 space-x-2`}>
-                    <button className={`${showButtons && 'rotate-180'} transition-all duration-300 text-violet-500`} onClick={toggleShowButtons}>
+                <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-10'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
+                    <button className={`${showButtons && 'rotate-180'} transition-all duration-500 text-violet-500`} onClick={toggleShowButtons}>
                         <FontAwesomeIcon icon={faAnglesLeft} size='2x'/>
                     </button>  
-                    <div className={`flex justify-evenly ${showButtons ? 'w-full' : 'w-0'} transition-all duration-300 overflow-hidden space-x-1`}>
+                    <div className={`flex justify-evenly overflow-hidden space-x-1`}>
                         <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-amber-500' bgColor='bg-amber-200'/>
                         <IconButton icon={faTrashCan} handleClick={deleteExercise}/> 
                     </div>
