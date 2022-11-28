@@ -1,11 +1,15 @@
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, Ref } from "react"
 import { TabInfo } from './VerticalTabs';
 
 type Props = {
     label: string,
     index: number,
-    active: boolean
-    setActiveTabIndex: any
+    active: boolean,
+    setActiveTabIndex: any,
+    icon?: IconDefinition
 }
 
 const TabItem = forwardRef((props: Props, ref: Ref<HTMLDivElement>) => {
@@ -19,10 +23,14 @@ const TabItem = forwardRef((props: Props, ref: Ref<HTMLDivElement>) => {
 
     return (
         <div className="pr-2" ref={ref}>
-            <button onClick={handleClick} className={`p-2 rounded hover:bg-gray-100 ${active && 'text-rose-500 font-bold'}`}>
-                {label}
+            <button onClick={handleClick} className={`p-2 rounded flex-wrap whitespace-normal hover:bg-gray-100 ${active && 'text-rose-500 font-bold'}`}>
+                {label} 
+                {props?.icon &&
+                    <FontAwesomeIcon icon={props.icon}/>
+                }
             </button>
-        </div>)
+        </div>
+    );
 });
 
 TabItem.displayName = 'TabItem';

@@ -45,6 +45,7 @@ export default function VerticalTabs({children}: Props){
                 {children.map((child, i)=>
                     <TabItem 
                         label={child.props.label} 
+                        icon={child.props?.icon}
                         index={i} 
                         active={tabInfo.index === i}
                         setActiveTabIndex={setTabInfo}
