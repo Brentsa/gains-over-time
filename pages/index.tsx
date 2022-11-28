@@ -11,7 +11,7 @@ import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -29,6 +29,22 @@ export default function Home({user}: Props){
     setShowOnMobile(isMobile);
   }, [isMobile])
 
+  function renderVerticalTabs(){
+    return (
+      <VerticalTabs>
+        <TabContent label='Exercise' icon={faCirclePlus}>
+          <CreateExerciseForm user={user}/>
+        </TabContent>
+        <TabContent label='Exercise' icon={faPenToSquare}>
+          <div>Hello 1</div>
+        </TabContent>
+        <TabContent label='Workout' icon={faCirclePlus}>
+          <div>Hello 2</div>
+        </TabContent>
+      </VerticalTabs>
+    );
+  }
+
   return (
     <div>
       <Head>
@@ -45,14 +61,7 @@ export default function Home({user}: Props){
               <div className='basis-1/3'>
                 <div className='flex flex-col flex-wrap space-y-4'>
                     <Paper>
-                      <VerticalTabs>
-                        <TabContent label='Exercise' icon={faCirclePlus}>
-                          <CreateExerciseForm user={user}/>
-                        </TabContent>
-                        <TabContent label='Workout' icon={faCirclePlus}>
-                          <div>Hello 2</div>
-                        </TabContent>
-                      </VerticalTabs>
+                      {renderVerticalTabs()}
                     </Paper>
                     <Paper className='z-10 sticky top-0'>
                       <AddExerciseForm user={user}/>
@@ -68,14 +77,7 @@ export default function Home({user}: Props){
               <div className='col-span-1'>
                 <div className='sticky top-24 space-y-4'>
                   <Paper>
-                    <VerticalTabs>
-                      <TabContent label='Exercise' icon={faCirclePlus}>
-                        <CreateExerciseForm user={user}/>
-                      </TabContent>
-                      <TabContent label='Workout' icon={faCirclePlus}>
-                        <div>Hello 2</div>
-                      </TabContent>
-                    </VerticalTabs>
+                    {renderVerticalTabs()}
                   </Paper>
                   <Paper>
                     <AddExerciseForm user={user}/>
