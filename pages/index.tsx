@@ -6,12 +6,13 @@ import Navbar from '../components/Navbar';
 import Paper from '../components/utilites/Paper'
 import VerticalTabs from '../components/utilites/VerticalTabs';
 import TabContent from '../components/utilites/TabContent';
-import CreateExerciseForm from '../components/forms/CreateExerciseForm';
+import CreateExerciseTForm from '../components/forms/CreateExerciseTForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
 import { faCirclePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import UpdateExerciseTForm from '../components/forms/UpdateExerciseTForm';
 
 export interface Props {
   user? : Omit<Account, 'password' | 'createdAt'>
@@ -33,10 +34,10 @@ export default function Home({user}: Props){
     return (
       <VerticalTabs>
         <TabContent label='Exercise' icon={faCirclePlus}>
-          <CreateExerciseForm user={user}/>
+          <CreateExerciseTForm user={user}/>
         </TabContent>
         <TabContent label='Exercise' icon={faPenToSquare}>
-          <div>Hello 1</div>
+          <UpdateExerciseTForm user={user}/>
         </TabContent>
         <TabContent label='Workout' icon={faCirclePlus}>
           <div>Hello 2</div>

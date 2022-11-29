@@ -6,6 +6,7 @@ interface Props {
     name: string,
     value: string | number,
     onChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
+    disabled?: boolean
     label?: string,
     placeholder?: string, 
     type?: string,
@@ -34,6 +35,7 @@ export default function FormInput(props: Props){
                 min={props?.min}
                 max={props?.max}
                 required={props?.required}
+                disabled={props?.disabled}
             />
         </div>
     );

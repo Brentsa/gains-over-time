@@ -5,16 +5,17 @@ import { firstLetterToUpperCase } from "../../utils/helpers";
 import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState  } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
-import { Inputs } from "./CreateExerciseForm";
+import { Inputs } from "./CreateExerciseTForm";
 import PillButton from "../buttons/PillButton";
 
 interface Props {
     setInputs: Dispatch<SetStateAction<Inputs>>,
     reset: boolean,
-    resetFunction: Dispatch<SetStateAction<boolean>> 
+    resetFunction: Dispatch<SetStateAction<boolean>>,
+    disabled?: boolean
 }
 
-export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
+export default function MuscleSelect({setInputs, reset, resetFunction, disabled}: Props){
 
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
@@ -97,6 +98,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction}: Props){
                             onChange={handleChange}
                             className={`rounded-tl-lg relative block w-full px-3 py-2 border border-gray-300 ${!selectedMuscle.id ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
                             required
+                            disabled={disabled}
                         >   
                             <option defaultValue=''>Select Muscle</option>
                             {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)} label={firstLetterToUpperCase(muscle.name)}/>)}

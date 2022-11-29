@@ -16,7 +16,7 @@ interface FormFeedback {
     message: string
 }
 
-export default function CreateExerciseForm({user}: Props){
+export default function CreateExerciseTForm({user}: Props){
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
     const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
@@ -73,7 +73,7 @@ export default function CreateExerciseForm({user}: Props){
         <form className="grid grid-cols-1 pl-2 lg:pl-4 gap-y-3" onSubmit={submitForm}>
             <div className="flex flex-wrap justify-between md:justify-start items-center col-span-12 pb-2 space-x-4 border-b-2 border-violet-300">
                 <h2 className="font-bold text-sm sm:text-lg lg:text-xl">
-                    New Exercise Template
+                    Exercise Template
                 </h2>
                 <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
                     Create
@@ -86,7 +86,6 @@ export default function CreateExerciseForm({user}: Props){
             </div>
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-2">
-                
                 <FormInput
                     id="exercise-name"
                     name="name"
