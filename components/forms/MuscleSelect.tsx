@@ -12,17 +12,19 @@ interface Props {
     setInputs: Dispatch<SetStateAction<Inputs>>,
     reset: boolean,
     resetFunction: Dispatch<SetStateAction<boolean>>,
-    disabled?: boolean
+    disabled?: boolean,
+    initialMuscles?: Omit<Muscle, 'createdAt'>[]
+    
 }
 
-export default function MuscleSelect({setInputs, reset, resetFunction, disabled}: Props){
+export default function MuscleSelect({setInputs, reset, resetFunction, disabled, initialMuscles}: Props){
 
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
 
     //define state to hold the selected muscle and all muscles added to the array
     const [selectedMuscle, setSelectedMuscle] = useState<Omit<Muscle, 'createdAt'>>({id: 0, name: ''});
-    const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
+    const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([]);
 
     //called when the select drop down changes
     function handleChange(event: ChangeEvent<HTMLSelectElement>){
@@ -65,19 +67,24 @@ export default function MuscleSelect({setInputs, reset, resetFunction, disabled}
         return false;
     }
 
-    useEffect(()=> {
+    useEffect(() => {
+        //if initial muscles is supplied, updated the muscle array to display the muscles
+        if(initialMuscles) return setMuscleArray(initialMuscles);
+    }, [initialMuscles]);
+
+    useEffect(() => {
         //whenever the muscle array changes, update the inputs state's muscles array with only the muscle IDs
         setInputs(prevState => ({...prevState, muscles: muscleArray.map(muscle => muscle.id)}));
     }, [setInputs, muscleArray]);
 
-    useEffect(()=> {
+    useEffect(() => {
         //if the supplied reset variable is true, reset the state of the entire component and flip the reset state to false
         if(reset){
             resetFunction(false);
             setSelectedMuscle({id: 0, name: ''});
             setMuscleArray([]);
         }
-    }, [reset, resetFunction])
+    }, [reset, resetFunction]);
 
     if(error) return <div>Could not load muscles.</div>
 

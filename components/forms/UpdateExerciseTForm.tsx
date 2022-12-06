@@ -1,35 +1,38 @@
-import { ExerciseTemplate } from "@prisma/client"
+import { Muscle, Prisma } from "@prisma/client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import useSWR from "swr"
 import { Props } from '../../pages/index'
+import { Inputs } from "./CreateExerciseTForm"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
-
-export interface Inputs {
-    name: string,
-    muscles: number[]
-    targetSets: number | '',
-    targetReps: number | '',
-    type: 'lbs' | 'seconds' | ''
-}
 
 interface FormFeedback {
     type: 'success' | 'failure' | '',
     message: string
 }
 
+//create a type safe object of exercise template with muscles included
+const exerciseTemplateWithMuscles = Prisma.validator<Prisma.ExerciseTemplateArgs>()({
+    include: {muscles: true}
+})
+
+//define the exercise template with muscles type using prisma get payload
+export type ExerciseTemplateWithMuscles = Prisma.ExerciseTemplateGetPayload<typeof exerciseTemplateWithMuscles>;
+
 export default function UpdateExerciseTForm({user}: Props){
 
     //retrieve the user's exercise templates
-    const {data: exerciseTemplates, error} = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`);
+    const {data: exerciseTemplates} = useSWR<ExerciseTemplateWithMuscles[]>(`api/exercise-templates/${user?.id}`);
 
-    const [selectedExerciseT, setSelectedExerciseT] = useState(0);
+    const [selectedExerciseTId, setSelectedExerciseTId] = useState(0);
+    const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
+
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
     const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
     const [resetSelect, setResetSelect] = useState<boolean>(false);
 
     function handleExerciseTSelect(event: ChangeEvent<HTMLSelectElement>): void {
-        setSelectedExerciseT(parseInt(event.target.value));
+        setSelectedExerciseTId(parseInt(event.target.value));
     }
 
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
@@ -50,24 +53,26 @@ export default function UpdateExerciseTForm({user}: Props){
             targetReps: parseInt(inputs.targetReps as string)
         };
 
-        const response = await fetch('/api/exercise-template/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(createBody)
-        })
+        console.log(createBody);
 
-        if(!response.ok){
-            return setFeedback({type: 'failure', message: 'Exercise template creation was unsuccessful.'});
-        }
+        // const response = await fetch('/api/exercise-template/create', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(createBody)
+        // })
 
-        const data = await response.json();
+        // if(!response.ok){
+        //     return setFeedback({type: 'failure', message: 'Exercise template creation was unsuccessful.'});
+        // }
 
-        //set a feedback success message, reset the form inputs, and trigger a reset for the muscle select component
-        setFeedback({type: 'success', message: `${data.name} exercise template created!`});
-        setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
-        setResetSelect(true);
+        // const data = await response.json();
+
+        // //set a feedback success message, reset the form inputs, and trigger a reset for the muscle select component
+        // setFeedback({type: 'success', message: `${data.name} exercise template created!`});
+        // setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
+        // setResetSelect(true);
     }
 
     useEffect(() => {
@@ -80,8 +85,25 @@ export default function UpdateExerciseTForm({user}: Props){
     }, [feedback.type]);
 
     useEffect(()=>{
-        console.log(selectedExerciseT)
-    }, [selectedExerciseT])
+        //exit the function if the templates haven't loaded or if there is no selected template
+        if(!exerciseTemplates || !selectedExerciseTId ) return;
+        
+        for(let i = 0; i < exerciseTemplates.length; i++){
+            if(exerciseTemplates[i].id === selectedExerciseTId){
+                //update the muscle array with muscle ids and names
+                setMuscleArray(exerciseTemplates[i].muscles.map(muscle => ({id: muscle.id, name: muscle.name})));
+
+                //set the user input fields with the data from the selected exercise template
+                return setInputs({
+                    name: exerciseTemplates[i].name,
+                    type: exerciseTemplates[i].type,
+                    targetReps: exerciseTemplates[i].targetReps, 
+                    targetSets: exerciseTemplates[i].targetSets,
+                    muscles: exerciseTemplates[i].muscles.map(muscle => muscle.id)
+                });
+            }
+        }
+    }, [exerciseTemplates, selectedExerciseTId])
 
     return (
         <form className="grid grid-cols-1 pl-2 lg:pl-4 gap-y-3" onSubmit={submitForm}>
@@ -110,7 +132,7 @@ export default function UpdateExerciseTForm({user}: Props){
                         className="rounded relative block w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"
                         name="exerciseT"
                         onChange={handleExerciseTSelect}
-                        value={selectedExerciseT}
+                        value={selectedExerciseTId}
                         disabled={!exerciseTemplates}
                     >
                         <option value={0}>Select Exercise Template</option>
@@ -129,7 +151,7 @@ export default function UpdateExerciseTForm({user}: Props){
                     label="Exercise Name:"
                     type="text"
                     required
-                    disabled={!selectedExerciseT}
+                    disabled={!selectedExerciseTId}
                 />
 
                 <FormInput
@@ -142,7 +164,7 @@ export default function UpdateExerciseTForm({user}: Props){
                     type='text'
                     min={1}
                     required
-                    disabled={!selectedExerciseT}
+                    disabled={!selectedExerciseTId}
                 />
 
                 <FormInput
@@ -155,7 +177,7 @@ export default function UpdateExerciseTForm({user}: Props){
                     type='number'
                     min={1}
                     required
-                    disabled={!selectedExerciseT}
+                    disabled={!selectedExerciseTId}
                 />
 
                 <div className="col-span-full">
@@ -169,7 +191,7 @@ export default function UpdateExerciseTForm({user}: Props){
                         onChange={handleInputSelectChange}
                         className={`rounded relative block w-full px-3 py-2 border border-gray-300 ${!inputs.type ? "text-gray-500": "text-gray-900"} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
                         required
-                        disabled={!selectedExerciseT}
+                        disabled={!selectedExerciseTId}
                     >
                         <option defaultValue='' disabled={!!inputs.type}>Select Rep Type</option>
                         <option value="lbs">Pounds</option>
@@ -179,7 +201,13 @@ export default function UpdateExerciseTForm({user}: Props){
             </div>
 
             <div className="col-span-12 flex space-x-4">
-                <MuscleSelect setInputs={setInputs} reset={resetSelect} resetFunction={setResetSelect} disabled={!selectedExerciseT}/>
+                <MuscleSelect 
+                    setInputs={setInputs} 
+                    reset={resetSelect} 
+                    resetFunction={setResetSelect} 
+                    disabled={!selectedExerciseTId} 
+                    initialMuscles={muscleArray}
+                />
             </div>
         </form>
     )
