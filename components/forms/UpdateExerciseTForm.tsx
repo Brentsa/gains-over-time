@@ -2,6 +2,7 @@ import { Muscle, Prisma } from "@prisma/client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import useSWR from "swr"
 import { Props } from '../../pages/index'
+import { capitalizeAllWords } from "../../utils/helpers"
 import { Inputs } from "./CreateExerciseTForm"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
@@ -146,7 +147,7 @@ export default function UpdateExerciseTForm({user}: Props){
                     >
                         <option value={0}>Select Exercise Template</option>
                         {exerciseTemplates && exerciseTemplates?.length > 0 &&
-                            exerciseTemplates.map((template, id) => <option value={template.id} key={id}>{template.name}</option>)
+                            exerciseTemplates.map((template, id) => <option value={template.id} key={id}>{capitalizeAllWords(template.name)}</option>)
                         }
                     </select>
                 </div>

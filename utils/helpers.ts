@@ -42,6 +42,22 @@ export function firstLetterToUpperCase(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+//capitalize the first letter of each word in a string
+export function capitalizeAllWords(string: string): string {
+
+    //Assign a new string with the very first character capitalized
+    let newString = firstLetterToUpperCase(string);
+
+    //if a space is found in the string, capitalize the next letter
+    for(let i = 1; i < newString.length - 1; i++){
+        if(newString.charAt(i) === ' '){
+            newString = newString.substring(0, i + 1) + newString.charAt(i + 1).toUpperCase() + newString.substring(i + 2);
+        }
+    }
+
+    return newString;
+}
+
 //format a given date string in this format Day String 
 export function formatDateFullString(dateString: string): string {
     const date = new Date(dateString);
