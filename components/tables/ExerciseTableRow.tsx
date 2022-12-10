@@ -11,6 +11,7 @@ import Modal from "../utilites/Modal";
 import { Set } from "@prisma/client";
 import UpdateSetForm from "../forms/UpdateSetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ExerciseHistory from "../misc/ExerciseHistory";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -31,6 +32,8 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
     const [selectedSet, setSelectedSet] = useState<Set | null>(null);
+
+    const [viewExerciseHistory, setViewExerciseHistory] = useState<boolean>(false);
 
     useEffect(() => {
         if(!selectedSet) return; 
@@ -104,6 +107,15 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         setEditRow(!editRow);
     }
 
+    function openExerciseHistory(event: MouseEvent<HTMLButtonElement>){
+        event.preventDefault();
+        setViewExerciseHistory(true);
+    }
+
+    function closeExerciseHistory(){
+        setViewExerciseHistory(false);
+    }
+
     useEffect(()=>{
         //update the sets in state if the supplied set array changes
         setSets(exercise.sets);
@@ -113,12 +125,12 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         <li className="flex flex-col">
             <div className="w-full flex flex-wrap py-2 justify-between md:space-x-2">
 
-                <div className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1">
+                <button className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
                     <p className="font-bold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                     <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
                         {formatDateFullString(exercise.createdAt)}
                     </p>
-                </div>
+                </button>
 
                 <div 
                     className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
@@ -159,6 +171,10 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                     <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
                 </Modal>
             }
+
+            <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
+                <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId}/>
+            </Modal>
         </li>
     )
 }
