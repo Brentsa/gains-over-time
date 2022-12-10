@@ -64,6 +64,11 @@ export function formatDateFullString(dateString: string): string {
     return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+export function formatDateNumerical(dateString: string): string {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
 //return tailwind text color class dependand on the supplied weekday
 export function getWeekdayColor(dateString: string): string {
     const date = new Date(dateString);
