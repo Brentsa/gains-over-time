@@ -22,11 +22,10 @@ export type ExerciseTemplateWithMuscles = Prisma.ExerciseTemplateGetPayload<type
 export default function UpdateExerciseTForm({user}: Props){
 
     //retrieve the user's exercise templates
-    const {data: exerciseTemplates} = useSWR<ExerciseTemplateWithMuscles[]>(`api/exercise-templates/${user?.id}`);
+    const {data: exerciseTemplates, mutate} = useSWR<ExerciseTemplateWithMuscles[]>(`api/exercise-templates/${user?.id}`);
 
     const [selectedExerciseTId, setSelectedExerciseTId] = useState(0);
     const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
-
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
     const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
     const [resetSelect, setResetSelect] = useState<boolean>(false);
@@ -42,9 +41,20 @@ export default function UpdateExerciseTForm({user}: Props){
         setInputs({ ...inputs, [name]: value});
     }
 
+    //clear all the form inputs and reset the form
+    function resetFormInputs(): void {
+        setSelectedExerciseTId(0);
+        setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
+        setResetSelect(true);
+    }
+
     async function submitForm(event: FormEvent<HTMLFormElement>){
         event.preventDefault()
 
+        //if there is no selected exercise template, break out of the submit function
+        if(!selectedExerciseTId) return; 
+
+        //create a body for the api call
         const createBody = {
             ...inputs, 
             accountId: user?.id, 
@@ -53,40 +63,37 @@ export default function UpdateExerciseTForm({user}: Props){
             targetReps: parseInt(inputs.targetReps as string)
         };
 
-        console.log(createBody);
+        const response = await fetch(`/api/exercise-template/update/${selectedExerciseTId}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(createBody)
+        })
 
-        // const response = await fetch('/api/exercise-template/create', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(createBody)
-        // })
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Exercise template update was unsuccessful.'});
 
-        // if(!response.ok){
-        //     return setFeedback({type: 'failure', message: 'Exercise template creation was unsuccessful.'});
-        // }
+        const data = await response.json();
 
-        // const data = await response.json();
+        //set a feedback success message
+        setFeedback({type: 'success', message: `${data.name} exercise template updated!`});
 
-        // //set a feedback success message, reset the form inputs, and trigger a reset for the muscle select component
-        // setFeedback({type: 'success', message: `${data.name} exercise template created!`});
-        // setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
-        // setResetSelect(true);
+        //reset the form inputs
+        resetFormInputs();
+
+        //mutate the SWR call to refresh the exercise template data
+        mutate();
     }
 
+    //when a feedback message is added, reset it in 5 seconds
     useEffect(() => {
         if(!feedback.type) return; 
 
         //if there is feedback set, reset it after 5 seconds
-        setTimeout(() => {
-            setFeedback({type: '', message: ''});
-        }, 5000);
+        setTimeout(() => setFeedback({type: '', message: ''}), 5000);
     }, [feedback.type]);
 
     useEffect(()=>{
         //exit the function if the templates haven't loaded or if there is no selected template
-        if(!exerciseTemplates || !selectedExerciseTId ) return;
+        if(!exerciseTemplates || !selectedExerciseTId ) return resetFormInputs();
         
         for(let i = 0; i < exerciseTemplates.length; i++){
             if(exerciseTemplates[i].id === selectedExerciseTId){
@@ -115,7 +122,7 @@ export default function UpdateExerciseTForm({user}: Props){
                     Update
                 </button>
                 {feedback.type &&
-                    <h2 className={`font-bold text-lg ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                    <h2 className={`font-bold text-base ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
                         {feedback.message}
                     </h2>
                 }
