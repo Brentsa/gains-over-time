@@ -38,7 +38,7 @@ export function isEmail(string: string): boolean {
 }
 
 //capitalize first letter of a supplied string
-export function firstLetterToUpperCase(string: string): string {
+export function capitalizeFirstChar(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -46,7 +46,7 @@ export function firstLetterToUpperCase(string: string): string {
 export function capitalizeAllWords(string: string): string {
 
     //Assign a new string with the very first character capitalized
-    let newString = firstLetterToUpperCase(string);
+    let newString = capitalizeFirstChar(string);
 
     //if a space is found in the string, capitalize the next letter
     for(let i = 1; i < newString.length - 1; i++){

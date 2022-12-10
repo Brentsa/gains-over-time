@@ -1,7 +1,7 @@
 import { faAnglesLeft, faCaretLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Dispatch, MouseEvent, SetStateAction, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
-import { formatDateFullString, getWeekdayColor } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateFullString, getWeekdayColor } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
 import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
@@ -114,7 +114,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
             <div className="w-full flex flex-wrap py-2 justify-between md:space-x-2">
 
                 <div className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1">
-                    <p className="font-bold text-lg">{exercise.exerciseT.name}</p>
+                    <p className="font-bold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                     <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
                         {formatDateFullString(exercise.createdAt)}
                     </p>

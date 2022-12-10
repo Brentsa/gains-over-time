@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import fetcher from "../../utils/swrFetcher";
 import { Muscle } from "@prisma/client";
-import { capitalizeAllWords, firstLetterToUpperCase } from "../../utils/helpers";
+import { capitalizeAllWords } from "../../utils/helpers";
 import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState  } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faX } from "@fortawesome/free-solid-svg-icons";
