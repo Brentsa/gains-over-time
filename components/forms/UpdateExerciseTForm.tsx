@@ -45,6 +45,7 @@ export default function UpdateExerciseTForm({user}: Props){
     function resetFormInputs(): void {
         setSelectedExerciseTId(0);
         setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
+        setMuscleArray([]);
         setResetSelect(true);
     }
 
@@ -100,14 +101,12 @@ export default function UpdateExerciseTForm({user}: Props){
                 //update the muscle array with muscle ids and names
                 setMuscleArray(exerciseTemplates[i].muscles.map(muscle => ({id: muscle.id, name: muscle.name})));
 
+                //destructure properties from the specified template and create a muscle ID array 
+                const {name, type, targetReps, targetSets} = exerciseTemplates[i];
+                const muscles = exerciseTemplates[i].muscles.map(muscle => muscle.id);
+
                 //set the user input fields with the data from the selected exercise template
-                return setInputs({
-                    name: exerciseTemplates[i].name,
-                    type: exerciseTemplates[i].type,
-                    targetReps: exerciseTemplates[i].targetReps, 
-                    targetSets: exerciseTemplates[i].targetSets,
-                    muscles: exerciseTemplates[i].muscles.map(muscle => muscle.id)
-                });
+                return setInputs({ name, type, targetReps, targetSets, muscles });
             }
         }
     }, [exerciseTemplates, selectedExerciseTId])
@@ -118,7 +117,10 @@ export default function UpdateExerciseTForm({user}: Props){
                 <h2 className="font-bold text-sm sm:text-lg lg:text-xl">
                     Exercise Template
                 </h2>
-                <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
+                <button 
+                    type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 disabled:bg-gray-300' 
+                    disabled={!selectedExerciseTId}
+                >
                     Update
                 </button>
                 {feedback.type &&
