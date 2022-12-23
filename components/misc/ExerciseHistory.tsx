@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { formatDateNumerical } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateNumerical } from "../../utils/helpers";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
-import SetPill from "./SetPill";
 
 interface Props {
     userId: number
@@ -16,12 +15,12 @@ interface PastExerciseProps {
 function PastExercise({exercise}: PastExerciseProps){
 
     return exercise ? (
-        <div className="flex space-x-4">
-            <h2>{formatDateNumerical(exercise.createdAt)}</h2>
+        <div className="flex pb-1 border-b-2 border-rose-300 last:border-none">
+            <h2 className="w-28">{formatDateNumerical(exercise.createdAt)}</h2>
             <div className="flex space-x-2 flex-nowrap">
                 {exercise.sets.map((set, i) => 
-                    <div key={i}>
-                        {set.quantity} x {set.weight}
+                    <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
+                        {set.quantity ? `${set.quantity} x ${set.weight}` : `${set.weight} sec`}
                     </div>
                 )}
             </div>
@@ -47,14 +46,14 @@ export default function ExerciseHistory({userId, exerciseTId}: Props){
     if(filteredExercises.length < 1) return <div>Loading...</div>
 
     return (
-        <div>
-            <div>
-                <h2>Latest Exercises</h2>
-                <div className="flex flex-col">
-                    <PastExercise exercise={filteredExercises[0]}/>
-                    <PastExercise exercise={filteredExercises[1]}/>
-                    <PastExercise exercise={filteredExercises[2]}/>
-                </div>
+        <div className="flex flex-col items-center space-y-2">
+            <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
+                {capitalizeAllWords(filteredExercises[0].exerciseT.name)} History
+            </h2>
+            <div className="flex flex-col space-y-1 w-fit">
+                <PastExercise exercise={filteredExercises[0]}/>
+                <PastExercise exercise={filteredExercises[1]}/>
+                <PastExercise exercise={filteredExercises[2]}/>
             </div>
         </div>
     );
