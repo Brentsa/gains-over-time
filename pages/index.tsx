@@ -3,9 +3,9 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 import Navbar from '../components/Navbar';
-import Paper from '../components/utilites/Paper'
-import VerticalTabs from '../components/utilites/VerticalTabs';
-import TabContent from '../components/utilites/TabContent';
+import Paper from '../components/utilities/Paper'
+import VerticalTabs from '../components/utilities/VerticalTabs';
+import TabContent from '../components/utilities/TabContent';
 import CreateExerciseTForm from '../components/forms/CreateExerciseTForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';

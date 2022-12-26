@@ -3,7 +3,7 @@ import { Props } from "../../pages";
 import fetcher from "../../utils/swrFetcher";
 import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
-import Modal from "../utilites/Modal";
+import Modal from "../utilities/Modal";
 import { useEffect, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 

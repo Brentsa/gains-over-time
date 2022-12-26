@@ -7,7 +7,7 @@ import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
 import TargetSetPill from "../misc/TargetSetPill";
 import { ExerciseFromSWR } from "./ExerciseTable";
-import Modal from "../utilites/Modal";
+import Modal from "../utilities/Modal";
 import { Set } from "@prisma/client";
 import UpdateSetForm from "../forms/UpdateSetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
