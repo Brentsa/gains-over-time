@@ -1,7 +1,7 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, useEffect } from "react";
-import Paper from "./Paper";
+import Paper from "../utilites/Paper";
 
 interface Props {
     open: boolean,
