@@ -48,9 +48,9 @@ export default function AddExerciseForm({user}: Props){
     if(!data) return <div>Loading...</div>
 
     return (
-        <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2">
-            <ExerciseTemplateSelect exerciseTemplates={data} setSelectedExercise={setSelectedExercise} className="col-span-6 sm:col-span-7" reset={reset}/>
-            <Button label='Add' type='submit' icon={faPlus} iconRight className="col-span-4 sm:col-span-3" disabled={!selectedExercise}/>
+        <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2 gap-y-2 sm:gap-y-0">
+            <ExerciseTemplateSelect exerciseTemplates={data} setSelectedExercise={setSelectedExercise} className="col-span-12 sm:col-span-7" reset={reset}/>
+            <Button label='Add' type='submit' icon={faPlus} iconRight className="col-span-12 sm:col-span-3" disabled={!selectedExercise}/>
         </form>
     )
 }

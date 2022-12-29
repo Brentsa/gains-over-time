@@ -60,10 +60,8 @@ export default function RegisterForm(){
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or{' '}
-                        <Link href="/login">
-                            <a className="font-medium text-violet-400 hover:text-violet-500">
-                                sign in if you are an existing user
-                            </a>
+                        <Link href="/login" className="font-medium text-violet-400 hover:text-violet-500">
+                            sign in if you are an existing user
                         </Link>
                     </p>
                 </div>
