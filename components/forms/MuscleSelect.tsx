@@ -108,7 +108,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction, disabled,
                             disabled={disabled}
                         >   
                             <option defaultValue=''>Select Muscle</option>
-                            {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)} label={capitalizeAllWords(muscle.name)}/>)}
+                            {data.map((muscle, id) => <option value={muscle.id} key={id} disabled={bIsMuscleInArray(muscle.id)}>{capitalizeAllWords(muscle.name)}</option>)}
                         </select>
                         <button 
                             className='rounded-tr-lg bg-rose-500 text-white p-1 hover:bg-rose-400 px-4 disabled:bg-gray-300' 
