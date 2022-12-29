@@ -1,4 +1,5 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { mutate } from "swr"
 import { Props } from '../../pages/index'
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
@@ -58,6 +59,9 @@ export default function CreateExerciseTForm({user}: Props){
         setFeedback({type: 'success', message: `${data.name} exercise template created!`});
         setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
         setResetMuscleSelect(true);
+
+        //update the add exercise select list when a new template is created
+        mutate(`api/exercise-templates/${user?.id}`);
     }
 
     useEffect(() => {
