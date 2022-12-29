@@ -11,7 +11,7 @@ import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
-import { faCirclePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
 import UpdateExerciseTForm from '../components/forms/UpdateExerciseTForm';
 
 export interface Props {
@@ -22,9 +22,10 @@ export default function Home({user}: Props){
 
   console.log(user);
 
-  const [showOnMobile, setShowOnMobile] = useState(true);
-
   const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
+
+  const [showOnMobile, setShowOnMobile] = useState(true);
+  const [showVertTabs, setShowVertTabs] = useState(false);
 
   useEffect(() => {
     setShowOnMobile(isMobile);
@@ -56,20 +57,42 @@ export default function Home({user}: Props){
 
       <main>
         <Navbar user={user}/>
-        <section className='container pt-4'>
+        <section className='container pt-0 sm:pt-4'>
           {showOnMobile ?
             <div className='flex flex-col'>
               <div className='basis-1/3'>
                 <div className='flex flex-col flex-wrap space-y-4'>
                     <Paper>
-                      {renderVerticalTabs()}
+                      <div className='flex justify-around'>
+                        <button 
+                          onClick={() => setShowVertTabs(false)} 
+                          className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                        >
+                          Exercise List
+                        </button>
+                        <button 
+                          onClick={() => setShowVertTabs(true)} 
+                          className={showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                        >
+                          Modify Exercises
+                        </button>
+                      </div>
                     </Paper>
-                    <Paper className='sticky top-0 z-20'>
-                      <AddExerciseForm user={user}/>
-                    </Paper>
-                    <Paper className='w-full'>
-                      <ExerciseTable user={user}/>
-                    </Paper>
+                    {showVertTabs 
+                      ? 
+                        <Paper>
+                          {renderVerticalTabs()}
+                        </Paper>
+                      :
+                        <>
+                          <Paper className='sticky top-0 z-20'>
+                            <AddExerciseForm user={user}/>
+                          </Paper>
+                          <Paper className='w-full'>
+                            <ExerciseTable user={user}/>
+                          </Paper>
+                        </>
+                    }
                   </div>
               </div>
             </div>
@@ -96,7 +119,7 @@ export default function Home({user}: Props){
         </section>
       </main>
     </div>
-  )
+  );
 }
 
 export const getServerSideProps = withIronSessionSsr(
