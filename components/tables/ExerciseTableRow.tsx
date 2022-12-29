@@ -136,8 +136,10 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                 <div 
                     className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
                     onClick={addSet}
-                    onMouseOver={toggleShowTargetSets}
-                    onMouseOut={toggleShowTargetSets}
+                    onMouseOver={() => setShowTargetSets(true)}
+                    onMouseOut={() => setShowTargetSets(false)}
+                    onTouchStart={() => setShowTargetSets(true)}
+                    onTouchEnd={() => setShowTargetSets(false)}
                 >
                     {sets.length > 0 &&
                         sets.map((set, i) => 
