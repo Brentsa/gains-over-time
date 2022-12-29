@@ -123,10 +123,11 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     return (
         <li className="flex flex-col">
-            <div className="w-full flex flex-wrap py-2 justify-between md:space-x-2">
+            <div className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
                 <button className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
                     <p className="font-bold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
+                    <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
                     <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
                         {formatDateFullString(exercise.createdAt)}
                     </p>

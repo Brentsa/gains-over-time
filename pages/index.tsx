@@ -64,7 +64,7 @@ export default function Home({user}: Props){
                     <Paper>
                       {renderVerticalTabs()}
                     </Paper>
-                    <Paper className='z-10 sticky top-0'>
+                    <Paper className='sticky top-0 z-20'>
                       <AddExerciseForm user={user}/>
                     </Paper>
                     <Paper className='w-full'>
