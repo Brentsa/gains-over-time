@@ -4,7 +4,7 @@ import { ChangeEvent, SyntheticEvent, useState } from 'react'
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-type Inputs = {username: string, password: string}
+type Inputs = {username: string, password: string, remember: boolean}
 
 export default function LoginForm(){
 
@@ -12,7 +12,7 @@ export default function LoginForm(){
     const router = useRouter();
 
     //instantiate state to hold the user login credentials and any login errors
-    const [inputs, setInputs] = useState<Inputs>({username: '', password: ''});
+    const [inputs, setInputs] = useState<Inputs>({username: '', password: '', remember: false});
     const [loginError, setLoginError] = useState<string>(''); 
 
     //called whenever the user changes the values in the credential inputs
@@ -110,18 +110,20 @@ export default function LoginForm(){
                     </div>
 
                     <div className='space-y-2'>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
+                        <div className="flex items-center justify-end">
+                            {/* <div className="flex items-center">
                                 <input
-                                    id="remember-me"
-                                    name="remember-me"
+                                    id="remember"
+                                    name="remember"
                                     type="checkbox"
                                     className="h-4 w-4 text-rose-500 focus:ring-rose-400 border-gray-300 rounded"
+                                    onChange={handleCheckboxChange}
+                                    checked={inputs.remember}
                                 />
                                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                                     Remember me
                                 </label>
-                            </div>
+                            </div> */}
 
                             <div className="text-sm">
                                 <a href="#" className="font-medium text-violet-400 hover:text-violet-500">

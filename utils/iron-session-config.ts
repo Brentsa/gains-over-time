@@ -5,8 +5,7 @@ export const ironOptions: IronSessionOptions = {
     cookieName: 'Gains-Over-Time',
     password: process.env.IRON_SESSION_PW as string,
     cookieOptions: {
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 2
+        secure: process.env.NODE_ENV === 'production'
     }
 }
 

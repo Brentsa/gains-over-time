@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
     if(req.method !== "POST") return res.status(405).json({error: 'Incorrect request method.'})
 
     //destructure the account username and password from the request body
-    const {username, password} = req.body;
+    const {username, password, remember} = req.body;
 
     //check if the supplied username is an email or actual username to define the account search parameter for prisma
     const findArgument: FindArgument = {where: isEmail(username) ? {email: username} : {username: username}};
@@ -50,3 +50,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<Data>){
         return res.status(400).json({error: 'Account not created. ' + getPrismaClientError(<PrismaClientKnownRequestError>e)});
     }
 }
+
