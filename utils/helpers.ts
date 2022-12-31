@@ -74,3 +74,8 @@ export function getWeekdayColor(dateString: string): string {
     const date = new Date(dateString);
     return COLORS[date.getDay()];
 }
+
+//calculate the average value from an array of numbers
+export function calculateAverage(numbers: number[]): number {
+    return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / numbers.length;
+}

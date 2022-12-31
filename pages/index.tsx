@@ -11,7 +11,7 @@ import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
 import { useEffect, useState } from 'react';
-import { faCirclePlus, faPenToSquare, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import UpdateExerciseTForm from '../components/forms/UpdateExerciseTForm';
 
 export interface Props {
@@ -40,9 +40,9 @@ export default function Home({user}: Props){
         <TabContent label='Exercise' icon={faPenToSquare}>
           <UpdateExerciseTForm user={user}/>
         </TabContent>
-        <TabContent label='Workout' icon={faCirclePlus}>
+        {/* <TabContent label='Workout' icon={faCirclePlus}>
           <div>Hello 2</div>
-        </TabContent>
+        </TabContent> */}
       </VerticalTabs>
     );
   }
