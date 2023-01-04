@@ -3,6 +3,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"];
+const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"];
 const COLORS = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
 
 //return a prisma client error message from a supplied error object
@@ -67,6 +68,11 @@ export function formatDateFullString(dateString: string): string {
 export function formatDateNumerical(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}
+
+export function formatDateShort(dateString:string): string {
+    const date = new Date(dateString);
+    return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}`;
 }
 
 //return tailwind text color class dependand on the supplied weekday
