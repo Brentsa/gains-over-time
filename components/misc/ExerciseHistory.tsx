@@ -1,40 +1,21 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { calculateAverage, capitalizeAllWords, formatDateNumerical, formatDateShort } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateNumerical } from "../../utils/helpers";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
+import { RepType } from "@prisma/client";
+import ExerciseChart from "./ExerciseChart";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartOptions,
-  ChartData,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+export type GraphType = 'weight' | 'reps' | 'both'
 
 interface Props {
     userId: number
     exerciseTId: number
-}
+    exerciseType: RepType
+};
 
 interface PastExerciseProps {
     exercise: ExerciseFromSWR
-}
+};
 
 function PastExercise({exercise}: PastExerciseProps){
     return exercise ? (
@@ -51,92 +32,25 @@ function PastExercise({exercise}: PastExerciseProps){
     ) : null;
 }
 
-export default function ExerciseHistory({userId, exerciseTId}: Props){
+export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Props){
 
     const {data: allUserExercises} = useSWR<ExerciseFromSWR[]>(`api/exercises/${userId}`);
 
     const [filteredExercises, setFilteredExercises] = useState<ExerciseFromSWR[]>([]);
+    const [graphState, setGraphState] = useState<GraphType>('weight');
 
     useEffect(()=>{
         if(!allUserExercises) return;
-        setFilteredExercises(allUserExercises.filter(exercise => exercise.exerciseTId === exerciseTId));
-    }, [allUserExercises, exerciseTId])
 
-    useEffect(()=>{
-        console.log(filteredExercises);
-    }, [filteredExercises])
+        //set the filtered exercise array with all of the user's exercises with the supplied exercise template ID
+        setFilteredExercises(allUserExercises.filter(exercise => exercise.exerciseTId === exerciseTId));
+    }, [allUserExercises, exerciseTId]);
 
     //if there is no filtered data then do not display the exercise history
     if(filteredExercises.length < 1) return <div>Loading...</div>
-
-    //chart options fed into the line chart
-    const options: ChartOptions<"line"> = {
-        responsive: true,
-        interaction: {
-            mode: 'index',
-            intersect: false,
-        },
-        plugins: {
-            legend: {
-                position: 'bottom' as const,
-            },
-            title: {
-                display: true,
-                text: 'Exercise History',
-            },
-        },
-        scales: {
-            y: {
-              type: 'linear',
-              display: true,
-              title: {
-                display: true,
-                text: 'Weight (lbs)'
-              },
-              position: 'left',
-            },
-            y1: {
-              type: 'linear',
-              display: true,
-              position: 'right',
-              title: {
-                display: true,
-                text: 'Number of Reps'
-              },
-              ticks: {
-                precision: 0
-              },
-              // grid line settings
-              grid: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
-              },
-            }
-        }
-    };
-
-    //chart data fed into the line chart
-    const data: ChartData<'line'> = {
-        labels: filteredExercises.map(exercise => formatDateShort(exercise.createdAt)).reverse(),
-        datasets: [
-            {
-                label: 'Average Reps',
-                data: filteredExercises.map(exercise => calculateAverage(exercise.sets.map(set => set.quantity))).reverse(),
-                borderColor: 'rgb(244, 63, 94)',
-                backgroundColor: 'rgba(244, 63, 94, 0.5)',
-                yAxisID: 'y1'
-            },
-            {
-                label: 'Average Weight',
-                data: filteredExercises.map(exercise => calculateAverage(exercise.sets.map(set => set.weight))).reverse(),
-                borderColor: 'rgb(139, 92, 246)',
-                backgroundColor: 'rgba(139, 92, 246, 0.5)',
-                yAxisID: 'y'
-            },
-        ]
-    };
     
     return (
-        <div className="flex flex-col items-center space-y-2 w-screen">
+        <div className="flex flex-col items-center space-y-4 w-screen">
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
                 {capitalizeAllWords(filteredExercises[0].exerciseT.name)} History
             </h2>
@@ -147,11 +61,15 @@ export default function ExerciseHistory({userId, exerciseTId}: Props){
             </div>
 
             {filteredExercises.length > 1 && 
-                <div style={{width: '100%'}}>
-                    <Line
-                        options={options}
-                        data={data}
-                    />
+                <div className="w-full">
+                    {exerciseType === 'lbs' &&
+                        <div className="flex w-full justify-around">
+                            <button onClick={() => setGraphState('weight')}>Weight</button>
+                            <button onClick={() => setGraphState('reps')}>Reps</button>
+                            <button onClick={() => setGraphState('both')}>Both</button>
+                        </div>
+                    }
+                    <ExerciseChart exercises={filteredExercises} show={graphState}/>
                 </div>
             }
         </div>

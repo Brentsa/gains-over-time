@@ -176,7 +176,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
             }
 
             <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
-                <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId}/>
+                <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
             </Modal>
         </li>
     )
