@@ -63,10 +63,25 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
             {filteredExercises.length > 1 && 
                 <div className="w-full">
                     {exerciseType === 'lbs' &&
-                        <div className="flex w-full justify-around">
-                            <button onClick={() => setGraphState('weight')}>Weight</button>
-                            <button onClick={() => setGraphState('reps')}>Reps</button>
-                            <button onClick={() => setGraphState('both')}>Both</button>
+                        <div className="flex w-full justify-center space-x-4">
+                            <button 
+                                onClick={() => setGraphState('weight')} 
+                                className={`rounded py-2 px-1 w-24 ${graphState === 'weight' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                            >
+                                Weight
+                            </button>
+                            <button 
+                                onClick={() => setGraphState('reps')}
+                                className={`rounded py-2 px-1 w-24 ${graphState === 'reps' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                            >
+                                Reps
+                            </button>
+                            <button 
+                                onClick={() => setGraphState('both')}
+                                className={`rounded py-2 px-1 w-24 ${graphState === 'both' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                            >
+                                Both
+                            </button>
                         </div>
                     }
                     <ExerciseChart exercises={filteredExercises} show={graphState}/>
