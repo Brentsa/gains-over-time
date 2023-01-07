@@ -206,6 +206,7 @@ export default function UpdateExerciseTForm({user}: Props){
                         <option defaultValue='' disabled={!!inputs.type}>Select Rep Type</option>
                         <option value="lbs">Pounds</option>
                         <option value="seconds">Seconds</option>
+                        <option value="bodyWeight">Body Weight</option>
                     </select>
                 </div>
             </div>

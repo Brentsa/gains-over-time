@@ -1,3 +1,4 @@
+import { RepType } from "@prisma/client"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { mutate } from "swr"
 import { Props } from '../../pages/index'
@@ -9,7 +10,7 @@ export interface Inputs {
     muscles: number[]
     targetSets: number | '',
     targetReps: number | '',
-    type: 'lbs' | 'seconds' | ''
+    type: RepType | ''
 }
 
 interface FormFeedback {
@@ -147,6 +148,7 @@ export default function CreateExerciseTForm({user}: Props){
                         <option defaultValue='' disabled={!!inputs.type}>Select Rep Type</option>
                         <option value="lbs">Pounds</option>
                         <option value="seconds">Seconds</option>
+                        <option value="bodyWeight">Body Weight</option>
                     </select>
                 </div>
             </div>

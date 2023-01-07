@@ -76,4 +76,5 @@ model Set {
 enum RepType {
   lbs
   seconds
+  bodyWeight
 }

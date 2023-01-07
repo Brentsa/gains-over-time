@@ -74,10 +74,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
         return setArray;
     }, [exercise.exerciseT, sets.length]);
 
-    function toggleShowTargetSets(){
-        setShowTargetSets(prev => !prev);
-    }
-
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
         
