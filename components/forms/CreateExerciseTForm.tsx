@@ -23,6 +23,7 @@ export default function CreateExerciseTForm({user}: Props){
     const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
     const [resetMuscleSelect, setResetMuscleSelect] = useState<boolean>(false);
 
+    //update the input state of the name and value in the form
     function handleInputSelectChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
         const name = event.target.name;
         const value = event.target.value;
@@ -79,7 +80,11 @@ export default function CreateExerciseTForm({user}: Props){
                 <h2 className="font-bold text-sm sm:text-lg lg:text-xl">
                     Exercise Template
                 </h2>
-                <button type="submit" className='rounded bg-rose-500 text-white p-1 hover:bg-rose-400 px-4'>
+                <button 
+                    type="submit" 
+                    className='rounded px-4 bg-rose-500 text-white p-1 hover:bg-rose-400 disabled:bg-gray-300'
+                    disabled={!inputs.name || !inputs.targetReps || !inputs.targetSets || !inputs.type}
+                >
                     Create
                 </button>
                 {feedback.type &&
