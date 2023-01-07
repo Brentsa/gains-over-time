@@ -32,7 +32,8 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
     async function handleSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
 
-        if(!inputs.weight || !inputs.quantity) return; 
+        //Weight is always required, if the exercise is weight type there has to be a quantity as well
+        if(!inputs.weight || (exercise.exerciseT.type === 'lbs' && !inputs.quantity)) return; 
 
         const response = await fetch(`api/set/update/${set.id}`, {
             method: 'PUT',
