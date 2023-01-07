@@ -30,6 +30,11 @@ interface Props {
 
 export default function ExerciseChart({exercises, show}: Props){
 
+    if(exercises.length < 1) return <div>More exercises required to display chart.</div>;
+
+    //destructure the type of the exercise
+    const {type} = exercises[0].exerciseT;
+
     //return the graph data set based on the shown graph type
     function determineDatasets(){
         const repData = {
@@ -41,7 +46,7 @@ export default function ExerciseChart({exercises, show}: Props){
         }
 
         const weightData = {
-            label: 'Average Weight',
+            label: type === 'seconds' ? 'Average Time (sec)' : 'Average Weight (lbs)',
             data: exercises.map(exercise => calculateAverage(exercise.sets.map(set => set.weight))).reverse(),
             borderColor: 'rgb(139, 92, 246)',
             backgroundColor: 'rgba(139, 92, 246, 0.5)',
@@ -54,7 +59,7 @@ export default function ExerciseChart({exercises, show}: Props){
             case 'weight':
                 return [weightData];
             case 'both': 
-                return [repData, weightData];
+                return [weightData, repData];
         }
     }
 
