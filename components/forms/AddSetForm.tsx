@@ -1,9 +1,7 @@
-import { faSave } from "@fortawesome/free-solid-svg-icons";
 import {ChangeEvent, FormEvent, useState } from "react";
 import { KeyedMutator } from 'swr'
-import Button from "../buttons/Button";
 import { ExerciseFromSWR } from "../tables/ExerciseTable"
-import FormInput from "./FormInput"
+import SetForm from "./SetForm";
 
 interface Props {
     exercise: ExerciseFromSWR | undefined
@@ -11,14 +9,14 @@ interface Props {
     mutate: KeyedMutator<ExerciseFromSWR[]> 
 }
 
-interface Inputs {
+export interface SetInputs {
     quantity: number | '',
     weight: number | ''
 }
 
 export default function AddSetForm({exercise, close, mutate}: Props){
 
-    const [inputs, setInputs] = useState<Inputs>({quantity: '', weight: ''});
+    const [inputs, setInputs] = useState<SetInputs>({quantity: '', weight: ''});
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         const {name, value} = event.target;
@@ -61,39 +59,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
                 Add New Set
             </h2>
-            <form onSubmit={handleSubmit} className="w-10/12">
-                <div className="space-y-2 mb-4">
-                    <FormInput
-                        id="quantity"
-                        name="quantity"
-                        label={exercise.exerciseT.type === "seconds" ? "Seconds:" : "Quantity:"}
-                        value={inputs.quantity}
-                        className="w-full"
-                        onChange={handleInputChange}
-                        type="number"
-                        min={0}
-                    />
-                    {exercise.exerciseT.type === 'lbs' &&
-                        <FormInput
-                            id="weight"
-                            name="weight"
-                            label="Weight:"
-                            value={inputs.weight}
-                            className="w-full"
-                            onChange={handleInputChange}
-                            type="number"
-                            min={0}
-                        />
-                    }
-                </div>
-                <Button 
-                    icon={faSave} 
-                    type="submit" 
-                    label="Save" 
-                    className="w-full" 
-                    disabled={exercise.exerciseT.type === 'lbs' ? !inputs.weight || !inputs.quantity : !inputs.quantity}
-                />
-            </form>
+            <SetForm exercise={exercise} inputs={inputs} handleSubmit={handleSubmit} handleInputChange={handleInputChange}/>
         </div>
     ) : 
     <div>Form could not load.</div>
