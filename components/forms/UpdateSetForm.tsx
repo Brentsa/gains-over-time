@@ -1,6 +1,6 @@
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { Set } from "@prisma/client";
-import { ChangeEvent, Dispatch, FormEvent, FormEventHandler, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "react";
 import Button from "../buttons/Button";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
 import FormInput from "./FormInput";
@@ -32,8 +32,8 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
     async function handleSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
 
-        //Weight is always required, if the exercise is weight type there has to be a quantity as well
-        if(!inputs.weight || (exercise.exerciseT.type === 'lbs' && !inputs.quantity)) return; 
+        //Quantity is always required, if the exercise is lbs type there has to be a weight
+        if(!inputs.quantity || (exercise.exerciseT.type === 'lbs' && !inputs.weight)) return; 
 
         const response = await fetch(`api/set/update/${set.id}`, {
             method: 'PUT',
@@ -46,11 +46,11 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
 
         const updatedSet:Set = await response.json();
 
-        //close the modal and reset the selected set
-        closeModal();
-
         //update the entire set state in the exercise table with the updated set
         setSets(prevSets => prevSets.map(prevSet => prevSet.id === set.id ? {...updatedSet} : prevSet));
+
+        //close the modal and reset the selected set
+        closeModal(); 
     }
 
     return (
@@ -60,35 +60,35 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
             </h2>
             <form onSubmit={handleSubmit} className="w-10/12">
                 <div className="space-y-2 mb-4">
-                    {exercise.exerciseT.type !== 'seconds' &&
+                    <FormInput
+                        id="quantity"
+                        name="quantity"
+                        label={exercise.exerciseT.type === "seconds" ? "Seconds:" : "Quantity:"}
+                        value={inputs.quantity}
+                        className="w-full"
+                        onChange={handleInputChange}
+                        type="number"
+                        min={0}
+                    />
+                    {exercise.exerciseT.type === 'lbs' &&
                         <FormInput
-                            id="quantity"
-                            name="quantity"
-                            label="Quantity:"
-                            value={inputs.quantity}
+                            id="weight"
+                            name="weight"
+                            label="Weight:"
+                            value={inputs.weight}
                             className="w-full"
                             onChange={handleInputChange}
                             type="number"
                             min={0}
                         />
                     }
-                    <FormInput
-                        id="weight"
-                        name="weight"
-                        label={exercise.exerciseT.type === 'seconds' ? 'Seconds:' : "Weight:"}
-                        value={inputs.weight}
-                        className="w-full"
-                        onChange={handleInputChange}
-                        type="number"
-                        min={0}
-                    />
                 </div>
                 <Button 
                     icon={faSave} 
                     type="submit" 
                     label="Save" 
                     className="w-full" 
-                    disabled={exercise.exerciseT.type !== 'seconds' ? !inputs.weight || !inputs.quantity : !inputs.weight}
+                    disabled={exercise.exerciseT.type === 'lbs' ? !inputs.weight || !inputs.quantity : !inputs.quantity}
                 />
             </form>
         </div>

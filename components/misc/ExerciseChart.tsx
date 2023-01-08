@@ -86,7 +86,7 @@ export default function ExerciseChart({exercises, show}: Props){
                       display: true,
                       title: {
                         display: true,
-                        text: 'Weight (lbs)'
+                        text: 'Weight'
                       },
                       position: 'left',
                     },
@@ -96,7 +96,7 @@ export default function ExerciseChart({exercises, show}: Props){
                       position: 'right',
                       title: {
                         display: true,
-                        text: 'Number of Reps'
+                        text: 'Reps'
                       },
                       ticks: {
                         precision: 0

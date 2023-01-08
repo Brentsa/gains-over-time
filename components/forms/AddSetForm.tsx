@@ -34,14 +34,14 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         event.preventDefault();
         
         //return out of the function if there is no exercise ID or either of the inputs are not a number
-        if(!exercise?.id || (inputs.quantity === '' && exercise.exerciseT.type === 'lbs') || inputs.weight === '') return; 
+        if(!exercise?.id || (inputs.weight === '' && exercise.exerciseT.type === 'lbs') || inputs.quantity === '') return; 
 
         const response = await fetch('/api/set/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                quantity: exercise.exerciseT.type === 'lbs' ? inputs.quantity : 0,
-                weight: inputs.weight, 
+                quantity: inputs.quantity, 
+                weight: exercise.exerciseT.type === 'lbs' ? inputs.weight : 0,
                 exerciseId: exercise.id
             })
         })
@@ -63,35 +63,35 @@ export default function AddSetForm({exercise, close, mutate}: Props){
             </h2>
             <form onSubmit={handleSubmit} className="w-10/12">
                 <div className="space-y-2 mb-4">
-                    {exercise.exerciseT.type !== 'seconds' &&
+                    <FormInput
+                        id="quantity"
+                        name="quantity"
+                        label={exercise.exerciseT.type === "seconds" ? "Seconds:" : "Quantity:"}
+                        value={inputs.quantity}
+                        className="w-full"
+                        onChange={handleInputChange}
+                        type="number"
+                        min={0}
+                    />
+                    {exercise.exerciseT.type === 'lbs' &&
                         <FormInput
-                            id="quantity"
-                            name="quantity"
-                            label="Quantity:"
-                            value={inputs.quantity}
+                            id="weight"
+                            name="weight"
+                            label="Weight:"
+                            value={inputs.weight}
                             className="w-full"
                             onChange={handleInputChange}
                             type="number"
                             min={0}
                         />
                     }
-                    <FormInput
-                        id="weight"
-                        name="weight"
-                        label={exercise.exerciseT.type === 'seconds' ? 'Seconds:' : "Weight:"}
-                        value={inputs.weight}
-                        className="w-full"
-                        onChange={handleInputChange}
-                        type="number"
-                        min={0}
-                    />
                 </div>
                 <Button 
                     icon={faSave} 
                     type="submit" 
                     label="Save" 
                     className="w-full" 
-                    disabled={exercise.exerciseT.type !== 'seconds' ? !inputs.weight || !inputs.quantity : !inputs.weight}
+                    disabled={exercise.exerciseT.type === 'lbs' ? !inputs.weight || !inputs.quantity : !inputs.quantity}
                 />
             </form>
         </div>

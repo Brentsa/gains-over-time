@@ -24,7 +24,12 @@ function PastExercise({exercise}: PastExerciseProps){
             <div className="flex space-x-1 sm:space-x-2 overflow-scroll">
                 {exercise.sets.map((set, i) => 
                     <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
-                        {set.quantity ? `${set.quantity} x ${set.weight}` : `${set.weight} sec`}
+                        {set.quantity + ' '}
+                        {exercise.exerciseT.type === 'lbs' ?
+                        `x ${set.weight} lbs`
+                        :
+                        exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'
+                    }
                     </div>
                 )}
             </div>
@@ -37,7 +42,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     const {data: allUserExercises} = useSWR<ExerciseFromSWR[]>(`api/exercises/${userId}`);
 
     const [filteredExercises, setFilteredExercises] = useState<ExerciseFromSWR[]>([]);
-    const [graphState, setGraphState] = useState<GraphType>('weight');
+    const [graphState, setGraphState] = useState<GraphType>(exerciseType === 'lbs' ? 'weight' : 'reps');
 
     useEffect(()=>{
         if(!allUserExercises) return;
