@@ -35,7 +35,7 @@ model Workout {
 
 model ExerciseTemplate {
   id          Int       @id @default(autoincrement())
-  name        String    @unique
+  name        String    
   createdAt   DateTime  @default(now())
   account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   accountId   Int
