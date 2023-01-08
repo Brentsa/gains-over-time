@@ -12,7 +12,8 @@ interface Props {
     type?: string,
     min?: number,
     max?: number,
-    required?: boolean
+    required?: boolean,
+    autofocus?: boolean
 }
 
 export default function FormInput(props: Props){
@@ -36,6 +37,7 @@ export default function FormInput(props: Props){
                 max={props?.max}
                 required={props?.required}
                 disabled={props?.disabled}
+                autoFocus={props?.autofocus}
             />
         </div>
     );

@@ -26,6 +26,7 @@ export default function SetForm({inputs, exercise, handleSubmit, handleInputChan
                     onChange={handleInputChange}
                     type="number"
                     min={0}
+                    autofocus
                 />
                 {exercise.exerciseT.type === 'lbs' &&
                     <FormInput
