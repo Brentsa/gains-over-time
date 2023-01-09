@@ -61,20 +61,18 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
             style={editable ? {transform: `rotate(${rotationDeg}deg)`} : undefined}
         >
             <button 
-                className={`h-full w-full rounded-full flex flex-col sm:flex-row items-center justify-center px-3 hover:cursor-pointer hover:bg-violet-400`}
+                className={`h-full w-full rounded-full flex flex-col items-center justify-center px-4 hover:cursor-pointer hover:bg-violet-400`}
                 onClick={handleSetClick}
                 disabled={!editable}
             >
                 <h3 className="text-sm z-10 whitespace-nowrap">
-                    {set.quantity}
+                    {`${set.quantity} ${setType !== 'lbs' && setType === 'seconds' ? 'sec' : 'reps'}`}
                 </h3>
-                <h3 className="text-sm z-10 whitespace-nowrap sm:ml-1">
-                    {setType === 'lbs' ?
-                        ` x ${set.weight} lbs`
-                        :
-                        setType === 'seconds' ? 'sec' : 'reps'
-                    }
-                </h3>
+                {setType === 'lbs' &&
+                    <h3 className="text-sm z-10 whitespace-nowrap sm:ml-1">
+                        {`${set.weight} lbs`}
+                    </h3>
+                }
             </button>
             {editable && 
                 <button 
