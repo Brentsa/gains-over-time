@@ -1,27 +1,34 @@
 import { faChevronDown, faChevronUp, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEventHandler, useState } from "react";
+import { ExerciseTemplate } from "@prisma/client";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import { capitalizeAllWords } from "../../utils/helpers";
 import DropdownItem from "./DropdownItem";
 
 interface Props {
-    children: JSX.Element[],
-    value: string | number | readonly string[] | undefined,
-    onChange: any
+    dropdownItems: ExerciseTemplate[]
 }
 
-export default function DropdownList({children, value, onChange}: Props){
+export default function DropdownList({dropdownItems}: Props){
 
     const [open, setOpen] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>('');
+    const [search, setSearch] = useState<string>('');
+
+    function handleSearchChange(event: ChangeEvent<HTMLInputElement>){
+        setSearch(event.target.value)
+        console.log(search);
+    }
+
+    useEffect(()=>{
+        if(!open) setSearch('');
+    }, [open])
 
     return (
         <div className="relative select-none">
             <div
                 id="exercise-template-select"
-                //name="exercise"
                 className={`flex justify-between items-center rounded w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10`}
-                // value={value}
-                // onChange={onChange}
                 onClick={()=>setOpen(prev => !prev)}
             >
                 {selected || 'Select Exercise'}
@@ -35,10 +42,24 @@ export default function DropdownList({children, value, onChange}: Props){
                             className="w-full border-none outline-none focus:ring-0"
                             type="text" 
                             placeholder="Enter Exercise Name"
+                            value={search}
+                            onChange={handleSearchChange}
                         />
                     </div>
-                    {/* <DropdownItem defaultValue={0} value={0}>Select Exercise</DropdownItem> */}
-                    {children}
+                    {dropdownItems
+                        .filter(exercise => exercise.name.includes(search.toLowerCase()))
+                        .map((exercise, id) => 
+                            <DropdownItem 
+                                key={id} 
+                                value={exercise.id}
+                                name={exercise.name}
+                                setSelected={setSelected}
+                                setOpen={setOpen}
+                            >
+                                {capitalizeAllWords(exercise.name)} - {exercise.targetSets} x {exercise.targetReps}
+                            </DropdownItem>
+                        )
+                    }
                 </ul>
             }
         </div>

@@ -58,10 +58,10 @@ export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedEx
 
 //     const [selectedExerciseId, setSelectedExerciseId] = useState<number>(0);
 
-//     function handleSelectChange(event: ChangeEvent<HTMLSelectElement>): void{
-//         event.preventDefault();
-//         setSelectedExerciseId(parseInt(event.target.value));
-//     }
+//     // function handleSelectChange(event: ChangeEvent<HTMLSelectElement>): void{
+//     //     event.preventDefault();
+//     //     setSelectedExerciseId(parseInt(event.target.value));
+//     // }
 
 //     useEffect(() => {
 //         if(!selectedExerciseId){
@@ -82,19 +82,7 @@ export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedEx
 //                 New Exercise:
 //             </label>
 //             <div className="w-full">
-//                 <DropdownList
-//                     value={selectedExerciseId}
-//                     onChange={handleSelectChange}
-//                 >
-//                     {exerciseTemplates.map((exercise, id) => 
-//                         <DropdownItem 
-//                             key={id} 
-//                             value={exercise.id}
-//                         >
-//                             {capitalizeAllWords(exercise.name)} - {exercise.targetSets} x {exercise.targetReps}
-//                         </DropdownItem>)
-//                     }
-//                 </DropdownList>
+//                 <DropdownList dropdownItems={exerciseTemplates}/>
 //             </div>
 //         </div>
 //     )
