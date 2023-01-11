@@ -1,9 +1,10 @@
 import { faChevronDown, faChevronUp, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEventHandler, useState } from "react";
+import DropdownItem from "./DropdownItem";
 
 interface Props {
-    children: any,
+    children: JSX.Element[],
     value: string | number | readonly string[] | undefined,
     onChange: any
 }
@@ -11,18 +12,19 @@ interface Props {
 export default function DropdownList({children, value, onChange}: Props){
 
     const [open, setOpen] = useState<boolean>(false);
+    const [selected, setSelected] = useState<string>('');
 
     return (
         <div className="relative select-none">
             <div
                 id="exercise-template-select"
                 //name="exercise"
-                className={`flex justify-between items-center rounded w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm`}
+                className={`flex justify-between items-center rounded w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10`}
                 // value={value}
                 // onChange={onChange}
                 onClick={()=>setOpen(prev => !prev)}
             >
-                Select Exercise
+                {selected || 'Select Exercise'}
                 <FontAwesomeIcon icon={!open ? faChevronDown : faChevronUp}/>
             </div>
             {open &&
@@ -35,6 +37,7 @@ export default function DropdownList({children, value, onChange}: Props){
                             placeholder="Enter Exercise Name"
                         />
                     </div>
+                    {/* <DropdownItem defaultValue={0} value={0}>Select Exercise</DropdownItem> */}
                     {children}
                 </ul>
             }
