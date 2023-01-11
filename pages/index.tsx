@@ -101,10 +101,10 @@ export default function Home({user}: Props){
               <div className='col-span-1'>
                 <div className='sticky top-24 space-y-4'>
                   <Paper>
-                    {renderVerticalTabs()}
+                    <AddExerciseForm user={user}/>
                   </Paper>
                   <Paper>
-                    <AddExerciseForm user={user}/>
+                    {renderVerticalTabs()}
                   </Paper>
                 </div>
               </div>

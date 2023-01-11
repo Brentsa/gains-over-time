@@ -1,6 +1,8 @@
 import { ExerciseTemplate } from "@prisma/client";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { capitalizeAllWords } from "../../utils/helpers";
+import DropdownItem from "../utilities/DropdownItem";
+import DropdownList from "../utilities/DropdownList";
 
 interface Props{
     exerciseTemplates: ExerciseTemplate[],
@@ -47,6 +49,13 @@ export default function ExerciseTemplateSelect({exerciseTemplates, setSelectedEx
                     <option defaultValue={0} value={0}>Select Exercise</option>
                     {exerciseTemplates.map((exercise, id) => <option key={id} value={exercise.id}>{capitalizeAllWords(exercise.name)} - {exercise.targetSets} x {exercise.targetReps}</option>)}
                 </select>
+                {/* <DropdownList
+                    value={selectedExerciseId}
+                    onChange={handleSelectChange}
+                >
+                    <DropdownItem defaultValue={0} value={0}>Select Exercise</DropdownItem>
+                    {exerciseTemplates.map((exercise, id) => <DropdownItem key={id} value={exercise.id}>{capitalizeAllWords(exercise.name)} - {exercise.targetSets} x {exercise.targetReps}</DropdownItem>)}
+                </DropdownList> */}
             </div>
         </div>
     )
