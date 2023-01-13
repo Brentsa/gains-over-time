@@ -1,30 +1,28 @@
+import { ExerciseTemplate } from "@prisma/client";
 import { Dispatch, SetStateAction } from "react"
-import { capitalizeAllWords } from "../../utils/helpers"
 
 interface Props {
-    children: any,
-    name: string,
-    setSelected: Dispatch<SetStateAction<string>>,
-    setOpen: Dispatch<SetStateAction<boolean>>,
-    value: string | number | readonly string[] | undefined,
-    defaultValue?: string | number | readonly string[] | undefined
+    children: JSX.Element,
+    exercise: ExerciseTemplate
+    setSelected: Dispatch<SetStateAction<ExerciseTemplate | undefined>>,
+    setOpen: Dispatch<SetStateAction<boolean>>
+    active: boolean
 }
 
-export default function DropdownItem(props: Props){
+export default function DropdownItem({children, exercise, setSelected, setOpen, active}: Props){
 
     function handleClick(){
-        props.setSelected(capitalizeAllWords(props.name))
-        props.setOpen(false);
+        setSelected(exercise);
+        setOpen(false);
     }
     
     return (
         <li
-            className="px-2 py-1 hover:bg-rose-400"
-            value={props.value} 
-            defaultValue={props?.defaultValue}
+            className={`px-2 py-1 ${active ? 'bg-rose-500 text-white' : 'hover:bg-rose-200'} `}
+            value={exercise.id} 
             onClick={handleClick}
         >
-            {props.children}
+            {children}
         </li>
     )
 }

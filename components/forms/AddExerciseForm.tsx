@@ -2,10 +2,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FormEvent, useEffect, useState } from 'react';
 import { Props } from '../../pages/index'
 import Button from '../buttons/Button';
-import ExerciseTemplateSelect from "./ExerciseTemplateSelect";
 import { ExerciseTemplate } from "@prisma/client";
 import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
+import DropdownList from '../utilities/DropdownList';
 
 export default function AddExerciseForm({user}: Props){
 
@@ -49,8 +49,20 @@ export default function AddExerciseForm({user}: Props){
 
     return (
         <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2 gap-y-2 sm:gap-y-0">
-            <ExerciseTemplateSelect exerciseTemplates={data} setSelectedExercise={setSelectedExercise} className="col-span-12 sm:col-span-7" reset={reset}/>
-            <Button label='Add' type='submit' icon={faPlus} iconRight className="col-span-12 sm:col-span-3" disabled={!selectedExercise}/>
+            <DropdownList 
+                className="w-full col-span-12 sm:col-span-7"
+                state={selectedExercise}
+                dropdownItems={data}
+                updateState={setSelectedExercise}
+            />
+            <Button 
+                className="col-span-12 sm:col-span-3"
+                label='Add' 
+                type='submit' 
+                icon={faPlus} 
+                iconRight  
+                disabled={!selectedExercise}
+            />
         </form>
     )
 }
