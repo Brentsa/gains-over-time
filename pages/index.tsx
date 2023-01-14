@@ -57,7 +57,7 @@ export default function Home({user}: Props){
 
       <main>
         <Navbar user={user}/>
-        <section className='container pt-0 sm:pt-4'>
+        <section className='container pb-4 pt-0 sm:pt-4'>
           {showOnMobile ?
             <div className='flex flex-col'>
               <div className='basis-1/3'>
@@ -108,7 +108,6 @@ export default function Home({user}: Props){
                   </Paper>
                 </div>
               </div>
-
               <div className='col-span-2'>
                 <Paper>
                   <ExerciseTable user={user}/>

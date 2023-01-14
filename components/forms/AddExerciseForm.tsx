@@ -48,15 +48,15 @@ export default function AddExerciseForm({user}: Props){
     if(!data) return <div>Loading...</div>
 
     return (
-        <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2 gap-y-2 sm:gap-y-0">
+        <form onSubmit={handleSubmit} className="grid grid-cols-10 gap-x-2 gap-y-2 sm:gap-y-0 lg:gap-y-2 xl:gap-y-0">
             <DropdownList 
-                className="w-full col-span-12 sm:col-span-7"
+                className="w-full col-span-12 sm:col-span-7 lg:col-span-12 xl:col-span-7"
                 state={selectedExercise}
                 dropdownItems={data}
                 updateState={setSelectedExercise}
             />
             <Button 
-                className="col-span-12 sm:col-span-3"
+                className="col-span-12 sm:col-span-3 lg:col-span-12 xl:col-span-3"
                 label='Add' 
                 type='submit' 
                 icon={faPlus} 
