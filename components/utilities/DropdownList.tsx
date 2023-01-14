@@ -59,9 +59,9 @@ export default function DropdownList({dropdownItems, state, updateState, classNa
                                     setOpen={setOpen}
                                     active={state?.id === exercise.id}
                                 >
-                                    <div className="w-full flex justify-between items-center">
-                                        <p>{capitalizeAllWords(exercise.name)}</p>
-                                        <p className="text-sm">{exercise.targetSets} x {exercise.targetReps} reps</p>
+                                    <div className="w-full flex justify-between items-center overflow-hidden">
+                                        <p className="whitespace-nowrap text-sm">{capitalizeAllWords(exercise.name)}</p>
+                                        <p className="whitespace-nowrap text-xs">{exercise.targetSets} x {exercise.targetReps} reps</p>
                                     </div>
                                 </DropdownItem>
                             )
