@@ -59,20 +59,28 @@ export function capitalizeAllWords(string: string): string {
     return newString;
 }
 
-//format a given date string in this format Day String 
+//eg. "January 1, 2022"
 export function formatDateFullString(dateString: string): string {
     const date = new Date(dateString);
     return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+//eg. "01/01/2022"
 export function formatDateNumerical(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
 
+//eg. "Jan 1"
 export function formatDateShort(dateString:string): string {
     const date = new Date(dateString);
     return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}`;
+}
+
+//eg. "Jan 1, 2022"
+export function formatDateShortMonth(dateString:string): string {
+    const date = new Date(dateString);
+    return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 //return tailwind text color class dependand on the supplied weekday

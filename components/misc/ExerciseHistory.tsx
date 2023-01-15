@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { capitalizeAllWords, formatDateNumerical } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateShortMonth } from "../../utils/helpers";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
 import { RepType } from "@prisma/client";
 import ExerciseChart from "./ExerciseChart";
@@ -19,16 +19,16 @@ interface PastExerciseProps {
 
 function PastExercise({exercise}: PastExerciseProps){
     return exercise ? (
-        <div className="flex flex-col sm:flex-row pb-1 border-b-2 border-rose-300 last:border-none">
-            <h2 className="w-28">{formatDateNumerical(exercise.createdAt)}</h2>
-            <div className="flex space-x-1 sm:space-x-2 overflow-scroll">
+        <div className="flex flex-col">
+            <h2 className="text-xs pl-4 border-b-2 border-rose-500">{formatDateShortMonth(exercise.createdAt)}</h2>
+            <div className="flex p-1 space-x-1 sm:space-x-2 overflow-scroll bg-gray-300 shadow-inner rounded-b">
                 {exercise.sets.map((set, i) => 
                     <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
                         {set.quantity + ' '}
                         {exercise.exerciseT.type === 'lbs' ?
-                        `x ${set.weight} lbs`
+                        <><span className="text-xs">x</span> {set.weight}<span className="text-xs">lbs</span></>
                         :
-                        exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'
+                        <span className="text-xs">{exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'}</span>
                     }
                     </div>
                 )}
@@ -55,35 +55,35 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     if(filteredExercises.length < 1) return <div>Loading...</div>
     
     return (
-        <div className="flex flex-col items-center space-y-4 w-screen">
-            <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
+        <div className="flex flex-col items-center w-full">
+            <h2 className="font-bold w-full mb-3 pr-6 sm:text-lg lg:text-xl border-b-4 border-violet-400">
                 {capitalizeAllWords(filteredExercises[0].exerciseT.name)} History
             </h2>
-            <div className="flex flex-col space-y-1 w-full">
+            <div className="flex flex-col space-y-2 w-full">
                 <PastExercise exercise={filteredExercises[0]}/>
                 <PastExercise exercise={filteredExercises[1]}/>
                 <PastExercise exercise={filteredExercises[2]}/>
             </div>
 
             {filteredExercises.length > 1 && 
-                <div className="w-full">
+                <div className="w-full mt-6">
                     {exerciseType === 'lbs' &&
                         <div className="flex w-full justify-center space-x-4">
                             <button 
                                 onClick={() => setGraphState('weight')} 
-                                className={`rounded py-2 px-1 w-24 ${graphState === 'weight' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                                className={`rounded p-1 w-24 ${graphState === 'weight' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
                             >
                                 Weight
                             </button>
                             <button 
                                 onClick={() => setGraphState('reps')}
-                                className={`rounded py-2 px-1 w-24 ${graphState === 'reps' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                                className={`rounded p-1 w-24 ${graphState === 'reps' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
                             >
                                 Reps
                             </button>
                             <button 
                                 onClick={() => setGraphState('both')}
-                                className={`rounded py-2 px-1 w-24 ${graphState === 'both' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
+                                className={`rounded p-1 w-24 ${graphState === 'both' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
                             >
                                 Both
                             </button>
