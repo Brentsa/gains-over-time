@@ -22,16 +22,19 @@ function PastExercise({exercise}: PastExerciseProps){
         <div className="flex flex-col">
             <h2 className="text-xs pl-4 border-b-2 border-rose-500">{formatDateShortMonth(exercise.createdAt)}</h2>
             <div className="flex p-1 space-x-1 sm:space-x-2 overflow-scroll bg-gray-300 shadow-inner rounded-b">
-                {exercise.sets.map((set, i) => 
-                    <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
-                        {set.quantity + ' '}
-                        {exercise.exerciseT.type === 'lbs' ?
-                        <><span className="text-xs">x</span> {set.weight}<span className="text-xs">lbs</span></>
-                        :
-                        <span className="text-xs">{exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'}</span>
-                    }
-                    </div>
-                )}
+                {exercise.sets.length > 0 ?
+                    exercise.sets.map((set, i) => 
+                        <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
+                            {set.quantity + ' '}
+                            {exercise.exerciseT.type === 'lbs' ?
+                                <><span className="text-xs">x</span> {set.weight}<span className="text-xs">lbs</span></>
+                                :
+                                <span className="text-xs">{exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'}</span>
+                            }
+                        </div>)
+                    :
+                    <div className="h-5"/>
+                }
             </div>
         </div>
     ) : null;
@@ -65,7 +68,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
                 <PastExercise exercise={filteredExercises[2]}/>
             </div>
 
-            {filteredExercises.length > 1 && 
+            {filteredExercises.length > 1 && filteredExercises[length].sets.length > 0 &&
                 <div className="w-full mt-6">
                     {exerciseType === 'lbs' &&
                         <div className="flex w-full justify-center space-x-4">
