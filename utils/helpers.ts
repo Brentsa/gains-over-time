@@ -4,7 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"];
 const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"];
-const COLORS = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+const COLORS = ["red", "orange", "gold", "green", "blue", "indigo", "violet"];
 
 //return a prisma client error message from a supplied error object
 export function getPrismaClientError(error:  PrismaClientKnownRequestError): string {
@@ -45,7 +45,6 @@ export function capitalizeFirstChar(string: string): string {
 
 //capitalize the first letter of each word in a string
 export function capitalizeAllWords(string: string): string {
-
     //Assign a new string with the very first character capitalized
     let newString = capitalizeFirstChar(string);
 
