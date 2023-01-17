@@ -90,6 +90,8 @@ export function getWeekdayColor(dateString: string): string {
 
 //calculate and return the number of days from today
 export function daysFromToday(dateString: string): number {
+    console.log(dateString);
+
     let date = new Date(dateString);
     date.setMilliseconds(0);
     date.setSeconds(0);
@@ -101,6 +103,8 @@ export function daysFromToday(dateString: string): number {
     today.setSeconds(0);
     today.setMinutes(0);
     today.setHours(0);
+
+    console.log(date, today);
 
     //determine the absolute value of the ms difference between today and the supplied date
     const dateDiff = Math.abs(today.getTime() - date.getTime()); 
