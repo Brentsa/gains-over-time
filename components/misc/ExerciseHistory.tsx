@@ -20,7 +20,7 @@ interface PastExerciseProps {
 function PastExercise({exercise}: PastExerciseProps){
 
     //store the difference between the exercise date and today
-    const daysAgo:number = daysFromToday(exercise.createdAt);
+    const daysAgo:number = daysFromToday(exercise.createdAt) ?? 0;
 
     return exercise ? (
         <div className="flex flex-col">
