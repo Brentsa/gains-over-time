@@ -88,6 +88,26 @@ export function getWeekdayColor(dateString: string): string {
     return COLORS[date.getDay()];
 }
 
+//calculate and return the number of days from today
+export function daysFromToday(dateString: string): number {
+    let date = new Date(dateString);
+    date.setMilliseconds(0);
+    date.setSeconds(0);
+    date.setMinutes(0);
+    date.setHours(0);
+
+    let today = new Date; 
+    today.setMilliseconds(0);
+    today.setSeconds(0);
+    today.setMinutes(0);
+    today.setHours(0);
+
+    //determine the absolute value of the ms difference between today and the supplied date
+    const dateDiff = Math.abs(today.getTime() - date.getTime()); 
+    
+    return Math.round(dateDiff / (1000 * 60 * 60 * 24));
+}
+
 //calculate the average value from an array of numbers
 export function calculateAverage(numbers: number[]): number {
     return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / numbers.length;
