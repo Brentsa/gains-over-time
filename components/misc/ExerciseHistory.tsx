@@ -19,18 +19,11 @@ interface PastExerciseProps {
 
 function PastExercise({exercise}: PastExerciseProps){
 
-    console.log(exercise.createdAt);
-
-    //store the difference between the exercise date and today
-    const daysAgo:number = daysFromToday(exercise.createdAt) ?? 0;
-
-    console.log(daysAgo);
-
     return exercise ? (
         <div className="flex flex-col">
             <h2 className="text-xs px-2 border-b-2 border-rose-500 flex justify-between">
-                <p>{formatDateShortMonth(exercise.createdAt)}</p> 
-                <p>{daysAgo > 0 && `${daysAgo} days ago`}</p>
+                <p>{formatDateShortMonth(exercise?.createdAt)}</p> 
+                <p>{daysFromToday(exercise?.createdAt) > 0 && `${daysFromToday(exercise.createdAt)} days ago`}</p>
             </h2>
             <div className="flex p-1 space-x-1 sm:space-x-2 overflow-scroll bg-gray-300 shadow-inner rounded-b">
                 {exercise.sets.length > 0 ?
