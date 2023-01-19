@@ -2,6 +2,8 @@ import { RepType } from "@prisma/client"
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import { mutate } from "swr"
 import { userContext } from '../../pages/index'
+import { capitalizeAllWords } from "../../utils/helpers"
+import { feedbackContext } from "../MainPageContent"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
 
@@ -13,17 +15,12 @@ export interface Inputs {
     type: RepType | ''
 }
 
-interface FormFeedback {
-    type: 'success' | 'failure' | '',
-    message: string
-}
-
 export default function CreateExerciseTForm(){
 
     const user = useContext(userContext);
+    const {setFeedback} = useContext(feedbackContext);
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
-    const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
     const [resetMuscleSelect, setResetMuscleSelect] = useState<boolean>(false);
 
     //update the input state of the name and value in the form
@@ -53,29 +50,20 @@ export default function CreateExerciseTForm(){
             body: JSON.stringify(createBody)
         })
 
-        if(!response.ok){
-            return setFeedback({type: 'failure', message: 'Exercise template creation was unsuccessful.'});
-        }
+        if(!response.ok) return setFeedback('Exercise template creation was unsuccessful.');
 
         const data = await response.json();
 
         //set a feedback success message, reset the form inputs, and trigger a reset for the muscle select component
-        setFeedback({type: 'success', message: `${data.name} exercise template created!`});
         setInputs({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
         setResetMuscleSelect(true);
 
         //update the add exercise select list when a new template is created
         mutate(`api/exercise-templates/${user?.id}`);
+
+        //set a successful feedback message
+        setFeedback(`${capitalizeAllWords(data.name)} template created!`);
     }
-
-    useEffect(() => {
-        if(!feedback.type) return; 
-
-        //if there is feedback set, reset it after 5 seconds
-        setTimeout(() => {
-            setFeedback({type: '', message: ''});
-        }, 5000);
-    }, [feedback.type])
 
     return (
         <form className="grid grid-cols-1 pl-2 lg:pl-4 gap-y-3" onSubmit={submitForm}>
@@ -90,11 +78,6 @@ export default function CreateExerciseTForm(){
                 >
                     Create
                 </button>
-                {feedback.type &&
-                    <h2 className={`font-bold text-lg ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                        {feedback.message}
-                    </h2>
-                }
             </div>
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-2">

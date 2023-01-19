@@ -3,14 +3,10 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import useSWR from "swr"
 import { userContext } from '../../pages/index'
 import { capitalizeAllWords } from "../../utils/helpers"
+import { feedbackContext } from "../MainPageContent"
 import { Inputs } from "./CreateExerciseTForm"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
-
-interface FormFeedback {
-    type: 'success' | 'failure' | '',
-    message: string
-}
 
 //create a type safe object of exercise template with muscles included
 const exerciseTemplateWithMuscles = Prisma.validator<Prisma.ExerciseTemplateArgs>()({
@@ -23,6 +19,7 @@ export type ExerciseTemplateWithMuscles = Prisma.ExerciseTemplateGetPayload<type
 export default function UpdateExerciseTForm(){
 
     const user = useContext(userContext);
+    const {setFeedback} = useContext(feedbackContext);
 
     //retrieve the user's exercise templates
     const {data: exerciseTemplates, mutate} = useSWR<ExerciseTemplateWithMuscles[]>(`api/exercise-templates/${user?.id}`);
@@ -30,7 +27,6 @@ export default function UpdateExerciseTForm(){
     const [selectedExerciseTId, setSelectedExerciseTId] = useState(0);
     const [muscleArray, setMuscleArray] = useState<Omit<Muscle, 'createdAt'>[]>([])
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
-    const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});
     const [resetSelect, setResetSelect] = useState<boolean>(false);
 
     function handleExerciseTSelect(event: ChangeEvent<HTMLSelectElement>): void {
@@ -73,27 +69,19 @@ export default function UpdateExerciseTForm(){
             body: JSON.stringify(createBody)
         })
 
-        if(!response.ok) return setFeedback({type: 'failure', message: 'Exercise template update was unsuccessful.'});
+        if(!response.ok) return setFeedback('Exercise template update was unsuccessful.');
 
         const data = await response.json();
-
-        //set a feedback success message
-        setFeedback({type: 'success', message: `${data.name} exercise template updated!`});
 
         //reset the form inputs
         resetFormInputs();
 
         //mutate the SWR call to refresh the exercise template data
         mutate();
+
+        //set a feedback success message
+        setFeedback(`${capitalizeAllWords(data.name)} template updated!`);
     }
-
-    //when a feedback message is added, reset it in 5 seconds
-    useEffect(() => {
-        if(!feedback.type) return; 
-
-        //if there is feedback set, reset it after 5 seconds
-        setTimeout(() => setFeedback({type: '', message: ''}), 5000);
-    }, [feedback.type]);
 
     useEffect(()=>{
         //exit the function if the templates haven't loaded or if there is no selected template
@@ -126,11 +114,6 @@ export default function UpdateExerciseTForm(){
                 >
                     Update
                 </button>
-                {feedback.type &&
-                    <h2 className={`font-bold text-base ${feedback.type === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                        {feedback.message}
-                    </h2>
-                }
             </div>
 
             <div className="grid grid-cols-12 gap-x-4 gap-y-2">

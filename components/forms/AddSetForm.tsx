@@ -53,9 +53,6 @@ export default function AddSetForm({exercise, close, mutate}: Props){
 
         if(!response.ok) return;
 
-        //return feedback to the user
-        setFeedback('New set logged!');
-
         //revalidate the useSWR data
         mutate();
 
@@ -71,6 +68,9 @@ export default function AddSetForm({exercise, close, mutate}: Props){
 
         //after completion close the form containing modal
         close();
+
+        //return feedback to the user
+        setFeedback('New set logged!');
     }
     
 

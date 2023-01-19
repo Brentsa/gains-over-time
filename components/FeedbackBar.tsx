@@ -6,7 +6,7 @@ export default function FeedbackBar(){
     const {feedback, setFeedback} = useContext(feedbackContext);
 
     useEffect(() => {
-        if(feedback) setTimeout(() => setFeedback(''), 4000);
+        if(feedback) setTimeout(() => setFeedback(''), 3000);
     }, [feedback, setFeedback])
 
     return (

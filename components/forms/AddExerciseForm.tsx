@@ -6,10 +6,12 @@ import { ExerciseTemplate } from "@prisma/client";
 import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
 import DropdownList from '../utilities/DropdownList';
+import { feedbackContext } from '../MainPageContent';
 
 export default function AddExerciseForm(){
 
     const user = useContext(userContext);
+    const {setFeedback} = useContext(feedbackContext);
 
     const {data, error} = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`, fetcher);
 
@@ -39,6 +41,9 @@ export default function AddExerciseForm(){
 
         //on successful submit, trigger an SWR revalidate for the user's exercises
         mutate(`api/exercises/${user?.id}`);
+
+        //return feedback to the user
+        setFeedback('New exercise added!');
     }
 
     //if reset changes to true, set it back to false
