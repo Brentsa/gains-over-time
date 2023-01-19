@@ -56,7 +56,7 @@ export default function ExerciseTable({user}: Props){
     }, [selectedExerciseId]);
 
     return !error && data ? (
-        <div>
+        <div id="exercise-table">
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>

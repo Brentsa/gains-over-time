@@ -1,4 +1,5 @@
 import {ChangeEvent, FormEvent, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { KeyedMutator } from 'swr'
 import { ExerciseFromSWR } from "../tables/ExerciseTable"
 import SetForm from "./SetForm";
@@ -15,6 +16,9 @@ export interface SetInputs {
 }
 
 export default function AddSetForm({exercise, close, mutate}: Props){
+
+    //determine if the screen is mobile
+    const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
 
     const [inputs, setInputs] = useState<SetInputs>({quantity: '', weight: ''});
 
@@ -48,6 +52,16 @@ export default function AddSetForm({exercise, close, mutate}: Props){
 
         //revalidate the useSWR data
         mutate();
+
+        //move the screen to the top of the page to show the newly created set if on a mobile screen
+        if(isMobile && exercise){ 
+            const yOffset = 100;
+            const lineItem = document.getElementById('exercise-' + exercise.id);
+
+            //calculate the y pixel coordinate to move to
+            const yCoord = lineItem ? lineItem?.getBoundingClientRect().top + window.scrollY - yOffset : 0;
+            window.scrollTo({top: yCoord});
+        }
 
         //after completion close the form containing modal
         close();

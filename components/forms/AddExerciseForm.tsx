@@ -48,7 +48,7 @@ export default function AddExerciseForm({user}: Props){
     if(!data) return <div>Loading...</div>
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row">
+        <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
             <DropdownList 
                 className="basis-full xl:basis-3/4"
                 state={selectedExercise}

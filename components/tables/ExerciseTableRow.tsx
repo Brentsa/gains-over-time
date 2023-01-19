@@ -118,7 +118,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
     }, [exercise.sets]);
 
     return (
-        <li className="flex flex-col">
+        <li className="flex flex-col" id={"exercise-" + exercise.id}>
             <div className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
                 <button className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>

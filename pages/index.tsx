@@ -63,7 +63,7 @@ export default function Home({user}: Props){
               <div className='basis-1/3'>
                 <div className='flex flex-col flex-wrap space-y-4'>
                     <Paper>
-                      <div className='flex justify-around'>
+                      <div className='flex justify-around' id='mobile-state-buttons'>
                         <button 
                           onClick={() => setShowVertTabs(false)} 
                           className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
