@@ -1,7 +1,7 @@
 import { Muscle, Prisma } from "@prisma/client"
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import useSWR from "swr"
-import { Props } from '../../pages/index'
+import { userContext } from '../../pages/index'
 import { capitalizeAllWords } from "../../utils/helpers"
 import { Inputs } from "./CreateExerciseTForm"
 import FormInput from "./FormInput"
@@ -20,7 +20,9 @@ const exerciseTemplateWithMuscles = Prisma.validator<Prisma.ExerciseTemplateArgs
 //define the exercise template with muscles type using prisma get payload
 export type ExerciseTemplateWithMuscles = Prisma.ExerciseTemplateGetPayload<typeof exerciseTemplateWithMuscles>;
 
-export default function UpdateExerciseTForm({user}: Props){
+export default function UpdateExerciseTForm(){
+
+    const user = useContext(userContext);
 
     //retrieve the user's exercise templates
     const {data: exerciseTemplates, mutate} = useSWR<ExerciseTemplateWithMuscles[]>(`api/exercise-templates/${user?.id}`);

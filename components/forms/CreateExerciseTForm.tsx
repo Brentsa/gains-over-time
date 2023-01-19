@@ -1,7 +1,7 @@
 import { RepType } from "@prisma/client"
-import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import { mutate } from "swr"
-import { Props } from '../../pages/index'
+import { userContext } from '../../pages/index'
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
 
@@ -18,7 +18,9 @@ interface FormFeedback {
     message: string
 }
 
-export default function CreateExerciseTForm({user}: Props){
+export default function CreateExerciseTForm(){
+
+    const user = useContext(userContext);
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});
     const [feedback, setFeedback] = useState<FormFeedback>({type: '', message: ''});

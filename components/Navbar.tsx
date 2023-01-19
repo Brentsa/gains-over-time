@@ -1,9 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
 import LogoutButton from './buttons/LogoutButton';
-import { Props } from '../pages/index';
+import { userContext } from '../pages/index';
+import { useContext } from 'react';
 
-export default function Navbar({user}: Props){
+export default function Navbar(){
+
+    const user = useContext(userContext);
 
     return (
         <nav className="bg-white shadow z-50 static lg:sticky top-0">

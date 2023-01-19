@@ -4,23 +4,27 @@ import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 import Navbar from '../components/Navbar';
 import Paper from '../components/utilities/Paper'
-import VerticalTabs from '../components/utilities/VerticalTabs';
-import TabContent from '../components/utilities/TabContent';
-import CreateExerciseTForm from '../components/forms/CreateExerciseTForm';
 import AddExerciseForm from '../components/forms/AddExerciseForm';
 import ExerciseTable from '../components/tables/ExerciseTable';
 import { useMediaQuery } from 'react-responsive';
-import { useEffect, useState } from 'react';
-import { faCirclePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import UpdateExerciseTForm from '../components/forms/UpdateExerciseTForm';
+import { createContext, useEffect, useState } from 'react';
+import RenderVerticalTabs from '../components/RenderVerticalTabs';
 
-export interface Props {
-  user? : Omit<Account, 'password' | 'createdAt'>
+type User = Omit<Account, 'password' | 'createdAt'>
+
+interface Props {
+  user? : User
 }
 
-export default function Home({user}: Props){
+export const userContext = createContext<User | undefined>({
+  id: 0, 
+  email: '', 
+  firstName: '', 
+  lastName: '', 
+  username: ''
+});
 
-  console.log(user);
+export default function Home({user}: Props){
 
   const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
 
@@ -31,93 +35,67 @@ export default function Home({user}: Props){
     setShowOnMobile(isMobile);
   }, [isMobile])
 
-  function renderVerticalTabs(){
-    return (
-      <VerticalTabs>
-        <TabContent label='Exercise' icon={faCirclePlus}>
-          <CreateExerciseTForm user={user}/>
-        </TabContent>
-        <TabContent label='Exercise' icon={faPenToSquare}>
-          <UpdateExerciseTForm user={user}/>
-        </TabContent>
-        {/* <TabContent label='Workout' icon={faCirclePlus}>
-          <div>Hello 2</div>
-        </TabContent> */}
-      </VerticalTabs>
-    );
-  }
-
   return (
-    <div>
-      <Head>
-        <title>Gains Over Time</title>
-        <meta name="description" content="Track your workout progess over time." />
-        <link rel="icon" href="/favicon.ico"/>
-      </Head>
+    <userContext.Provider value={user}>
+      <div>
+        <Head>
+          <title>Gains Over Time</title>
+          <meta name="description" content="Track your workout progess over time." />
+          <link rel="icon" href="/favicon.ico"/>
+        </Head>
 
-      <main>
-        <Navbar user={user}/>
-        <section className='container pb-4 pt-0 sm:pt-4'>
-          {showOnMobile ?
-            <div className='flex flex-col'>
-              <div className='basis-1/3'>
-                <div className='flex flex-col flex-wrap space-y-4'>
-                    <Paper>
-                      <div className='flex justify-around' id='mobile-state-buttons'>
-                        <button 
-                          onClick={() => setShowVertTabs(false)} 
-                          className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
-                        >
-                          Exercise List
-                        </button>
-                        <button 
-                          onClick={() => setShowVertTabs(true)} 
-                          className={showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
-                        >
-                          Modify Exercises
-                        </button>
-                      </div>
-                    </Paper>
-                    {showVertTabs 
-                      ? 
-                        <Paper>
-                          {renderVerticalTabs()}
-                        </Paper>
-                      :
-                        <>
-                          <Paper className='sticky top-0 z-20'>
-                            <AddExerciseForm user={user}/>
-                          </Paper>
-                          <Paper className='w-full'>
-                            <ExerciseTable user={user}/>
-                          </Paper>
-                        </>
-                    }
-                  </div>
-              </div>
-            </div>
-            :
-            <div className='grid grid-cols-3 gap-4'>
-              <div className='col-span-1'>
-                <div className='sticky top-24 space-y-4'>
-                  <Paper>
-                    <AddExerciseForm user={user}/>
-                  </Paper>
-                  <Paper>
-                    {renderVerticalTabs()}
-                  </Paper>
+        <main>
+          <Navbar/>
+          <section className='container pb-4 pt-0 sm:pt-4'>
+            {showOnMobile ?
+              <div className='flex flex-col'>
+                <div className='basis-1/3'>
+                  <div className='flex flex-col flex-wrap space-y-4'>
+                      <Paper>
+                        <div className='flex justify-around' id='mobile-state-buttons'>
+                          <button 
+                            onClick={() => setShowVertTabs(false)} 
+                            className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                          >
+                            Exercise List
+                          </button>
+                          <button 
+                            onClick={() => setShowVertTabs(true)} 
+                            className={showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                          >
+                            Modify Exercises
+                          </button>
+                        </div>
+                      </Paper>
+                      {showVertTabs 
+                        ? 
+                          <Paper><RenderVerticalTabs/></Paper>
+                        :
+                          <>
+                            <Paper className='sticky top-0 z-20'><AddExerciseForm/></Paper>
+                            <Paper className='w-full'><ExerciseTable/></Paper>
+                          </>
+                      }
+                    </div>
                 </div>
               </div>
-              <div className='col-span-2'>
-                <Paper>
-                  <ExerciseTable user={user}/>
-                </Paper>
+              :
+              <div className='grid grid-cols-3 gap-4'>
+                <div className='col-span-1'>
+                  <div className='sticky top-24 space-y-4'>
+                    <Paper><AddExerciseForm/></Paper>
+                    <Paper><RenderVerticalTabs/></Paper>
+                  </div>
+                </div>
+                <div className='col-span-2'>
+                  <Paper><ExerciseTable/></Paper>
+                </div>
               </div>
-            </div>
-          }
-        </section>
-      </main>
-    </div>
+            }
+          </section>
+        </main>
+      </div>
+    </userContext.Provider>
   );
 }
 

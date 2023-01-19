@@ -1,13 +1,15 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FormEvent, useEffect, useState } from 'react';
-import { Props } from '../../pages/index'
+import { FormEvent, useContext, useEffect, useState } from 'react';
+import { userContext } from '../../pages/index'
 import Button from '../buttons/Button';
 import { ExerciseTemplate } from "@prisma/client";
 import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
 import DropdownList from '../utilities/DropdownList';
 
-export default function AddExerciseForm({user}: Props){
+export default function AddExerciseForm(){
+
+    const user = useContext(userContext);
 
     const {data, error} = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`, fetcher);
 

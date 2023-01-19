@@ -1,10 +1,10 @@
 import useSWR from "swr";
-import { Props } from "../../pages";
+import { userContext } from "../../pages";
 import fetcher from "../../utils/swrFetcher";
 import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilities/Modal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 
 export interface ExerciseFromSWR{
@@ -16,7 +16,9 @@ export interface ExerciseFromSWR{
     sets: Set[]
 }
 
-export default function ExerciseTable({user}: Props){
+export default function ExerciseTable(){
+
+    const user = useContext(userContext);
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
