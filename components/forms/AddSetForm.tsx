@@ -1,6 +1,7 @@
-import {ChangeEvent, FormEvent, useState } from "react";
+import {ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { KeyedMutator } from 'swr'
+import { feedbackContext } from "../MainPageContent";
 import { ExerciseFromSWR } from "../tables/ExerciseTable"
 import SetForm from "./SetForm";
 
@@ -16,6 +17,8 @@ export interface SetInputs {
 }
 
 export default function AddSetForm({exercise, close, mutate}: Props){
+
+    const {setFeedback} = useContext(feedbackContext);
 
     //determine if the screen is mobile
     const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
@@ -49,6 +52,9 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         })
 
         if(!response.ok) return;
+
+        //return feedback to the user
+        setFeedback('New set logged!');
 
         //revalidate the useSWR data
         mutate();
