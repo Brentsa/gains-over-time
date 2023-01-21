@@ -23,7 +23,6 @@ export default function AddExerciseForm(){
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>){
         event.preventDefault();
-        console.log(selectedExercise);
 
         if(!selectedExercise?.id || !user?.id) return;
 
@@ -33,7 +32,8 @@ export default function AddExerciseForm(){
             body: JSON.stringify({exerciseTId: selectedExercise.id, accountId: user.id})
         })
 
-        if(!response.ok) return;
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Exercise was not added'});
 
         //reset the state associated with this form and trigger a reset for the select menu
         setSelectedExercise(undefined);
@@ -43,7 +43,7 @@ export default function AddExerciseForm(){
         mutate(`api/exercises/${user?.id}`);
 
         //return feedback to the user
-        setFeedback('New exercise added!');
+        setFeedback({type: 'success', message: 'New exercise added'});
     }
 
     //if reset changes to true, set it back to false

@@ -1,5 +1,6 @@
 import { Set } from "@prisma/client";
-import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useState } from "react";
+import { feedbackContext } from "../MainPageContent";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
 import { SetInputs } from "./AddSetForm";
 import SetForm from "./SetForm";
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export default function UpdateSetForm({set, exercise, closeModal, setSets}: Props){
+
+    const {setFeedback} = useContext(feedbackContext);
 
     const [inputs, setInputs] = useState<SetInputs>({quantity: set.quantity, weight: set.weight});
 
@@ -35,8 +38,8 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
             body: JSON.stringify(inputs)
         });
 
-        //if the response is not ok break out of the function
-        if(!response.ok) return;
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Set update was unsuccessful.'});
 
         const updatedSet:Set = await response.json();
 
@@ -45,6 +48,9 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
 
         //close the modal and reset the selected set
         closeModal(); 
+
+        //notify the user that the update was successful
+        setFeedback({type: 'success', message: 'Set updated successfully.'});
     }
 
     return (

@@ -50,7 +50,8 @@ export default function CreateExerciseTForm(){
             body: JSON.stringify(createBody)
         })
 
-        if(!response.ok) return setFeedback('Exercise template creation was unsuccessful.');
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Template could not be created'});
 
         const data = await response.json();
 
@@ -62,7 +63,7 @@ export default function CreateExerciseTForm(){
         mutate(`api/exercise-templates/${user?.id}`);
 
         //set a successful feedback message
-        setFeedback(`${capitalizeAllWords(data.name)} template created!`);
+        setFeedback({type: 'success', message: `${capitalizeAllWords(data.name)} template created!`});
     }
 
     return (

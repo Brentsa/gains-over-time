@@ -54,22 +54,20 @@ export default function UpdateExerciseTForm(){
         //if there is no selected exercise template, break out of the submit function
         if(!selectedExerciseTId) return; 
 
-        //create a body for the api call
-        const createBody = {
-            ...inputs, 
-            accountId: user?.id, 
-            name: inputs.name.trim().toLowerCase(),
-            targetSets: parseInt(inputs.targetSets as string), 
-            targetReps: parseInt(inputs.targetReps as string)
-        };
-
         const response = await fetch(`/api/exercise-template/update/${selectedExerciseTId}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(createBody)
+            body: JSON.stringify({
+                ...inputs, 
+                accountId: user?.id, 
+                name: inputs.name.trim().toLowerCase(),
+                targetSets: parseInt(inputs.targetSets as string), 
+                targetReps: parseInt(inputs.targetReps as string) 
+            })
         })
 
-        if(!response.ok) return setFeedback('Exercise template update was unsuccessful.');
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Template update was unsuccessful.'});
 
         const data = await response.json();
 
@@ -80,7 +78,7 @@ export default function UpdateExerciseTForm(){
         mutate();
 
         //set a feedback success message
-        setFeedback(`${capitalizeAllWords(data.name)} template updated!`);
+        setFeedback({type: 'success', message: `${capitalizeAllWords(data.name)} template updated!`});
     }
 
     useEffect(()=>{

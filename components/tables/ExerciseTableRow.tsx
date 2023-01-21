@@ -1,5 +1,5 @@
 import { faAnglesLeft, faCaretLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Dispatch, MouseEvent, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
 import { capitalizeAllWords, formatDateFullString, getWeekdayColor } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
@@ -12,6 +12,7 @@ import { Set } from "@prisma/client";
 import UpdateSetForm from "../forms/UpdateSetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExerciseHistory from "../misc/ExerciseHistory";
+import { feedbackContext } from "../MainPageContent";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -20,11 +21,14 @@ interface Props {
 
 export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Props){
 
+    const {setFeedback} = useContext(feedbackContext);
+
     //state variables to handle set pill rendering
     const [sets, setSets] = useState<Set[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
 
     const [showButtons, setShowButtons] = useState<boolean>(false);
+    const [viewExerciseHistory, setViewExerciseHistory] = useState<boolean>(false);
 
     //state that determines if the sets in the row can be altered
     const [editRow, setEditRow] = useState<boolean>(false);
@@ -32,8 +36,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
     const [selectedSet, setSelectedSet] = useState<Set | null>(null);
-
-    const [viewExerciseHistory, setViewExerciseHistory] = useState<boolean>(false);
 
     useEffect(() => {
         if(!selectedSet) return; 
@@ -92,10 +94,14 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
             method: 'DELETE'
         });
 
-        if(!response.ok) return;
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Exercise could not be deleted.'});
 
         //if the delete request is ok, trigger exercise swr revalidation
         mutate(`api/exercises/${exercise.accountId}`);
+
+        //Provide feedback to the use indicating the exercise has been deleted
+        setFeedback({type: 'success', message: 'Exercise was deleted'});
     }
 
     function triggerEdit(event: MouseEvent<HTMLButtonElement>){

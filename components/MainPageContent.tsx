@@ -11,19 +11,27 @@ interface Props {
 }
 
 interface Feedback {
-    feedback: string,
-    setFeedback: Dispatch<SetStateAction<string>>
+    message: string,
+    type: '' | 'success' | 'failure'
 }
 
-export const feedbackContext = createContext<Feedback>({
-    feedback: '',
+interface FeedbackPackage {
+    feedback: Feedback,
+    setFeedback: Dispatch<SetStateAction<Feedback>>
+}
+
+export const feedbackContext = createContext<FeedbackPackage>({
+    feedback: {
+        message: '',
+        type: '',
+    },
     setFeedback: () => {}
 });
 
 export default function MainPageContent({showOnMobile}: Props){
 
     const [showVertTabs, setShowVertTabs] = useState(false);
-    const [feedback, setFeedback] = useState<string>('')
+    const [feedback, setFeedback] = useState<Feedback>({message: '', type: ''})
 
     return (
         <feedbackContext.Provider value={{feedback, setFeedback}}>

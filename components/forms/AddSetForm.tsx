@@ -51,7 +51,8 @@ export default function AddSetForm({exercise, close, mutate}: Props){
             })
         })
 
-        if(!response.ok) return;
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Set was not saved'});
 
         //revalidate the useSWR data
         mutate();
@@ -70,7 +71,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         close();
 
         //return feedback to the user
-        setFeedback('New set logged!');
+        setFeedback({type: 'success', message: 'New set logged'});
     }
     
 
