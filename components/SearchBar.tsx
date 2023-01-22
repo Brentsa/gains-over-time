@@ -1,7 +1,6 @@
 import { faCircleXmark, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, Dispatch, SetStateAction, useContext, useEffect, useRef } from "react";
-import FormInput from "./forms/FormInput";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext } from "react";
 import { searchContext } from "./MainPageContent";
 
 interface Props {
@@ -16,6 +15,12 @@ export default function SearchBar({setSearch}: Props){
         setSearch(event.target.value);
     }
 
+    //blur the search bar if the form is submitted
+    function handleSubmit(event: FormEvent<HTMLFormElement>){
+        event.preventDefault();
+        document.getElementById('search-bar')?.blur();
+    }
+
     //clear the global search state
     function clearSearch(){
         setSearch('');
@@ -25,7 +30,7 @@ export default function SearchBar({setSearch}: Props){
         <div 
             className="relative w-full h-full mb-2"
         >
-            <form className="w-full" onSubmit={(event) => event.preventDefault()}>
+            <form className="w-full" onSubmit={handleSubmit}>
                 <label htmlFor="search-bar" className="sr-only ">Search Bar</label>
                 <input
                     id="search-bar"
