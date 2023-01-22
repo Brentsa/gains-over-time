@@ -32,8 +32,8 @@ export default function SearchBar({setSearch}: Props){
                     name={'search'}
                     value={search}
                     onChange={handleChange}
-                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
-                    placeholder="Exercise Table Search"
+                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
+                    placeholder="Filter Exercise Table"
                 />
             </div>
             <div className="absolute top-0 right-0 z-20 p-2 pr-3 h-full flex items-center text-xl">

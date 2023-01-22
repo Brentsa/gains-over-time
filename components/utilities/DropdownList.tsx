@@ -31,11 +31,11 @@ export default function DropdownList({dropdownItems, state, updateState, classNa
             <>
                 <div
                     id="exercise-template-select"
-                    className={`flex justify-between items-center ${open ? 'rounded-t': 'rounded'} w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10`}
+                    className={`flex justify-between items-center ${open ? 'rounded-t': 'rounded'} w-full px-3 py-2 border border-gray-300 ${state?.name ? 'text-black' : 'text-gray-500'} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10`}
                     onClick={()=>setOpen(prev => !prev)}
                 >
-                    {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise'}
-                    <FontAwesomeIcon className="text-xl" icon={!open ? faChevronDown : faChevronUp}/>
+                    {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise To Record'}
+                    <FontAwesomeIcon className="text-xl text-black" icon={!open ? faChevronDown : faChevronUp}/>
                 </div>
                 {open &&
                     <ul className="absolute rounded-b w-full border border-t-0 border-gray-300 bg-white z-50 max-h-96 overflow-scroll hover:cursor-pointer shadow-xl">
