@@ -3,6 +3,7 @@ import FeedbackBar from "./FeedbackBar";
 import AddExerciseForm from "./forms/AddExerciseForm";
 import Navbar from "./Navbar";
 import RenderVerticalTabs from "./RenderVerticalTabs";
+import SearchBar from "./SearchBar";
 import ExerciseTable from "./tables/ExerciseTable";
 import Paper from "./utilities/Paper";
 
@@ -28,13 +29,17 @@ export const feedbackContext = createContext<FeedbackPackage>({
     setFeedback: () => {}
 });
 
+export const searchContext = createContext<string>('');
+
 export default function MainPageContent({showOnMobile}: Props){
 
     const [showVertTabs, setShowVertTabs] = useState(false);
-    const [feedback, setFeedback] = useState<Feedback>({message: '', type: ''})
+    const [feedback, setFeedback] = useState<Feedback>({message: '', type: ''});
+    const [search, setSearch] = useState('');
 
     return (
         <feedbackContext.Provider value={{feedback, setFeedback}}>
+        <searchContext.Provider value={search}>
             <main>
                 <Navbar/>
                 <section className='container pb-4 pt-0 sm:pt-4'>
@@ -59,7 +64,10 @@ export default function MainPageContent({showOnMobile}: Props){
                                     <Paper><RenderVerticalTabs/></Paper>
                                     :
                                     <>
-                                        <Paper className='sticky top-0 z-20'><AddExerciseForm/></Paper>
+                                        <Paper className='sticky top-0 z-30 flex flex-col'>
+                                            <SearchBar setSearch={setSearch}/>
+                                            <AddExerciseForm/>
+                                        </Paper>
                                         <Paper className='w-full'><ExerciseTable/></Paper>
                                     </>
                                 }
@@ -70,7 +78,10 @@ export default function MainPageContent({showOnMobile}: Props){
                         <div className='grid grid-cols-3 gap-4'>
                             <div className='col-span-1'>
                                 <div className='sticky top-24 space-y-4'>
-                                    <Paper><AddExerciseForm/></Paper>
+                                    <Paper className="flex flex-col">
+                                        <SearchBar setSearch={setSearch}/>
+                                        <AddExerciseForm/>
+                                    </Paper>
                                     <Paper><RenderVerticalTabs/></Paper>
                                 </div>
                             </div>
@@ -82,6 +93,7 @@ export default function MainPageContent({showOnMobile}: Props){
                 </section>
                 <FeedbackBar/>
             </main>
+        </searchContext.Provider>
         </feedbackContext.Provider>
     )
 }

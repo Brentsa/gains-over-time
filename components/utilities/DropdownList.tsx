@@ -35,7 +35,7 @@ export default function DropdownList({dropdownItems, state, updateState, classNa
                     onClick={()=>setOpen(prev => !prev)}
                 >
                     {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise'}
-                    <FontAwesomeIcon icon={!open ? faChevronDown : faChevronUp}/>
+                    <FontAwesomeIcon className="text-xl" icon={!open ? faChevronDown : faChevronUp}/>
                 </div>
                 {open &&
                     <ul className="absolute rounded-b w-full border border-t-0 border-gray-300 bg-white z-50 max-h-96 overflow-scroll hover:cursor-pointer shadow-xl">

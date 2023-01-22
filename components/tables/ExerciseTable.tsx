@@ -6,6 +6,7 @@ import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilities/Modal";
 import { useContext, useEffect, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
+import { searchContext } from "../MainPageContent";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -19,6 +20,7 @@ export interface ExerciseFromSWR{
 export default function ExerciseTable(){
 
     const user = useContext(userContext);
+    const search = useContext(searchContext);
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
@@ -64,7 +66,10 @@ export default function ExerciseTable(){
             </Modal>
             <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
-                {data.map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)}
+                {data
+                    .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
+                    .map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)
+                }
             </ul> 
         </div>  
     ): <div>Exercises could not load.</div>;
