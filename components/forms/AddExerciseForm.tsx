@@ -13,7 +13,7 @@ export default function AddExerciseForm(){
     const user = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
 
-    const {data, error} = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`, fetcher);
+    const {data, error } = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`, fetcher);
 
     //state to hold the data of the currently selected exercise template
     const [selectedExercise, setSelectedExercise] = useState<ExerciseTemplate | undefined>(undefined);
@@ -52,7 +52,12 @@ export default function AddExerciseForm(){
     }, [reset])
 
     if(!user?.id || error) return <div>Error loading exercises.</div>
-    if(!data) return <div>Loading...</div>
+    
+    if(!data){
+        return (
+            <div>Loading...</div>
+        );
+    }
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
