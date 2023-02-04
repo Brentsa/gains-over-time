@@ -50,12 +50,22 @@ export default function AddExerciseForm(){
     useEffect(() => {
         if(reset) return setReset(false);
     }, [reset])
-
-    if(!user?.id || error) return <div>Error loading exercises.</div>
     
+    //return a loading or error placeholder while the data is still being pulled
     if(!data){
         return (
-            <div>Loading...</div>
+            <div className="flex flex-col xl:flex-row">
+                <div className='appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 text-gray-500'>
+                    {!user?.id || error ? 'Error loading exercises.': 'Loading...'}
+                </div>
+                <Button 
+                    className="basis-full xl:basis-1/4 mt-2 xl:mt-0 xl:ml-2"
+                    label='Add'
+                    icon={faPlus} 
+                    iconRight  
+                    disabled
+                />
+            </div>
         );
     }
 
