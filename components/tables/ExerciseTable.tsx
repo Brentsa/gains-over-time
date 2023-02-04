@@ -7,6 +7,7 @@ import Modal from "../utilities/Modal";
 import { useContext, useEffect, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 import { searchContext } from "../MainPageContent";
+import LoadingTableRow from "./LoadingTableRow";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -59,7 +60,37 @@ export default function ExerciseTable(){
         openModal();
     }, [selectedExerciseId]);
 
-    return !error && data ? (
+    //return shimmering rows if the exercise data is loading
+    if(!data){
+        return (
+            <div>
+                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+                <LoadingTableRow/>
+            </div>
+        );
+    }
+
+    //return error message in the table if the data was not fetched
+    if(error){
+        return (
+            <div>
+                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+                <div className="p-4">There was an erorr. Exercises could not load.</div>
+                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+            </div>
+        )
+    }
+
+    return (
         <div id="exercise-table">
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
@@ -72,5 +103,5 @@ export default function ExerciseTable(){
                 }
             </ul> 
         </div>  
-    ): <div>Exercises could not load.</div>;
+    );
 }
