@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta name="description" content="Track your workout progess over time." />
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="320x320" href='/public/icons/Logo_320.png' />
         <link rel='manifest' href='/manifest.json' />
       </Head>
       <Component {...pageProps} />

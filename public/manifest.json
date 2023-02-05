@@ -7,19 +7,19 @@
     "scope": "/",
     "icons": [
         {
-            "src": "/icons/logo_32.png",
+            "src": "icons/logo_32.png",
             "type": "image/png",
             "sizes": "32x32",
             "purpose": "any"
         },
         {
-            "src": "/icons/logo_320.png",
+            "src": "icons/logo_320.png",
             "type": "image/png",
             "sizes": "320x320",
             "purpose": "any"
         },
         {
-            "src": "/icons/logo_512.png",
+            "src": "icons/logo_512.png",
             "type": "image/png",
             "sizes": "512x512",
             "purpose": "any"
