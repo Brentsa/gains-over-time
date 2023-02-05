@@ -9,17 +9,20 @@
         {
             "src": "icons/logo_32.png",
             "type": "image/png",
-            "sizes": "32x32"
+            "sizes": "32x32",
+            "purpose": "any"
         },
         {
             "src": "icons/logo_320.png",
             "type": "image/png",
-            "sizes": "320x320"
+            "sizes": "320x320",
+            "purpose": "any"
         },
         {
             "src": "icons/logo_512.png",
             "type": "image/png",
-            "sizes": "512x512"
+            "sizes": "512x512",
+            "purpose": "any"
         }
     ],
     "theme_color": "#f3f4f6",
