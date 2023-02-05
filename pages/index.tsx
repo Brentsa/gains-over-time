@@ -35,10 +35,7 @@ export default function Home({user}: Props){
       <div>
         <Head>
           <title>Gains Over Time</title>
-          <meta name="description" content="Track your workout progess over time." />
-          <link rel="icon" href="/favicon.ico"/>
         </Head>
-
         <MainPageContent showOnMobile={showOnMobile}/>
       </div>
     </userContext.Provider>

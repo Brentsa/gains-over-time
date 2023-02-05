@@ -1,0 +1,27 @@
+{
+    "name": "Gains Over Time",
+    "short_name": "GOT",
+    "description": "Progressive web app that allows the user to track and analyse their workout progression over time",
+    "display": "fullscreen",
+    "start_url": "/",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "icons/logo_32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "icons/logo_320.png",
+            "type": "image/png",
+            "sizes": "320x320"
+        },
+        {
+            "src": "icons/logo_512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "theme_color": "#f3f4f6",
+    "background_color": "#f3f4f6"
+}
