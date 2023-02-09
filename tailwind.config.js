@@ -7,6 +7,17 @@ module.exports = {
   theme: {
     container: {
       center: true
+    },
+    extend: {
+      keyframes: ({theme}) => ({
+        fadeIn: {
+          '0%': {backgroundColor: theme("colors.transparent")},
+          '100%': {backgroundColor: "rgba(107, 114, 128, 0.5)"}
+        }
+      }),
+      animation: {
+        'fade-in-modal': 'fadeIn 0.15s ease-in-out forwards'
+      }
     }
   },
   plugins: [
