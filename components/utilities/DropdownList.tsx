@@ -22,6 +22,15 @@ export default function DropdownList({dropdownItems, state, updateState, classNa
         setSearch(event.target.value)
     }
 
+    //Compare exercise names for exercise template sorting
+    function compareExercises(e1: ExerciseTemplate, e2: ExerciseTemplate){
+        const name1 = e1.name.toLowerCase();
+        const name2 = e2.name.toLowerCase();
+
+        //sort names alphabetically in desc order
+        return name1 > name2 ? 1 : -1; 
+    }
+
     useEffect(()=>{
         if(!open) setSearch('');
     }, [open])
@@ -51,6 +60,7 @@ export default function DropdownList({dropdownItems, state, updateState, classNa
                         </div>
                         {dropdownItems
                             .filter(exercise => exercise.name.toLowerCase().includes(search.toLowerCase()))
+                            .sort(compareExercises)
                             .map((exercise, id) => 
                                 <DropdownItem 
                                     key={id} 
