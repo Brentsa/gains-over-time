@@ -64,7 +64,7 @@ export default function MainPageContent({showOnMobile}: Props){
                                     <Paper><RenderVerticalTabs/></Paper>
                                     :
                                     <>
-                                        <Paper className='sticky top-0 z-30 flex flex-col'>
+                                        <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
                                             <SearchBar setSearch={setSearch}/>
                                             <AddExerciseForm/>
                                         </Paper>
@@ -78,7 +78,7 @@ export default function MainPageContent({showOnMobile}: Props){
                         <div className='grid grid-cols-3 gap-4'>
                             <div className='col-span-1'>
                                 <div className='sticky top-24 space-y-4'>
-                                    <Paper className="flex flex-col">
+                                    <Paper className="flex flex-col" id='search-add-box'>
                                         <SearchBar setSearch={setSearch}/>
                                         <AddExerciseForm/>
                                     </Paper>

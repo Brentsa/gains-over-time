@@ -2,7 +2,8 @@
 
 const withPWA = require('next-pwa')({
   dest: 'public',
-  disableDevLogs: true
+  disableDevLogs: true,
+  disable: process.env.NODE_ENV === 'development'
 })
 
 module.exports = withPWA({

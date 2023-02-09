@@ -1,4 +1,4 @@
-import {ChangeEvent, FormEvent, useContext, useState } from "react";
+import {ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { KeyedMutator } from 'swr'
 import { feedbackContext } from "../MainPageContent";
@@ -59,8 +59,10 @@ export default function AddSetForm({exercise, close, mutate}: Props){
 
         //move the screen to the top of the page to show the newly created set if on a mobile screen
         if(isMobile && exercise){ 
-            const yOffset = 100;
             const lineItem = document.getElementById('exercise-' + exercise.id);
+
+            //find the height of add exercise and search box and set it as the offset
+            const yOffset = document.getElementById('search-add-box')?.clientHeight || 0;
 
             //calculate the y pixel coordinate to move to
             const yCoord = lineItem ? lineItem?.getBoundingClientRect().top + window.scrollY - yOffset : 0;
@@ -74,7 +76,6 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         setFeedback({type: 'success', message: 'New set logged'});
     }
     
-
     return exercise ? (
         <div className="w-8/12 flex flex-col justify-around items-center">
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
