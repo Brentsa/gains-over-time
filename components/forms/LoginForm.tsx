@@ -47,7 +47,7 @@ export default function LoginForm(){
     }
     
     return (
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-full flex items-center justify-center py-14 px-4 sm:px-6 lg:px-8">
             <div className="max-w-md w-full space-y-8">
                 <div>
                     <div className="w-100 flex justify-center text-rose-500">
@@ -59,7 +59,7 @@ export default function LoginForm(){
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
                         Or{' '}
-                        <Link href="/register" className="font-medium text-violet-400 hover:text-violet-500">
+                        <Link href="/register" className="font-medium text-violet-500 hover:text-violet-400">
                             register if you are a new user
                         </Link>
                     </p>
@@ -126,7 +126,7 @@ export default function LoginForm(){
                             </div> */}
 
                             <div className="text-sm">
-                                <a href="#" className="font-medium text-violet-400 hover:text-violet-500">
+                                <a href="#" className="font-medium text-violet-500 hover:text-violet-400">
                                     Forgot your password?
                                 </a>
                             </div>
