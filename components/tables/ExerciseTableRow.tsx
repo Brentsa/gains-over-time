@@ -1,7 +1,7 @@
-import { faAnglesLeft, faCaretLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
-import { capitalizeAllWords, formatDateFullString, getWeekdayColor } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateFullString, getWeekdayColor, isSameDate, isToday } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
 import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
@@ -17,9 +17,11 @@ import { feedbackContext } from "../MainPageContent";
 interface Props {
     exercise: ExerciseFromSWR
     setSelectedExerciseId: Dispatch<SetStateAction<number>>
+    bSameDate: boolean
+    index: number
 }
 
-export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Props){
+export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSameDate, index}: Props){
 
     const {setFeedback} = useContext(feedbackContext);
 
@@ -125,14 +127,20 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
 
     return (
         <li className="flex flex-col" id={"exercise-" + exercise.id}>
+            {!bSameDate && 
+                <>
+                    <div className={`${index !== 0 && 'pt-6'} pb-1 text-2xl sm:text-3xl font-semibold w-full`}>
+                        { isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }
+                    </div>
+                    <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
+                </>
+            }
+            
             <div className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
                 <button className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
-                    <p className="font-bold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
+                    <p className="font-semibold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                     <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
-                    <p className="text-sm font-semibold" style={{color: getWeekdayColor(exercise.createdAt)}}>
-                        {formatDateFullString(exercise.createdAt)}
-                    </p>
                 </button>
 
                 <div 
@@ -169,7 +177,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId}: Prop
                 </div>
             </div>
             
-            <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+            {/* <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/> */}
 
             {selectedSet &&
                 <Modal closeModal={closeSetEditModal} open={editSet}>

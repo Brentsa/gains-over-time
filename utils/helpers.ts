@@ -114,3 +114,19 @@ export function daysFromToday(dateString: string): number {
 export function calculateAverage(numbers: number[]): number {
     return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / numbers.length;
 }
+
+//take in two date strings and check if they are the same date
+export function isSameDate(date1: string, date2: string){
+    const d1 = new Date(date1); 
+    const d2 = new Date(date2);
+
+    return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
+}
+
+//check if a supplied date is today
+export function isToday(date: string){
+    const d1 = new Date(date); 
+    const d2 = new Date;
+
+    return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
+}

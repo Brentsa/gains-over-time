@@ -4,10 +4,11 @@ import fetcher from "../../utils/swrFetcher";
 import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilities/Modal";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 import { searchContext } from "../MainPageContent";
 import LoadingTableRow from "./LoadingTableRow";
+import { isSameDate } from "../../utils/helpers";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -31,6 +32,9 @@ export default function ExerciseTable(){
 
     //holds the selected exercise id for modal purposes
     const [selectedExerciseId, setSelectedExerciseId] = useState<number>(0);
+
+    //ref to hold date strings
+    const date = useRef(Date.toString());
 
     //Set modal open state to true
     function openModal(){
@@ -95,11 +99,21 @@ export default function ExerciseTable(){
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
-            <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
             <ul>
                 {data
                     .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
-                    .map((exercise) => <ExerciseTableRow key={exercise.id} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId}/>)
+                    .map((exercise, i) => {
+
+                        //check if the current ref date is the same day as the exercise created date
+                        const bSameDate = isSameDate(date.current, exercise.createdAt);
+
+                        //if they do not match update the current ref to the exercise created date
+                        if(!bSameDate){
+                            date.current = exercise.createdAt;
+                        }
+                        
+                        return <ExerciseTableRow key={i} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
+                    })
                 }
             </ul> 
         </div>  
