@@ -68,14 +68,15 @@ export default function ExerciseTable(){
     if(!data){
         return (
             <div>
-                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+                <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>
+                <div className='w-full h-1 mt-6 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>
-                <LoadingTableRow/>
+                <div className='w-full h-1 mt-6 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>
                 <LoadingTableRow/>

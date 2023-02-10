@@ -138,7 +138,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
             
             <div className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
-                <button className="flex flex-col basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
+                <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
                     <p className="font-semibold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                     <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
                 </button>
