@@ -4,7 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime"
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August","September", "October", "November", "December"];
 const SHORT_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep", "Oct", "Nov", "Dec"];
-const COLORS = ["red", "orange", "gold", "green", "blue", "indigo", "violet"];
+const COLORS = ["#fecaca", "#fed7aa", "#fef08a", "#d9f99d", "#bfdbfe", "#c7d2fe", "#ddd6fe"];
 
 //return a prisma client error message from a supplied error object
 export function getPrismaClientError(error:  PrismaClientKnownRequestError): string {

@@ -126,17 +126,17 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
     }, [exercise.sets]);
 
     return (
-        <li className="flex flex-col" id={"exercise-" + exercise.id}>
+        <li className="flex flex-col">
             {!bSameDate && 
                 <>
-                    <div className={`${index !== 0 && 'pt-8'} text-2xl sm:text-3xl font-semibold w-full`}>
-                        { isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }
+                    <div className={`${index !== 0 && 'pt-8'} text-2xl sm:text-3xl font-semibold w-full sm:w-1/2`}>
+                        <p>{ isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }</p>
                     </div>
                     <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
                 </>
             }
             
-            <div className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
+            <div id={"exercise-" + exercise.id} className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
                 <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
                     <p className="font-semibold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
@@ -176,8 +176,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                     </div>
                 </div>
             </div>
-            
-            {/* <div className='w-full h-0.5 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/> */}
 
             {selectedSet &&
                 <Modal closeModal={closeSetEditModal} open={editSet}>

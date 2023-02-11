@@ -6,9 +6,9 @@ import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilities/Modal";
 import { useContext, useEffect, useRef, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
-import { searchContext } from "../MainPageContent";
 import LoadingTableRow from "./LoadingTableRow";
 import { isSameDate } from "../../utils/helpers";
+import SearchBar from "../SearchBar";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -22,7 +22,8 @@ export interface ExerciseFromSWR{
 export default function ExerciseTable(){
 
     const user = useContext(userContext);
-    const search = useContext(searchContext);
+    //const search = useContext(searchContext);
+    const [search, setSearch] = useState('');
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
@@ -34,7 +35,7 @@ export default function ExerciseTable(){
     const [selectedExerciseId, setSelectedExerciseId] = useState<number>(0);
 
     //ref to hold date strings
-    const date = useRef(Date.toString());
+    const date = useRef('');
 
     //Set modal open state to true
     function openModal(){
@@ -100,18 +101,22 @@ export default function ExerciseTable(){
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
+            
+            <SearchBar search={search} setSearch={setSearch}/>
+    
             <ul>
                 {data
                     .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
-                    .map((exercise, i) => {
+                    .map((exercise, i, array) => {
 
                         //check if the current ref date is the same day as the exercise created date
                         const bSameDate = isSameDate(date.current, exercise.createdAt);
 
                         //if they do not match update the current ref to the exercise created date
-                        if(!bSameDate){
-                            date.current = exercise.createdAt;
-                        }
+                        if(!bSameDate){ date.current = exercise.createdAt; }
+
+                        //reset the date ref on the last array item
+                        if(i + 1 === array.length){ date.current = ''; }
                         
                         return <ExerciseTableRow key={i} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
                     })
