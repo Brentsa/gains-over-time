@@ -129,7 +129,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
         <li className="flex flex-col" id={"exercise-" + exercise.id}>
             {!bSameDate && 
                 <>
-                    <div className={`${index !== 0 && 'pt-6'} pb-1 text-2xl sm:text-3xl font-semibold w-full`}>
+                    <div className={`${index !== 0 && 'pt-8'} text-2xl sm:text-3xl font-semibold w-full`}>
                         { isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }
                     </div>
                     <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>

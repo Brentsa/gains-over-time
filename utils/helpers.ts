@@ -112,7 +112,12 @@ export function daysFromToday(dateString: string): number {
 
 //calculate the average value from an array of numbers
 export function calculateAverage(numbers: number[]): number {
-    return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / numbers.length;
+    return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0)/numbers.length;
+}
+
+//calculate the total sum from an array of numbers
+export function calculateSum(numbers: number[]): number {
+    return numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0); 
 }
 
 //take in two date strings and check if they are the same date

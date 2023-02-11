@@ -1,4 +1,4 @@
-import { calculateAverage, formatDateShort } from '../../utils/helpers';
+import { calculateAverage, calculateSum, formatDateShort } from '../../utils/helpers';
 import { ExerciseFromSWR } from '../tables/ExerciseTable';
 import { GraphType } from './ExerciseHistory';
 import { Line } from 'react-chartjs-2';
@@ -38,15 +38,15 @@ export default function ExerciseChart({exercises, show}: Props){
     //return the graph data set based on the shown graph type
     function determineDatasets(){
         const repData = {
-            label: 'Average Reps',
-            data: exercises.map(exercise => calculateAverage(exercise.sets.map(set => set.quantity))).reverse(),
+            label: 'Total Reps',
+            data: exercises.map(exercise => calculateSum(exercise.sets.map(set => set.quantity))).reverse(),
             borderColor: 'rgb(244, 63, 94)',
             backgroundColor: 'rgba(244, 63, 94, 0.5)',
-            yAxisID: 'y1'
+            yAxisID: show === 'reps' ? 'y' : 'y1'
         }
 
         const weightData = {
-            label: type === 'seconds' ? 'Average Time (sec)' : 'Average Weight (lbs)',
+            label: type === 'seconds' ? 'Average Time (sec)' : 'Average Weight',
             data: exercises.map(exercise => calculateAverage(exercise.sets.map(set => set.weight))).reverse(),
             borderColor: 'rgb(139, 92, 246)',
             backgroundColor: 'rgba(139, 92, 246, 0.5)',
@@ -80,31 +80,43 @@ export default function ExerciseChart({exercises, show}: Props){
                         text: 'Exercise History',
                     },
                 },
-                scales: show !== 'both' ? undefined : {
+                scales: show !== 'both' 
+                ? {
                     y: {
-                      type: 'linear',
-                      display: true,
-                      title: {
+                        type: 'linear',
                         display: true,
-                        text: 'Weight'
-                      },
-                      position: 'left',
+                        title: {
+                            display: true,
+                            text: show === 'weight' ? 'Weight (lbs)' : 'Reps (qty)'
+                        },
+                        position: 'left'
+                    }
+                }
+                : {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Weight (lbs)'
+                        },
+                        position: 'left',
                     },
                     y1: {
-                      type: 'linear',
-                      display: true,
-                      position: 'right',
-                      title: {
+                        type: 'linear',
                         display: true,
-                        text: 'Reps'
-                      },
-                      ticks: {
-                        precision: 0
-                      },
-                      // grid line settings
-                      grid: {
-                        drawOnChartArea: false, // only want the grid lines for one axis to show up
-                      },
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text:  'Reps (Qty)'
+                        },
+                        ticks: {
+                            precision: 0
+                        },
+                        // grid line settings
+                        grid: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
                     }
                 } 
             }}
