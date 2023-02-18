@@ -187,8 +187,8 @@ export default function UpdateExerciseTForm(){
                         disabled={!selectedExerciseTId}
                     >
                         <option defaultValue='' disabled={!!inputs.type}>Select Rep Type</option>
-                        <option value="lbs">Pounds</option>
-                        <option value="seconds">Seconds</option>
+                        <option value="lbs">Weight (lbs)</option>
+                        <option value="seconds">Time (sec)</option>
                         <option value="bodyWeight">Body Weight</option>
                         <option value='levels'>Levels</option>
                     </select>
