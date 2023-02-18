@@ -190,6 +190,7 @@ export default function UpdateExerciseTForm(){
                         <option value="lbs">Pounds</option>
                         <option value="seconds">Seconds</option>
                         <option value="bodyWeight">Body Weight</option>
+                        <option value='levels'>Levels</option>
                     </select>
                 </div>
             </div>

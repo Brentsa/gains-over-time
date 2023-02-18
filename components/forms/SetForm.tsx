@@ -28,11 +28,11 @@ export default function SetForm({inputs, exercise, handleSubmit, handleInputChan
                     min={0}
                     autofocus
                 />
-                {exercise.exerciseT.type === 'lbs' &&
+                {(exercise.exerciseT.type === 'lbs' || exercise.exerciseT.type === 'levels') &&
                     <FormInput
                         id="weight"
                         name="weight"
-                        label="Weight:"
+                        label={exercise.exerciseT.type === 'lbs' ? "Weight:" : "Level:"}
                         value={inputs.weight}
                         className="w-full"
                         onChange={handleInputChange}

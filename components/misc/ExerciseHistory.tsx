@@ -32,8 +32,14 @@ function PastExercise({exercise}: PastExerciseProps){
                     exercise.sets.map((set, i) => 
                         <div key={i} className="bg-violet-500 text-white rounded-full px-2 whitespace-nowrap">
                             {set.quantity + ' '}
-                            {exercise.exerciseT.type === 'lbs' ?
-                                <><span className="text-xs">x</span> {set.weight}<span className="text-xs">lbs</span></>
+                            {exercise.exerciseT.type === 'lbs' || exercise.exerciseT.type === 'levels' ?
+                                <>
+                                    {exercise.exerciseT.type === 'lbs' ?
+                                        <><span className="text-xs">x </span>{set.weight}<span className="text-xs">lbs</span></>
+                                        :
+                                        <><span className="text-xs">x lvl </span>{set.weight}</>
+                                    }
+                                </>
                                 :
                                 <span className="text-xs">{exercise.exerciseT.type === 'seconds' ? 'sec' : 'reps'}</span>
                             }
@@ -51,7 +57,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     const {data: allUserExercises} = useSWR<ExerciseFromSWR[]>(`api/exercises/${userId}`);
 
     const [filteredExercises, setFilteredExercises] = useState<ExerciseFromSWR[]>([]);
-    const [graphState, setGraphState] = useState<GraphType>(exerciseType === 'lbs' ? 'weight' : 'reps');
+    const [graphState, setGraphState] = useState<GraphType>(exerciseType === 'lbs' || exerciseType === 'levels' ? 'weight' : 'reps');
 
     useEffect(()=>{
         if(!allUserExercises) return;
@@ -78,13 +84,13 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
 
             {filteredExercises.length > 1 && filteredExercises.slice().reverse()[1].sets.length > 0 &&
                 <div className="w-full mt-6">
-                    {exerciseType === 'lbs' &&
-                        <div className="flex w-full justify-center space-x-4">
+                    {exerciseType === 'lbs' || exerciseType === 'levels' &&
+                        <div className="flex w-full justify-center space-x-4 mb-2">
                             <button 
                                 onClick={() => setGraphState('weight')} 
                                 className={`rounded p-1 w-24 ${graphState === 'weight' ? 'bg-rose-500 text-white' : 'text-gray-700 border-2 border-rose-500 hover:bg-gray-100'}`}
                             >
-                                Weight
+                                {exerciseType === 'levels' ? 'Level' : 'Weight'}
                             </button>
                             <button 
                                 onClick={() => setGraphState('reps')}

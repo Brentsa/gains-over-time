@@ -1,5 +1,5 @@
 import { RepType } from "@prisma/client"
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import { mutate } from "swr"
 import { userContext } from '../../pages/index'
 import { capitalizeAllWords } from "../../utils/helpers"
@@ -135,6 +135,7 @@ export default function CreateExerciseTForm(){
                         <option value="lbs">Pounds</option>
                         <option value="seconds">Seconds</option>
                         <option value="bodyWeight">Body Weight</option>
+                        <option value='levels'>Levels</option>
                     </select>
                 </div>
             </div>

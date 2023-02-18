@@ -46,7 +46,7 @@ export default function ExerciseChart({exercises, show}: Props){
         }
 
         const weightData = {
-            label: type === 'seconds' ? 'Average Time (sec)' : 'Average Weight',
+            label: type === 'seconds' ? 'Average Time (sec)' : `Average ${type === 'lbs' ? 'Weight' : 'Level'}`,
             data: exercises.map(exercise => calculateAverage(exercise.sets.map(set => set.weight))).reverse(),
             borderColor: 'rgb(139, 92, 246)',
             backgroundColor: 'rgba(139, 92, 246, 0.5)',
@@ -87,8 +87,11 @@ export default function ExerciseChart({exercises, show}: Props){
                         display: true,
                         title: {
                             display: true,
-                            text: show === 'weight' ? 'Weight (lbs)' : 'Reps (qty)'
+                            text: show === 'weight' 
+                                ? type === 'lbs' ? 'Weight (lbs)' : 'Level'
+                                : 'Reps (qty)'
                         },
+                        ticks: type === 'levels' ? { precision: 0 } : undefined,
                         position: 'left'
                     }
                 }
@@ -98,8 +101,9 @@ export default function ExerciseChart({exercises, show}: Props){
                         display: true,
                         title: {
                             display: true,
-                            text: 'Weight (lbs)'
+                            text: type === 'lbs' ? 'Weight (lbs)' : 'Level'
                         },
+                        ticks: type === 'levels' ? { precision: 0 } : undefined,
                         position: 'left',
                     },
                     y1: {

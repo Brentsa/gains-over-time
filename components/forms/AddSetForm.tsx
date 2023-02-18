@@ -46,7 +46,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 quantity: inputs.quantity, 
-                weight: exercise.exerciseT.type === 'lbs' ? inputs.weight : 0,
+                weight: exercise.exerciseT.type === 'lbs' || exercise.exerciseT.type === 'levels' ? inputs.weight : 0,
                 exerciseId: exercise.id
             })
         })
