@@ -11,12 +11,31 @@ interface Props {
 
 export default function Modal({open, closeModal, children}: Props){
 
+    function unlockScroll () {
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    };
+    
+    function lockScroll () {
+        const scrollY = `-${window.scrollY}px`;
+        document.body.style.position = 'fixed';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.top = scrollY;
+    };
+
     useEffect(() => {
-        //when modal is open, disable scrolling and pointer events
-        document.body.style.overflow = open ? 'hidden' : 'unset';
-        
-        //when the component unmounts, open scrolling back up
-        return () => { document.body.style.overflow = 'unset' };
+        if(open) 
+            lockScroll();
+        else 
+            unlockScroll();
+
+        //unlock scrolling if this component unmounts
+        return () => unlockScroll();
     }, [open])
 
     if(!open) return null;

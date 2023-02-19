@@ -15,4 +15,8 @@ html:after{
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    -webkit-background-attachment: scroll;
+    -moz-background-attachment: scroll;
+    -o-background-attachment: scroll;
+    background-attachment: scroll;
 }
