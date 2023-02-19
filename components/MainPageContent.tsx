@@ -62,14 +62,14 @@ export default function MainPageContent({showOnMobile}: Props){
                                         <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
                                             <AddExerciseForm/>
                                         </Paper>
-                                        <Paper className='w-full'><ExerciseTable/></Paper>
+                                        <div className="w-full"><ExerciseTable/></div>
                                     </>
                                 }
                                 </div>
                             </div>
                         </div>
                         :
-                        <div className='grid grid-cols-3 gap-4'>
+                        <div className='grid grid-cols-3 gap-y-4 gap-x-6'>
                             <div className='col-span-1'>
                                 <div className='sticky top-24 space-y-4'>
                                     <Paper className="flex flex-col" id='search-add-box'>
@@ -79,7 +79,7 @@ export default function MainPageContent({showOnMobile}: Props){
                                 </div>
                             </div>
                             <div className='col-span-2'>
-                                <Paper><ExerciseTable/></Paper>
+                                <ExerciseTable/>
                             </div>
                         </div>
                     }

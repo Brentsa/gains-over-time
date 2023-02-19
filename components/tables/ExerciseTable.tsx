@@ -102,9 +102,11 @@ export default function ExerciseTable(){
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
             
-            <SearchBar search={search} setSearch={setSearch}/>
+            <div className="px-2 sm:px-0">
+                <SearchBar search={search} setSearch={setSearch}/>
+            </div>
     
-            <ul>
+            <ul className="space-y-2 sm:space-y-3">
                 {data
                     .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
                     .map((exercise, i, array) => {

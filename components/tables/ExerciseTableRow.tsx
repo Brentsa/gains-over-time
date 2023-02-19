@@ -13,6 +13,7 @@ import UpdateSetForm from "../forms/UpdateSetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExerciseHistory from "../misc/ExerciseHistory";
 import { feedbackContext } from "../MainPageContent";
+import Paper from "../utilities/Paper";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -126,66 +127,68 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
     }, [exercise.sets]);
 
     return (
-        <li className="flex flex-col">
+        <li>
             {!bSameDate && 
-                <>
-                    <div className={`${index !== 0 && 'pt-8'} text-2xl sm:text-3xl font-semibold w-full sm:w-1/2`}>
+                <div className="px-2 sm:px-0">
+                    <div className={`${index !== 0 && 'pt-8'} pl-0 sm:pl-2 text-2xl sm:text-3xl font-semibold w-full sm:w-1/2`}>
                         <p>{ isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }</p>
                     </div>
-                    <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
-                </>
+                    <div className='w-full h-1 mb-2 sm:mb-3 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
+                </div>
             }
-            
-            <div id={"exercise-" + exercise.id} className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
-                <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
-                    <p className="font-semibold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
-                    <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
-                </button>
+            <Paper className="flex flex-col p-2" paddingNone>
+                <div id={"exercise-" + exercise.id} className="w-full flex flex-wrap py-2 justify-between items-center md:space-x-2">
 
-                <div 
-                    className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
-                    onClick={addSet}
-                    onMouseOver={() => setShowTargetSets(true)}
-                    onMouseOut={() => setShowTargetSets(false)}
-                    onTouchStart={() => setShowTargetSets(true)}
-                    onTouchEnd={() => setShowTargetSets(false)}
-                >
-                    {sets.length > 0 &&
-                        sets.map((set, i) => 
-                            <SetPill 
-                                key={i} 
-                                set={set}
-                                setSets={setSets}
-                                setType={exercise.exerciseT.type} 
-                                editable={editRow}
-                                setSelectedSet={setSelectedSet}
-                            />
-                        )
-                    }
-                    {showTargetSets && targetSetsArray}
-                </div> 
-                
-                <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-10'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
-                    <button className={`${showButtons && 'rotate-180'} transition-all duration-500 text-violet-500`} onClick={toggleShowButtons}>
-                        <FontAwesomeIcon icon={faAnglesLeft} size='2x'/>
-                    </button>  
-                    <div className={`flex justify-evenly overflow-hidden space-x-1`}>
-                        <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-amber-500' bgColor='bg-amber-200'/>
-                        <IconButton icon={faTrashCan} handleClick={deleteExercise}/> 
+                    <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
+                        <p className="font-semibold text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
+                        <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
+                    </button>
+
+                    <div 
+                        className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
+                        onClick={addSet}
+                        onMouseOver={() => setShowTargetSets(true)}
+                        onMouseOut={() => setShowTargetSets(false)}
+                        onTouchStart={() => setShowTargetSets(true)}
+                        onTouchEnd={() => setShowTargetSets(false)}
+                    >
+                        {sets.length > 0 &&
+                            sets.map((set, i) => 
+                                <SetPill 
+                                    key={i} 
+                                    set={set}
+                                    setSets={setSets}
+                                    setType={exercise.exerciseT.type} 
+                                    editable={editRow}
+                                    setSelectedSet={setSelectedSet}
+                                />
+                            )
+                        }
+                        {showTargetSets && targetSetsArray}
+                    </div> 
+                    
+                    <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-10'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
+                        <button className={`${showButtons && 'rotate-180'} transition-all duration-500 text-violet-500`} onClick={toggleShowButtons}>
+                            <FontAwesomeIcon icon={faAnglesLeft} size='2x'/>
+                        </button>  
+                        <div className={`flex justify-evenly overflow-hidden space-x-1`}>
+                            <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-amber-500' bgColor='bg-amber-200'/>
+                            <IconButton icon={faTrashCan} handleClick={deleteExercise}/> 
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            {selectedSet &&
-                <Modal closeModal={closeSetEditModal} open={editSet}>
-                    <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
+                {selectedSet &&
+                    <Modal closeModal={closeSetEditModal} open={editSet}>
+                        <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
+                    </Modal>
+                }
+
+                <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
+                    <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
                 </Modal>
-            }
-
-            <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
-                <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
-            </Modal>
+            </Paper>
         </li>
     )
 }
