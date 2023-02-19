@@ -29,13 +29,12 @@ export default function Modal({open, closeModal, children}: Props){
     };
 
     useEffect(() => {
+        
         if(open) 
             lockScroll();
         else 
             unlockScroll();
 
-        //unlock scrolling if this component unmounts
-        return () => unlockScroll();
     }, [open])
 
     if(!open) return null;
