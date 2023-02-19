@@ -52,7 +52,7 @@ export default function MainPageContent({showOnMobile}: Props){
         <searchContext.Provider value={{search, setSearch}}>
         <feedbackContext.Provider value={{feedback, setFeedback}}>
             <main>
-                <Navbar/>
+                <Navbar isMobile={showOnMobile}/>
                 <section className='container pb-4 pt-0 sm:pt-4'>
                     {showOnMobile ?
                         <div className='flex flex-col'>
@@ -86,7 +86,7 @@ export default function MainPageContent({showOnMobile}: Props){
                                             </VerticalTabs>
                                             
                                         </Paper>
-                                        <div className="w-full"><ExerciseTable isMobile={showOnMobile}/></div>
+                                        <div className="w-full"><ExerciseTable/></div>
                                     </>
                                 }
                                 </div>

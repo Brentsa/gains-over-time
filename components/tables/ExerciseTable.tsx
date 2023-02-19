@@ -8,7 +8,6 @@ import { useContext, useEffect, useRef, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 import LoadingTableRow from "./LoadingTableRow";
 import { isSameDate } from "../../utils/helpers";
-import SearchBar from "../SearchBar";
 import { searchContext } from "../MainPageContent";
 
 export interface ExerciseFromSWR{
@@ -20,11 +19,7 @@ export interface ExerciseFromSWR{
     sets: Set[]
 }
 
-interface Props {
-    isMobile?: boolean
-}
-
-export default function ExerciseTable({isMobile}: Props){
+export default function ExerciseTable(){
 
     const user = useContext(userContext);
     const {search, setSearch} = useContext(searchContext);
@@ -106,13 +101,6 @@ export default function ExerciseTable({isMobile}: Props){
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
-            
-            {!isMobile &&
-                <div className="px-2 sm:px-0 sm:absolute sm:right-0 sm:w-full sm:-top-1">
-                    <SearchBar search={search} setSearch={setSearch}/>
-                </div>
-            }
-    
             <ul className="space-y-2 sm:space-y-3">
                 {data
                     .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
