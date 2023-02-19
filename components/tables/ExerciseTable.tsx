@@ -97,12 +97,12 @@ export default function ExerciseTable(){
     }
 
     return (
-        <div id="exercise-table">
+        <div id="exercise-table" className="relative">
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
             
-            <div className="px-2 sm:px-0">
+            <div className="px-2 sm:px-0 sm:absolute sm:right-0 sm:w-full sm:-top-1">
                 <SearchBar search={search} setSearch={setSearch}/>
             </div>
     

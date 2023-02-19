@@ -26,7 +26,7 @@ export default function SearchBar({search, setSearch}: Props){
 
     return (
         <div className="w-full flex justify-end mb-4 sm:mb-0">
-            <div className="relative w-full sm:w-1/4 h-full">
+            <div className="relative w-full sm:w-2/5 xl:w-1/3 h-full">
                 <form className="w-full" onSubmit={handleSubmit}>
                     <label htmlFor="search-bar" className="sr-only ">Search Bar</label>
                     <input
