@@ -10,34 +10,11 @@ interface Props {
 }
 
 export default function Modal({open, closeModal, children}: Props){
-
-    // function unlockScroll () {
-    //     const scrollY = document.body.style.top;
-    //     document.body.style.position = '';
-    //     document.body.style.top = '';
-    //     document.body.style.left = '';
-    //     document.body.style.right = '';
-    //     window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    // };
     
-    // function lockScroll () {
-    //     const scrollY = `-${window.scrollY}px`;
-    //     document.body.style.position = 'fixed';
-    //     document.body.style.left = '0';
-    //     document.body.style.right = '0';
-    //     document.body.style.top = scrollY;
-    // };
-
+    //stop scrolling when the modal is open
     useEffect(() => {
-        
-        // if(open) 
-        //     lockScroll();
-        // else 
-        //     unlockScroll();
-
         document.body.style.overflowY = open ? 'hidden' : '';
         document.body.style.touchAction = open ? 'none' : '';
-
     }, [open])
 
     if(!open) return null;

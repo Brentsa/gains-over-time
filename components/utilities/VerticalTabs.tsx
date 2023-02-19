@@ -64,7 +64,7 @@ export default function VerticalTabs({children}: Props){
                 />
                 <div className="bg-gray-200 w-0.5 h-full"/>
             </div>
-            <div className="basis-full py-2 px-2 lg:px-4">
+            <div className="basis-full py-2 px-2 lg:px-4 my-auto">
                 { children[tabInfo.index] }
             </div>
        </div> 

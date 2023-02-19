@@ -1,10 +1,14 @@
+import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import FeedbackBar from "./FeedbackBar";
 import AddExerciseForm from "./forms/AddExerciseForm";
 import Navbar from "./Navbar";
 import RenderVerticalTabs from "./RenderVerticalTabs";
+import SearchBar from "./SearchBar";
 import ExerciseTable from "./tables/ExerciseTable";
 import Paper from "./utilities/Paper";
+import TabContent from "./utilities/TabContent";
+import VerticalTabs from "./utilities/VerticalTabs";
 
 interface Props {
     showOnMobile: boolean
@@ -20,6 +24,11 @@ interface FeedbackPackage {
     setFeedback: Dispatch<SetStateAction<Feedback>>
 }
 
+interface SearchPackage {
+    search: string,
+    setSearch: Dispatch<SetStateAction<string>>
+}
+
 export const feedbackContext = createContext<FeedbackPackage>({
     feedback: {
         message: '',
@@ -28,12 +37,19 @@ export const feedbackContext = createContext<FeedbackPackage>({
     setFeedback: () => {}
 });
 
+export const searchContext = createContext<SearchPackage>({
+    search: '',
+    setSearch: () => {}
+});
+
 export default function MainPageContent({showOnMobile}: Props){
 
     const [showVertTabs, setShowVertTabs] = useState(false);
     const [feedback, setFeedback] = useState<Feedback>({message: '', type: ''});
+    const [search, setSearch] = useState('');
 
     return (
+        <searchContext.Provider value={{search, setSearch}}>
         <feedbackContext.Provider value={{feedback, setFeedback}}>
             <main>
                 <Navbar/>
@@ -60,9 +76,17 @@ export default function MainPageContent({showOnMobile}: Props){
                                     :
                                     <>
                                         <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
-                                            <AddExerciseForm/>
+                                            <VerticalTabs>
+                                                <TabContent icon={faPlus}>
+                                                    <AddExerciseForm/>
+                                                </TabContent>
+                                                <TabContent icon={faSearch}>
+                                                    <SearchBar search={search} setSearch={setSearch}/>
+                                                </TabContent>
+                                            </VerticalTabs>
+                                            
                                         </Paper>
-                                        <div className="w-full"><ExerciseTable/></div>
+                                        <div className="w-full"><ExerciseTable isMobile={showOnMobile}/></div>
                                     </>
                                 }
                                 </div>
@@ -87,5 +111,6 @@ export default function MainPageContent({showOnMobile}: Props){
                 <FeedbackBar/>
             </main>
         </feedbackContext.Provider>
+        </searchContext.Provider>
     )
 }

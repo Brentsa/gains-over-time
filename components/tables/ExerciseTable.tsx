@@ -9,6 +9,7 @@ import AddSetForm from "../forms/AddSetForm";
 import LoadingTableRow from "./LoadingTableRow";
 import { isSameDate } from "../../utils/helpers";
 import SearchBar from "../SearchBar";
+import { searchContext } from "../MainPageContent";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -19,11 +20,15 @@ export interface ExerciseFromSWR{
     sets: Set[]
 }
 
-export default function ExerciseTable(){
+interface Props {
+    isMobile?: boolean
+}
+
+export default function ExerciseTable({isMobile}: Props){
 
     const user = useContext(userContext);
-    //const search = useContext(searchContext);
-    const [search, setSearch] = useState('');
+    const {search, setSearch} = useContext(searchContext);
+    //const [search, setSearch] = useState('');
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
@@ -102,9 +107,11 @@ export default function ExerciseTable(){
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
             
-            <div className="px-2 sm:px-0 sm:absolute sm:right-0 sm:w-full sm:-top-1">
-                <SearchBar search={search} setSearch={setSearch}/>
-            </div>
+            {!isMobile &&
+                <div className="px-2 sm:px-0 sm:absolute sm:right-0 sm:w-full sm:-top-1">
+                    <SearchBar search={search} setSearch={setSearch}/>
+                </div>
+            }
     
             <ul className="space-y-2 sm:space-y-3">
                 {data

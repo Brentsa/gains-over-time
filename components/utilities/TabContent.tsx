@@ -2,7 +2,7 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { ReactElement } from "react"
 
 export type TabContentProps = {
-    label: string, 
+    label?: string, 
     children: ReactElement,
     icon?: IconDefinition
 }

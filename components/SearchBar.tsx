@@ -25,8 +25,8 @@ export default function SearchBar({search, setSearch}: Props){
     }
 
     return (
-        <div className="w-full flex justify-end mb-4 sm:mb-0">
-            <div className="relative w-full sm:w-2/5 xl:w-1/3 h-full">
+        <div className="w-full flex justify-end">
+            <div className="relative w-full sm:w-2/5 xl:w-1/3">
                 <form className="w-full" onSubmit={handleSubmit}>
                     <label htmlFor="search-bar" className="sr-only ">Search Bar</label>
                     <input
@@ -34,11 +34,11 @@ export default function SearchBar({search, setSearch}: Props){
                         name={'search'}
                         value={search}
                         onChange={handleChange}
-                        className="appearance-none shadow-inner rounded relative block w-full px-2 py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
+                        className="appearance-none shadow-inner rounded relative block w-full px-3 py-2 sm:px-2 sm:py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
                         placeholder="Search Exercise History"
                     />
                 </form>
-                <div className="absolute top-0 right-0 z-20 p-2 pr-3 h-full flex items-center text-xl">
+                <div className="absolute top-1/2 -translate-y-1/2 right-0 z-20 p-2 pr-3 flex items-center text-xl">
                     {search.length > 0 
                         ? <button onClick={clearSearch} className='text-rose-500'><FontAwesomeIcon icon={faCircleXmark}/></button>
                         : <FontAwesomeIcon icon={faMagnifyingGlass}/>
