@@ -11,29 +11,31 @@ interface Props {
 
 export default function Modal({open, closeModal, children}: Props){
 
-    function unlockScroll () {
-        const scrollY = document.body.style.top;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.left = '';
-        document.body.style.right = '';
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
-    };
+    // function unlockScroll () {
+    //     const scrollY = document.body.style.top;
+    //     document.body.style.position = '';
+    //     document.body.style.top = '';
+    //     document.body.style.left = '';
+    //     document.body.style.right = '';
+    //     window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    // };
     
-    function lockScroll () {
-        const scrollY = `-${window.scrollY}px`;
-        document.body.style.position = 'fixed';
-        document.body.style.left = '0';
-        document.body.style.right = '0';
-        document.body.style.top = scrollY;
-    };
+    // function lockScroll () {
+    //     const scrollY = `-${window.scrollY}px`;
+    //     document.body.style.position = 'fixed';
+    //     document.body.style.left = '0';
+    //     document.body.style.right = '0';
+    //     document.body.style.top = scrollY;
+    // };
 
     useEffect(() => {
         
-        if(open) 
-            lockScroll();
-        else 
-            unlockScroll();
+        // if(open) 
+        //     lockScroll();
+        // else 
+        //     unlockScroll();
+
+        document.body.style.overflowY = open ? 'hidden' : '';
 
     }, [open])
 
