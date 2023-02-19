@@ -12,7 +12,7 @@ module.exports = {
       keyframes: ({theme}) => ({
         fadeIn: {
           '0%': {backgroundColor: theme("colors.transparent")},
-          '100%': {backgroundColor: "rgba(107, 114, 128, 0.5)"}
+          '100%': {backgroundColor: "rgba(107, 114, 128, 0.6)"}
         }
       }),
       animation: {
