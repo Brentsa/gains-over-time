@@ -34,7 +34,7 @@ export default function SearchBar({search, setSearch}: Props){
                         name={'search'}
                         value={search}
                         onChange={handleChange}
-                        className="appearance-none rounded relative block w-full px-2 py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
+                        className="appearance-none shadow-inner rounded relative block w-full px-2 py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
                         placeholder="Search Exercise History"
                     />
                 </form>

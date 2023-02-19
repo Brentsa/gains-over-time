@@ -31,7 +31,7 @@ export default function FormInput(props: Props){
                 name={name}
                 value={value}
                 onChange={onChange}
-                className={props?.customClassName ?? "appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"}
+                className={props?.customClassName ?? "appearance-none shadow-inner rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10 sm:text-sm"}
                 placeholder={props?.placeholder}
                 type={props?.type}
                 min={props?.min}
