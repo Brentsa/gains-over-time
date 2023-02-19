@@ -36,6 +36,7 @@ export default function Modal({open, closeModal, children}: Props){
         //     unlockScroll();
 
         document.body.style.overflowY = open ? 'hidden' : '';
+        document.body.style.touchAction = open ? 'none' : '';
 
     }, [open])
 
