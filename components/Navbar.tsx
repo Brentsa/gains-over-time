@@ -11,17 +11,17 @@ export default function Navbar(){
     return (
         <nav className="bg-white shadow-lg z-50 static lg:sticky top-0">
             <div className="grid grid-cols-12 px-4">
-                <div className='order-1 col-span-6 md:col-span-2 flex justify-start items-center space-x-4 p-1'>
+                <div className='order-1 col-span-6 md:col-span-2 flex justify-start items-center space-x-2 p-1'>
                     <div className='text-rose-500'>
                         <FontAwesomeIcon icon={faDumbbell} size="3x"/>
                     </div>
                     <div>
-                        <h1 className='text-xl border-b-4 border-violet-400'>Gains</h1>
+                        <h1 className='text-xl border-b-4 border-violet-500'>Gains</h1>
                         <h1 className='text-xl'>Time</h1>
                     </div> 
                 </div>
-                <div className='order-last col-span-12 py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center h-full'>
-                    <h1 className='w-full md:w-1/2 text-4xl rounded text-center font-bold'>
+                <div className='order-last col-span-12 py-2 sm:py-4 md:py-0 md:order-2 md:col-span-8 flex justify-center items-center h-full'>
+                    <h1 className='w-full md:w-1/2 text-3xl sm:text-4xl rounded text-center font-bold'>
                         Welcome {user?.firstName} {user?.lastName}
                     </h1>
                 </div>
