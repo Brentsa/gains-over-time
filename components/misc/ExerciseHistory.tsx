@@ -72,7 +72,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     console.log(filteredExercises);
     
     return (
-        <div className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center w-screen">
             <h2 className="font-bold w-full mb-3 pr-6 sm:text-lg lg:text-xl border-b-4 border-violet-400">
                 {capitalizeAllWords(filteredExercises[0].exerciseT.name)} History
             </h2>
@@ -84,7 +84,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
 
             {filteredExercises.length > 1 && filteredExercises.slice().reverse()[1].sets.length > 0 &&
                 <div className="w-full mt-6">
-                    {exerciseType === 'lbs' || exerciseType === 'levels' &&
+                    {(exerciseType === 'lbs' || exerciseType === 'levels') &&
                         <div className="flex w-full justify-center space-x-4 mb-2">
                             <button 
                                 onClick={() => setGraphState('weight')} 

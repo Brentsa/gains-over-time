@@ -46,7 +46,7 @@ export default function MainPageContent({showOnMobile}: Props){
 
     const [showVertTabs, setShowVertTabs] = useState(false);
     const [feedback, setFeedback] = useState<Feedback>({message: '', type: ''});
-    const [search, setSearch] = useState('');
+    const [search, setSearch] = useState<string>('');
 
     return (
         <searchContext.Provider value={{search, setSearch}}>
@@ -54,58 +54,62 @@ export default function MainPageContent({showOnMobile}: Props){
             <main>
                 <Navbar isMobile={showOnMobile}/>
                 <section className='container pb-4 pt-0 sm:pt-4'>
-                    {showOnMobile ?
-                        <div className='flex flex-col'>
-                            <div className='basis-1/3'>
-                            <div className='flex flex-col flex-wrap space-y-4'>
-                                <Paper>
-                                    <div className='flex justify-around' id='mobile-state-buttons'>
-                                        <button 
-                                            onClick={() => setShowVertTabs(false)} 
-                                            className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
-                                        >Exercise List</button>
-                                        <button 
-                                            onClick={() => setShowVertTabs(true)} 
-                                            className={showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
-                                        >Modify Exercises</button>
-                                    </div>
-                                </Paper>
-                                {showVertTabs 
-                                    ? 
-                                    <Paper><RenderVerticalTabs/></Paper>
-                                    :
-                                    <>
-                                        <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
-                                            <VerticalTabs>
-                                                <TabContent icon={faPlus}>
-                                                    <AddExerciseForm/>
-                                                </TabContent>
-                                                <TabContent icon={faSearch}>
-                                                    <SearchBar search={search} setSearch={setSearch}/>
-                                                </TabContent>
-                                            </VerticalTabs>
-                                            
-                                        </Paper>
-                                        <div className="w-full"><ExerciseTable/></div>
-                                    </>
-                                }
-                                </div>
-                            </div>
-                        </div>
-                        :
-                        <div className='grid grid-cols-3 gap-y-4 gap-x-6'>
-                            <div className='col-span-1'>
-                                <div className='sticky top-24 space-y-4'>
-                                    <Paper className="flex flex-col" id='search-add-box'>
-                                        <AddExerciseForm/>
+                    {showOnMobile 
+                        ?
+                            <div className='flex flex-col'>
+                                <div className='basis-1/3'>
+                                <div className='flex flex-col flex-wrap space-y-4'>
+                                    <Paper>
+                                        <div className='flex justify-around' id='mobile-state-buttons'>
+                                            <button 
+                                                onClick={() => setShowVertTabs(false)} 
+                                                className={!showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                                            >
+                                                Exercise List
+                                            </button>
+                                            <button 
+                                                onClick={() => setShowVertTabs(true)} 
+                                                className={showVertTabs ? 'font-bold border-b-2 border-rose-400' : ''}
+                                            >
+                                                Modify Exercises
+                                            </button>
+                                        </div>
                                     </Paper>
-                                    <Paper><RenderVerticalTabs/></Paper>
+                                    {showVertTabs 
+                                        ? 
+                                            <Paper><RenderVerticalTabs/></Paper>
+                                        : 
+                                            <>
+                                                <Paper className='sticky top-0 z-30 flex flex-col p-1' paddingNone id='search-add-box'>
+                                                    <VerticalTabs>
+                                                        <TabContent icon={faPlus}>
+                                                            <AddExerciseForm/>
+                                                        </TabContent>
+                                                        <TabContent icon={faSearch}>
+                                                            <SearchBar search={search} setSearch={setSearch}/>
+                                                        </TabContent>
+                                                    </VerticalTabs>
+                                                </Paper>
+                                                <div className="w-full"><ExerciseTable/></div>
+                                            </>
+                                    }
+                                    </div>
                                 </div>
                             </div>
-                            <div className='col-span-2'>
-                                <ExerciseTable/>
+                        :
+                            <div className='grid grid-cols-3 gap-y-4 gap-x-6'>
+                                <div className='col-span-1'>
+                                    <div className='sticky top-24 space-y-4'>
+                                        <Paper className="flex flex-col" id='search-add-box'>
+                                            <AddExerciseForm/>
+                                        </Paper>
+                                        <Paper><RenderVerticalTabs/></Paper>
+                                    </div>
+                                </div>
+                                <div className='col-span-2'>
+                                    <ExerciseTable/>
+                                </div>
                             </div>
-                        </div>
                     }
                 </section>
                 <FeedbackBar/>

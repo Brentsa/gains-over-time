@@ -27,7 +27,7 @@ export default function Navbar({isMobile}: Props){
                         <h1 className='text-xl'>Time</h1>
                     </div> 
                 </div>
-                <div className='order-last col-span-12 md:col-span-4 xl:col-span-6 py-2 sm:py-4 md:py-0 md:order-2  flex justify-center items-center h-full'>
+                <div className='order-last col-span-12 md:col-span-4 xl:col-span-6 py-2 sm:py-4 md:py-0 md:order-2 flex justify-center items-center h-full'>
                     <h1 className='w-full text-3xl sm:text-4xl rounded text-center font-bold'>
                         Welcome {user?.firstName} {user?.lastName}
                     </h1>

@@ -30,15 +30,45 @@ interface Props {
 
 export default function ExerciseChart({exercises, show}: Props){
 
-    if(exercises.length < 1) return <div>More exercises required to display chart.</div>;
-
     //destructure the type of the exercise
     const {type} = exercises[0].exerciseT;
 
-    //return the graph data set based on the shown graph type
+    //determine the label of the data line 
+    function determineLineLabel(show: 'reps' | 'weight'){
+        if(show === 'reps') return type === 'seconds' ? 'Total Time' : 'Total Reps';
+
+        switch(type){
+            case 'seconds': 
+                return 'Total Time';
+            case 'lbs':
+                return 'Average Weight';
+            case 'levels': 
+                return 'Average Level';
+            case 'bodyWeight': 
+                return 'Total Reps';
+        }
+    }
+
+    //determine the y axis title of either reps or weight data
+    function determineYTitle(show: 'reps' | 'weight'){
+        if(show === 'reps') return type === 'seconds' ? 'Time (sec)' : 'Reps (qty)';
+        
+        switch(type){
+            case 'seconds': 
+                return 'Time (sec)';
+            case 'lbs':
+                return 'Weight (lbs)';
+            case 'levels': 
+                return 'Level';
+            case 'bodyWeight': 
+                return 'Reps (qty)';
+        }
+    }
+
+    //return the graph data set based on the shown (reps, weight, or both) graph type
     function determineDatasets(){
         const repData = {
-            label: 'Total Reps',
+            label: determineLineLabel('reps'),
             data: exercises.map(exercise => calculateSum(exercise.sets.map(set => set.quantity))).reverse(),
             borderColor: 'rgb(244, 63, 94)',
             backgroundColor: 'rgba(244, 63, 94, 0.5)',
@@ -46,7 +76,7 @@ export default function ExerciseChart({exercises, show}: Props){
         }
 
         const weightData = {
-            label: type === 'seconds' ? 'Average Time (sec)' : `Average ${type === 'lbs' ? 'Weight' : 'Level'}`,
+            label: determineLineLabel('weight'),
             data: exercises.map(exercise => calculateAverage(exercise.sets.map(set => set.weight))).reverse(),
             borderColor: 'rgb(139, 92, 246)',
             backgroundColor: 'rgba(139, 92, 246, 0.5)',
@@ -87,9 +117,7 @@ export default function ExerciseChart({exercises, show}: Props){
                         display: true,
                         title: {
                             display: true,
-                            text: show === 'weight' 
-                                ? type === 'lbs' ? 'Weight (lbs)' : 'Level'
-                                : 'Reps (qty)'
+                            text: determineYTitle(show)
                         },
                         ticks: type === 'levels' ? { precision: 0 } : undefined,
                         position: 'left'
@@ -101,7 +129,7 @@ export default function ExerciseChart({exercises, show}: Props){
                         display: true,
                         title: {
                             display: true,
-                            text: type === 'lbs' ? 'Weight (lbs)' : 'Level'
+                            text: determineYTitle('weight')
                         },
                         ticks: type === 'levels' ? { precision: 0 } : undefined,
                         position: 'left',
@@ -112,7 +140,7 @@ export default function ExerciseChart({exercises, show}: Props){
                         position: 'right',
                         title: {
                             display: true,
-                            text:  'Reps (Qty)'
+                            text: determineYTitle('reps')
                         },
                         ticks: {
                             precision: 0
