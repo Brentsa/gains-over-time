@@ -6,9 +6,9 @@ import { ExerciseTemplate, Set } from "@prisma/client";
 import Modal from "../utilities/Modal";
 import { useContext, useEffect, useRef, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
-import LoadingTableRow from "./LoadingTableRow";
 import { isSameDate } from "../../utils/helpers";
 import { searchContext } from "../MainPageContent";
+import LoadingTable from "./LoadingTable";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -22,8 +22,7 @@ export interface ExerciseFromSWR{
 export default function ExerciseTable(){
 
     const user = useContext(userContext);
-    const {search, setSearch} = useContext(searchContext);
-    //const [search, setSearch] = useState('');
+    const {search} = useContext(searchContext);
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
@@ -66,35 +65,16 @@ export default function ExerciseTable(){
     }, [selectedExerciseId]);
 
     //return shimmering rows if the exercise data is loading
-    if(!data){
-        return (
-            <div>
-                <div className='w-full h-1 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-                <div className='w-full h-1 mt-6 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-                <div className='w-full h-1 mt-6 mb-1 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-                <LoadingTableRow/>
-            </div>
-        );
-    }
+    if(!data) return <LoadingTable/>; 
 
     //return error message in the table if the data was not fetched
-    if(error){
-        return (
-            <div>
-                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
-                <div className="p-4">There was an erorr. Exercises could not load.</div>
-                <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
-            </div>
-        )
-    }
+    if(error) return (
+        <div className="bg-white">
+            <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+            <div className="p-4">There was an erorr. Exercises could not load.</div>
+            <div className='w-full h-0.5 md:h-1 bg-gradient-to-r from-rose-400 via-violet-400 to-rose-400'/>
+        </div>
+    )
 
     return (
         <div id="exercise-table" className="relative">
