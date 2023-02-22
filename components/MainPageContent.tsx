@@ -53,7 +53,7 @@ export default function MainPageContent({showOnMobile}: Props){
         <feedbackContext.Provider value={{feedback, setFeedback}}>
             <main>
                 <Navbar isMobile={showOnMobile}/>
-                <section className='container pb-4 pt-0 sm:pt-4'>
+                <section className='container pb-8 pt-0 sm:pt-4'>
                     {showOnMobile 
                         ?
                             <div className='flex flex-col'>
