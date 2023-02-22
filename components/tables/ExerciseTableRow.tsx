@@ -1,7 +1,7 @@
 import { faAnglesLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
 import { mutate } from "swr";
-import { capitalizeAllWords, formatDateFullString, getWeekdayColor, isSameDate, isToday } from "../../utils/helpers";
+import { capitalizeAllWords, formatDateFullString, isToday } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
 import IconSwitchButton from "../buttons/IconSwitchButton";
 import SetPill from "../misc/SetPill";
@@ -14,6 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExerciseHistory from "../misc/ExerciseHistory";
 import { feedbackContext } from "../MainPageContent";
 import Paper from "../utilities/Paper";
+import ExerciseDeleteForm from "../forms/ExerciseDeleteForm";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -35,6 +36,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
 
     //state that determines if the sets in the row can be altered
     const [editRow, setEditRow] = useState<boolean>(false);
+    const [openDeleteModal, setOpenDeleteModal] =useState<boolean>(false);
 
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
@@ -89,8 +91,15 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
         setSelectedExerciseId(exercise.id)
     }
 
-    async function deleteExercise(event: MouseEvent<HTMLButtonElement>){
-        event.preventDefault();
+    function openDeleteExerciseModal(){
+        setOpenDeleteModal(true);
+    }
+
+    function closeDeleteExerciseModal(){
+        setOpenDeleteModal(false);
+    }
+
+    async function deleteExercise(){
         
         //try deleting this exercise
         const response = await fetch(`api/exercise/delete/${exercise.id}`, {
@@ -174,7 +183,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                         </button>  
                         <div className={`flex justify-evenly overflow-hidden space-x-1`}>
                             <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-amber-500' bgColor='bg-amber-200'/>
-                            <IconButton icon={faTrashCan} handleClick={deleteExercise}/> 
+                            <IconButton icon={faTrashCan} handleClick={openDeleteExerciseModal}/> 
                         </div>
                     </div>
                 </div>
@@ -187,6 +196,10 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
 
                 <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
                     <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
+                </Modal>
+
+                <Modal closeModal={closeDeleteExerciseModal} open={openDeleteModal}>
+                    <ExerciseDeleteForm deleteExercise={deleteExercise} closeForm={closeDeleteExerciseModal}/>
                 </Modal>
             </Paper>
         </li>
