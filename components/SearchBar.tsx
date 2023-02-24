@@ -39,7 +39,7 @@ export default function SearchBar(props: Props){
                     placeholder="Search Exercise History"
                 />
             </form>
-            <div className="absolute top-1/2 -translate-y-1/2 right-2 z-20 flex items-center text-xl">
+            <div className={`absolute top-1/2 -translate-y-1/2 ${props?.rounded ? 'right-3' : 'right-2'} z-20 flex items-center text-xl`}>
                 {search.length > 0 
                     ? <button onClick={clearSearch} className='text-rose-500'><FontAwesomeIcon icon={faCircleXmark}/></button>
                     : <FontAwesomeIcon icon={faMagnifyingGlass}/>
