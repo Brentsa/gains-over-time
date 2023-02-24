@@ -2,6 +2,7 @@ import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import FeedbackBar from "./FeedbackBar";
 import AddExerciseForm from "./forms/AddExerciseForm";
+import MobileSearchBar from "./MobileSearchBar";
 import Navbar from "./Navbar";
 import RenderVerticalTabs from "./RenderVerticalTabs";
 import SearchBar from "./SearchBar";
@@ -80,17 +81,11 @@ export default function MainPageContent({showOnMobile}: Props){
                                             <Paper><RenderVerticalTabs/></Paper>
                                         : 
                                             <>
-                                                <Paper className='sticky top-0 z-30 flex flex-col p-1' paddingNone id='search-add-box'>
-                                                    <VerticalTabs>
-                                                        <TabContent icon={faPlus}>
-                                                            <AddExerciseForm/>
-                                                        </TabContent>
-                                                        <TabContent icon={faSearch}>
-                                                            <SearchBar search={search} setSearch={setSearch}/>
-                                                        </TabContent>
-                                                    </VerticalTabs>
+                                                <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
+                                                    <AddExerciseForm/>
                                                 </Paper>
                                                 <div className="w-full"><ExerciseTable/></div>
+                                                <MobileSearchBar/>
                                             </>
                                     }
                                     </div>

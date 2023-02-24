@@ -13,7 +13,6 @@ interface Props {
 export default function Navbar({isMobile}: Props){
 
     const user = useContext(userContext);
-    const {search, setSearch} = useContext(searchContext);
 
     return (
         <nav className="bg-white shadow-lg z-50 static lg:sticky top-0">
@@ -35,7 +34,7 @@ export default function Navbar({isMobile}: Props){
                 <div className='order-3 col-span-6 md:col-span-4 xl:col-span-3 flex justify-end items-center'>
                     {!isMobile &&
                         <div className="grow mr-2">
-                            <SearchBar search={search} setSearch={setSearch}/>
+                            <SearchBar/>
                         </div>
                     }
                     <LogoutButton/>

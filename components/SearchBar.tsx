@@ -1,13 +1,15 @@
 import { faCircleXmark, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext } from "react";
+import { searchContext } from "./MainPageContent";
 
 interface Props {
-    search: string,
-    setSearch: Dispatch<SetStateAction<string>>
+    rounded? : boolean
 }
 
-export default function SearchBar({search, setSearch}: Props){
+export default function SearchBar(props: Props){
+
+    const {search, setSearch} = useContext(searchContext);
 
     function handleChange(event: ChangeEvent<HTMLInputElement>){
         setSearch(event.target.value);
@@ -33,7 +35,7 @@ export default function SearchBar({search, setSearch}: Props){
                     name={'search'}
                     value={search}
                     onChange={handleChange}
-                    className="appearance-none shadow-inner rounded relative block w-full px-3 py-2 sm:px-2 sm:py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10"
+                    className={`appearance-none shadow-inner ${props?.rounded ? 'rounded-full' : 'rounded'} relative block w-full px-3 py-2 sm:px-2 sm:py-1 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 focus:z-10`}
                     placeholder="Search Exercise History"
                 />
             </form>

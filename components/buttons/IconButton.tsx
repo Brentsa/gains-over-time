@@ -11,12 +11,13 @@ interface Props {
 }
 
 export default function IconButton({className, handleClick, type, icon, disabled}: Props){
+
     return (
         <button 
             onClick={handleClick} 
             type={type} 
             disabled={disabled} 
-            className={`rounded-full w-12 h-12 text-2xl text-rose-500 p-1 hover:bg-rose-50 disabled:bg-gray-300 disabled:text-white ${className}`}
+            className={`rounded-full w-12 h-12 text-2xl p-1 ${className ?? 'text-rose-500 hover:bg-rose-50 disabled:bg-gray-300 disabled:text-white'}`}
         >
             <FontAwesomeIcon icon={icon}/>
         </button>
