@@ -80,13 +80,15 @@ export default function MainPageContent({showOnMobile}: Props){
                                         ? 
                                             <Paper><RenderVerticalTabs/></Paper>
                                         : 
-                                            <>
-                                                <Paper className='sticky top-0 z-30 flex flex-col' id='search-add-box'>
-                                                    <AddExerciseForm/>
-                                                </Paper>
+                                            <div className="w-full">
+                                                <div className="sticky top-0 z-30 flex flex-col items-end">
+                                                    <Paper className='flex flex-col w-full' id='search-add-box'>
+                                                        <AddExerciseForm/>
+                                                    </Paper>
+                                                    <MobileSearchBar/>
+                                                </div>
                                                 <div className="w-full"><ExerciseTable/></div>
-                                                <MobileSearchBar/>
-                                            </>
+                                            </div>
                                     }
                                     </div>
                                 </div>
