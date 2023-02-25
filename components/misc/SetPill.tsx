@@ -65,13 +65,13 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
                 onClick={handleSetClick}
                 disabled={!editable}
             >
-                <h3 className="text-sm z-10 whitespace-nowrap">
+                <p className="text-sm whitespace-nowrap">
                     {`${set.quantity} ${setType !== 'lbs' && setType === 'seconds' ? 'sec' : 'reps'}`}
-                </h3>
+                </p>
                 {(setType === 'lbs' || setType === 'levels') &&
-                    <h3 className="text-sm z-10 whitespace-nowrap sm:ml-1">
+                    <p className="text-sm whitespace-nowrap sm:ml-1">
                         {setType === 'lbs' ? `${set.weight} lbs` : `level ${set.weight}`}
-                    </h3>
+                    </p>
                 }
             </button>
             {editable && 

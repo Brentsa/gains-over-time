@@ -21,21 +21,23 @@ export default function MobileSearchBar(){
     })
 
     return (
-        <div className=" fixed bottom-4 right-0 p-2 z-50">
-            <div 
-                className={`bg-rose-500 p-1 rounded-full shadow-lg transition-all duration-150 z-50 flex justify-between items-center`}
-                style={{width: open ? screenWidth.current-16 : 56}}
-            >
-                {open &&
-                    <div className="w-4/5 ml-1">
-                        <SearchBar rounded/>
-                    </div>
-                }
-                <IconButton 
-                    className={`text-white hover:bg-rose-400 select-none`}
-                    icon={!open ? faSearch : faMinus} 
-                    handleClick={toggleOpen}
-                />
+        <div className="h-screen w-screen fixed top-0 left-0">
+            <div className="right-0 bottom-96 bot absolute p-2 transition-all z-50">
+                <div 
+                    className={`bg-rose-500 p-1 rounded-full shadow-lg transition-all duration-150 flex justify-between items-center overflow-hidden`}
+                    style={{width: open ? screenWidth.current-16 : 56}}
+                >
+                    {open &&
+                        <div className="w-4/5 ml-1">
+                            <SearchBar rounded/>
+                        </div>
+                    }
+                    <IconButton 
+                        className={`text-white hover:bg-rose-400 select-none`}
+                        icon={!open ? faSearch : faMinus} 
+                        handleClick={toggleOpen}
+                    />
+                </div>
             </div>
         </div>
     )
