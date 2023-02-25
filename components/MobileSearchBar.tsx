@@ -23,11 +23,11 @@ export default function MobileSearchBar(){
     return (
         <div className={`p-2 transition-all z-40`}>
                 <div 
-                    className={`bg-rose-500 p-1 rounded-full shadow-lg transition-all duration-150 flex justify-between items-center overflow-hidden`}
+                    className={`bg-rose-500 p-1 rounded-full shadow-lg transition-all duration-150 flex justify-end items-center overflow-hidden`}
                     style={{width: open ? screenWidth.current-16 : 56}}
                 >
                     {open &&
-                        <div className="w-4/5 ml-1">
+                        <div className="grow ml-1 mr-2">
                             <SearchBar rounded/>
                         </div>
                     }

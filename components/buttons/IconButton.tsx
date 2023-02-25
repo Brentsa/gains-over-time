@@ -17,7 +17,7 @@ export default function IconButton({className, handleClick, type, icon, disabled
             onClick={handleClick} 
             type={type} 
             disabled={disabled} 
-            className={`rounded-full w-12 h-12 text-2xl p-1 ${className ?? 'text-rose-500 hover:bg-rose-50 disabled:bg-gray-300 disabled:text-white'}`}
+            className={`rounded-full w-12 h-12 text-2xl p-1 shrink-0 ${className ?? 'text-rose-500 hover:bg-rose-50 disabled:bg-gray-300 disabled:text-white'}`}
         >
             <FontAwesomeIcon icon={icon}/>
         </button>
