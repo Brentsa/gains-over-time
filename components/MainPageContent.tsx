@@ -87,7 +87,7 @@ export default function MainPageContent({showOnMobile}: Props){
                                                     </Paper>
                                                     <MobileSearchBar/>
                                                 </div>
-                                                <div className="w-full"><ExerciseTable/></div>
+                                                <div className="w-full pt-10"><ExerciseTable/></div>
                                             </div>
                                     }
                                     </div>
