@@ -8,11 +8,12 @@ import OutsideClickHandler from "./OutsideClickHandler";
 interface Props {
     selectedMuscles: Omit<Muscle, "createdAt">[]
     setSelectedMuscles: Dispatch<SetStateAction<Omit<Muscle, "createdAt">[]>>
-    dropdownItems: Muscle[],
+    dropdownItems: Muscle[]
+    disabled?: boolean
     className?: string
 }
 
-export default function MuscleDropdownList({dropdownItems, selectedMuscles, setSelectedMuscles, className}: Props){
+export default function MuscleDropdownList({dropdownItems, selectedMuscles, setSelectedMuscles, className, disabled}: Props){
 
     const [open, setOpen] = useState<boolean>(false);
     
@@ -38,8 +39,9 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
                 <button
                     id="exercise-template-select"
                     className={`flex justify-between items-center text-gray-500 ${selectedMuscles.length > 0 ? 'rounded-t' : 'rounded'} w-full text-sm px-3 py-2 ${open ? 'border-2 border-violet-400' : 'border border-gray-300'} z-10`}
-                    onClick={()=>setOpen(prev => !prev)}
+                    onClick={() => setOpen(prev => !prev)}
                     type="button"
+                    disabled={disabled}
                 >
                     {'Select Muscles'}
                     <FontAwesomeIcon className="text-xs" icon={!open ? faChevronDown : faChevronUp}/>

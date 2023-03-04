@@ -13,10 +13,11 @@ interface Props {
     setInputs: Dispatch<SetStateAction<Inputs>>,
     reset: boolean,
     resetFunction: Dispatch<SetStateAction<boolean>>,
+    disabled?: boolean
     initialMuscles?: Omit<Muscle, 'createdAt'>[]
 }
 
-export default function MuscleSelect({setInputs, reset, resetFunction, initialMuscles}: Props){
+export default function MuscleSelect({setInputs, reset, resetFunction, initialMuscles, disabled}: Props){
 
     //fetch muscles from the database
     const {data, error} = useSWR<Muscle[]>('/api/muscles', fetcher);
@@ -53,7 +54,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction, initialMu
             </label>
             <div className="grid grid-cols-12 gap-x-4">
                 <div className="col-span-full flex w-full" style={{maxHeight: 38}}>
-                    <MuscleDropdownList dropdownItems={data} selectedMuscles={selectedMuscles} setSelectedMuscles={setSelectedMuscles}/>
+                    <MuscleDropdownList dropdownItems={data} selectedMuscles={selectedMuscles} setSelectedMuscles={setSelectedMuscles} disabled={disabled}/>
                 </div>
                 {selectedMuscles.length > 0 &&
                     <div className="col-span-full flex flex-wrap items-center bg-gray-100 border border-gray-300 border-t-0 rounded-b-lg p-1">
