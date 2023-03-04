@@ -5,7 +5,7 @@ import Button from '../buttons/Button';
 import { ExerciseTemplate } from "@prisma/client";
 import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
-import DropdownList from '../utilities/DropdownList';
+import ExerciseDropdownList from '../utilities/ExerciseDropdownList';
 import { feedbackContext } from '../MainPageContent';
 
 export default function AddExerciseForm(){
@@ -71,7 +71,7 @@ export default function AddExerciseForm(){
 
     return (
         <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
-            <DropdownList 
+            <ExerciseDropdownList 
                 className="basis-full xl:basis-3/4"
                 state={selectedExercise}
                 dropdownItems={data}

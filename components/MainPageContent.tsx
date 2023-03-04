@@ -1,15 +1,11 @@
-import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 import FeedbackBar from "./FeedbackBar";
 import AddExerciseForm from "./forms/AddExerciseForm";
 import MobileSearchBar from "./MobileSearchBar";
 import Navbar from "./Navbar";
 import RenderVerticalTabs from "./RenderVerticalTabs";
-import SearchBar from "./SearchBar";
 import ExerciseTable from "./tables/ExerciseTable";
 import Paper from "./utilities/Paper";
-import TabContent from "./utilities/TabContent";
-import VerticalTabs from "./utilities/VerticalTabs";
 
 interface Props {
     showOnMobile: boolean

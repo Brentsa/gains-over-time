@@ -13,7 +13,7 @@ interface Props {
     className?: string
 }
 
-export default function DropdownList({dropdownItems, state, updateState, className}: Props){
+export default function ExerciseDropdownList({dropdownItems, state, updateState, className}: Props){
 
     const [open, setOpen] = useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
