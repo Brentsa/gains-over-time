@@ -200,7 +200,6 @@ export default function UpdateExerciseTForm(){
                     setInputs={setInputs} 
                     reset={resetSelect} 
                     resetFunction={setResetSelect} 
-                    disabled={!selectedExerciseTId} 
                     initialMuscles={muscleArray}
                 />
             </div>

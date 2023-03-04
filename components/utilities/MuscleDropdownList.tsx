@@ -28,8 +28,8 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
     }
 
     useEffect(()=>{
-        // console.log(ulRef.current)
-        // console.log(window.screen)
+        console.log(ulRef.current)
+        console.log(window.screen)
     }, [ulRef])
 
     return (
