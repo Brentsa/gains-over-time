@@ -72,7 +72,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     console.log(filteredExercises);
     
     return (
-        <div className="flex flex-col items-center w-screen">
+        <div className="flex flex-col items-center w-full">
             <h2 className="font-bold w-full mb-3 pr-6 sm:text-lg lg:text-xl border-b-4 border-violet-400">
                 {capitalizeAllWords(filteredExercises[0].exerciseT.name)} History
             </h2>
