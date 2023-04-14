@@ -201,7 +201,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                         {showTargetSets && targetSetsArray}
                     </div> 
                     
-                    <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-10'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
+                    <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-9'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
                         <button className={`${showButtons && 'rotate-180'} transition-all duration-500 text-violet-500`} onClick={toggleShowButtons}>
                             <FontAwesomeIcon icon={faAnglesLeft} size='2x'/>
                         </button>  
