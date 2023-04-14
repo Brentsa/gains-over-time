@@ -1,5 +1,5 @@
 import { faAnglesLeft, faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useMemo, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { mutate } from "swr";
 import { capitalizeAllWords, formatDateFullString, isToday } from "../../utils/helpers";
 import IconButton from "../buttons/IconButton";
@@ -26,6 +26,8 @@ interface Props {
 export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSameDate, index}: Props){
 
     const {setFeedback} = useContext(feedbackContext);
+
+    const liRef = useRef<HTMLLIElement>(null);
 
     //state variables to handle set pill rendering
     const [sets, setSets] = useState<Set[]>(exercise.sets);
@@ -130,13 +132,35 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
         setViewExerciseHistory(false);
     }
 
+    //if the user clicks outside this component, set the buttons to closed
+    function clickOutsideRow(event: globalThis.MouseEvent){
+        if(!liRef.current?.contains(event.target as Node)) setShowButtons(false);
+    }
+
+    useEffect(()=>{ 
+        if(showButtons) 
+            //add an event listener when the buttons are showing to close them if the user clicks outside this component
+            document.addEventListener('mousedown', clickOutsideRow);
+        else 
+            //remove the even listener when the buttons are closed
+            document.removeEventListener('mousedown', clickOutsideRow);
+
+        //remove the event listener if the component is unmounted
+        return ()=> document.removeEventListener('mousedown', clickOutsideRow);
+    }, [showButtons])
+
+    //if the exercise in the row changes, close the edit buttons
+    useEffect(()=>{
+        setShowButtons(false);
+    }, [exercise])
+
     useEffect(()=>{
         //update the sets in state if the supplied set array changes
         setSets(exercise.sets);
     }, [exercise.sets]);
 
     return (
-        <li>
+        <li ref={liRef}>
             {!bSameDate && 
                 <div className="px-2 sm:px-0">
                     <div className={`${index !== 0 && 'pt-6'} pl-0 sm:pl-2 text-2xl sm:text-3xl w-full font-light`}>
