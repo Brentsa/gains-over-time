@@ -67,9 +67,7 @@ export default function ExerciseHistory({userId, exerciseTId, exerciseType}: Pro
     }, [allUserExercises, exerciseTId]);
 
     //if there is no filtered data then do not display the exercise history
-    if(filteredExercises.length < 1) return <div>Loading...</div>
-
-    console.log(filteredExercises);
+    if(filteredExercises.length < 1) return <div>Loading...</div>;
     
     return (
         <div className="flex flex-col items-center w-full">

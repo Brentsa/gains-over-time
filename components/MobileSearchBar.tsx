@@ -1,5 +1,5 @@
 import { faMinus, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import IconButton from "./buttons/IconButton";
 import SearchBar from "./SearchBar";
 
@@ -16,7 +16,7 @@ export default function MobileSearchBar(){
     const screenWidth = useRef(0);
 
     //set the screen width
-    useLayoutEffect(()=>{
+    useEffect(()=>{
         screenWidth.current = screen.availWidth;
     })
 

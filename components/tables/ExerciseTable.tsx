@@ -95,7 +95,7 @@ export default function ExerciseTable(){
                         //reset the date ref on the last array item
                         if(i + 1 === array.length){ date.current = ''; }
                         
-                        return <ExerciseTableRow key={i} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
+                        return <ExerciseTableRow key={exercise.id} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
                     })
                 }
             </ul> 
