@@ -23,7 +23,7 @@ export default function MobileSearchBar(){
     return (
         <div className={`p-2 transition-all z-40 absolute -bottom-[4.5rem]`}>
                 <div 
-                    className={`bg-rose-500 p-1 rounded-full shadow-lg transition-all duration-150 flex justify-end items-center overflow-hidden`}
+                    className={`bg-rose-500 p-1 rounded-full shadow-lg ${open && 'shadow-black/30'} transition-all duration-150 flex justify-end items-center overflow-hidden`}
                     style={{width: open ? screenWidth.current-16 : 56}}
                 >
                     {open &&
