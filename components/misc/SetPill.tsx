@@ -1,5 +1,7 @@
 import { RepType, Set } from "@prisma/client"
-import { Dispatch, MouseEvent, SetStateAction, useEffect, useState } from "react"
+import { Dispatch, MouseEvent, SetStateAction, useContext, useEffect, useState } from "react"
+import { mutate } from "swr"
+import { userContext } from "../../pages"
 
 interface Props {
     set: Set,
@@ -10,6 +12,8 @@ interface Props {
 }
 
 export default function SetPill({set, setSets, setSelectedSet, setType, editable}: Props){
+    const user = useContext(userContext);
+
     const shakeDegrees = 4
     const [rotationDeg, setRotationDeg] = useState<number>(0);
 
@@ -39,6 +43,9 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
         })
 
         if(!response.ok) return console.log('Set could not be deleted');
+
+        //update the previous exercise SWRs (for ExerciseHistory popup)
+        mutate(`api/exercises/${user?.id}`);
 
         //remove the set from the exercise row
         setSets(prevSetArray => prevSetArray.filter(prevSet => prevSet.id !== set.id));

@@ -4,6 +4,7 @@ import { feedbackContext } from "../MainPageContent";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
 import { SetInputs } from "./AddSetForm";
 import SetForm from "./SetForm";
+import { mutate } from "swr";
 
 interface Props {
     set: Set,
@@ -45,6 +46,9 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
 
         //update the entire set state in the exercise table with the updated set
         setSets(prevSets => prevSets.map(prevSet => prevSet.id === set.id ? {...updatedSet} : prevSet));
+
+        //update the previous exercise SWRs (for ExerciseHistory popup)
+        mutate(`api/exercises/${exercise.accountId}`);
 
         //close the modal and reset the selected set
         closeModal(); 
