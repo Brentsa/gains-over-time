@@ -12,7 +12,7 @@ import { Set } from "@prisma/client";
 import UpdateSetForm from "../forms/UpdateSetForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ExerciseHistory from "../misc/ExerciseHistory";
-import { feedbackContext } from "../MainPageContent";
+import { feedbackContext } from "../MainPageContainer";
 import Paper from "../utilities/Paper";
 import ExerciseDeleteForm from "../forms/ExerciseDeleteForm";
 

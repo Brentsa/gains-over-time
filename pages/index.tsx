@@ -4,7 +4,7 @@ import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 import { useMediaQuery } from 'react-responsive';
 import { createContext, useEffect, useState } from 'react';
-import MainPageContent from '../components/MainPageContent';
+import MainPageContainer from '../components/MainPageContainer';
 
 type User = Omit<Account, 'password' | 'createdAt'>
 
@@ -36,7 +36,7 @@ export default function Home({user}: Props){
         <Head>
           <title>Gains Over Time</title>
         </Head>
-        <MainPageContent showOnMobile={showOnMobile}/>
+        <MainPageContainer showOnMobile={showOnMobile}/>
       </div>
     </userContext.Provider>
   );

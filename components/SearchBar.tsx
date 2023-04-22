@@ -1,7 +1,7 @@
 import { faCircleXmark, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ChangeEvent, FormEvent, useContext } from "react";
-import { searchContext } from "./MainPageContent";
+import { searchContext } from "./MainPageContainer";
 
 interface Props {
     rounded? : boolean

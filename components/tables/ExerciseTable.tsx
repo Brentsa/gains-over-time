@@ -7,7 +7,7 @@ import Modal from "../utilities/Modal";
 import { useContext, useEffect, useRef, useState } from "react";
 import AddSetForm from "../forms/AddSetForm";
 import { isSameDate } from "../../utils/helpers";
-import { searchContext } from "../MainPageContent";
+import { searchContext } from "../MainPageContainer";
 import LoadingTable from "./LoadingTable";
 
 export interface ExerciseFromSWR{

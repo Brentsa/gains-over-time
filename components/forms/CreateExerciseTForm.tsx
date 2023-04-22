@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react"
 import { mutate } from "swr"
 import { userContext } from '../../pages/index'
 import { capitalizeAllWords } from "../../utils/helpers"
-import { feedbackContext } from "../MainPageContent"
+import { feedbackContext } from "../MainPageContainer"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"
 

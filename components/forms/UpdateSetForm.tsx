@@ -1,6 +1,6 @@
 import { Set } from "@prisma/client";
 import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useContext, useState } from "react";
-import { feedbackContext } from "../MainPageContent";
+import { feedbackContext } from "../MainPageContainer";
 import { ExerciseFromSWR } from "../tables/ExerciseTable";
 import { SetInputs } from "./AddSetForm";
 import SetForm from "./SetForm";

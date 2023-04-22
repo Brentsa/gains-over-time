@@ -6,7 +6,7 @@ import { ExerciseTemplate } from "@prisma/client";
 import useSWR, { mutate } from "swr"
 import fetcher from "../../utils/swrFetcher"
 import ExerciseDropdownList from '../utilities/ExerciseDropdownList';
-import { feedbackContext } from '../MainPageContent';
+import { feedbackContext } from '../MainPageContainer';
 
 export default function AddExerciseForm(){
 

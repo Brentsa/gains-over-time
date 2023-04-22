@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { KeyedMutator } from 'swr'
-import { feedbackContext } from "../MainPageContent";
+import { feedbackContext } from "../MainPageContainer";
 import { ExerciseFromSWR } from "../tables/ExerciseTable"
 import SetForm from "./SetForm";
 

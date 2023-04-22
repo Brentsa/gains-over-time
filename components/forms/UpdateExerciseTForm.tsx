@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react"
 import useSWR from "swr"
 import { userContext } from '../../pages/index'
 import { capitalizeAllWords } from "../../utils/helpers"
-import { feedbackContext } from "../MainPageContent"
+import { feedbackContext } from "../MainPageContainer"
 import { Inputs } from "./CreateExerciseTForm"
 import FormInput from "./FormInput"
 import MuscleSelect from "./MuscleSelect"

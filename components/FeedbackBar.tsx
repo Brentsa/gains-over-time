@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react"
-import { feedbackContext } from "./MainPageContent"
+import { feedbackContext } from "./MainPageContainer"
 
 export default function FeedbackBar(){
 
