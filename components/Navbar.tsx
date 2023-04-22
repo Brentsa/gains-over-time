@@ -1,10 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons'
-import LogoutButton from './buttons/LogoutButton';
 import { userContext } from '../pages/index';
 import { useContext } from 'react';
 import SearchBar from './SearchBar';
-import { searchContext } from './MainPageContent';
+import OptionsMenu from './OptionsMenu';
 
 interface Props {
     isMobile?: boolean
@@ -37,7 +36,7 @@ export default function Navbar({isMobile}: Props){
                             <SearchBar/>
                         </div>
                     }
-                    <LogoutButton/>
+                    <OptionsMenu/>
                 </div>
             </div>
             <div className='w-full h-3 bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
