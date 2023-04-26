@@ -18,6 +18,7 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
     const {setFeedback} = useContext(feedbackContext);
 
     const [inputs, setInputs] = useState<SetInputs>({quantity: set.quantity, weight: set.weight});
+    const [loading, setLoading] = useState<boolean>(false);
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         event.preventDefault();
@@ -33,11 +34,17 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
         //Quantity is always required, if the exercise is lbs type there has to be a weight
         if(!inputs.quantity || (exercise.exerciseT.type === 'lbs' && !inputs.weight)) return; 
 
+        //set loading state to true
+        setLoading(true);
+
         const response = await fetch(`api/set/update/${set.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(inputs)
         });
+
+        //remove the loading state when a response has been given
+        setLoading(false);
 
         //if the response is not ok, present the user with an error feedback message
         if(!response.ok) return setFeedback({type: 'failure', message: 'Set update was unsuccessful.'});
@@ -62,7 +69,7 @@ export default function UpdateSetForm({set, exercise, closeModal, setSets}: Prop
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
                 Update Set
             </h2>
-            <SetForm exercise={exercise} inputs={inputs} handleSubmit={handleSubmit} handleInputChange={handleInputChange}/>
+            <SetForm exercise={exercise} inputs={inputs} handleSubmit={handleSubmit} handleInputChange={handleInputChange} loading={loading}/>
         </div>
     );
 }

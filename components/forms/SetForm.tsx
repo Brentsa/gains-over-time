@@ -8,7 +8,7 @@ import FormInput from "./FormInput"
 interface Props {
     inputs: SetInputs,
     exercise: ExerciseFromSWR,
-    loading?: boolean,
+    loading: boolean,
     handleSubmit: FormEventHandler<HTMLFormElement>,
     handleInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
