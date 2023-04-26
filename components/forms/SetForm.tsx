@@ -8,11 +8,12 @@ import FormInput from "./FormInput"
 interface Props {
     inputs: SetInputs,
     exercise: ExerciseFromSWR,
+    loading: boolean,
     handleSubmit: FormEventHandler<HTMLFormElement>,
     handleInputChange: (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void
 }
 
-export default function SetForm({inputs, exercise, handleSubmit, handleInputChange}: Props){
+export default function SetForm({inputs, exercise, loading, handleSubmit, handleInputChange}: Props){
 
     return (
         <form onSubmit={handleSubmit} className="w-10/12">
@@ -47,6 +48,7 @@ export default function SetForm({inputs, exercise, handleSubmit, handleInputChan
                 label="Save" 
                 className="w-full" 
                 disabled={exercise.exerciseT.type === 'lbs' ? !inputs.weight || !inputs.quantity : !inputs.quantity}
+                loading={loading}
             />
         </form>
     );

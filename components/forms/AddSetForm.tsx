@@ -24,6 +24,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
     const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
 
     const [inputs, setInputs] = useState<SetInputs>({quantity: '', weight: ''});
+    const [loading, setLoading] = useState<boolean>(false);
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         const {name, value} = event.target;
@@ -41,6 +42,9 @@ export default function AddSetForm({exercise, close, mutate}: Props){
         //return out of the function if there is no exercise ID or either of the inputs are not a number
         if(!exercise?.id || (inputs.weight === '' && exercise.exerciseT.type === 'lbs') || inputs.quantity === '') return; 
 
+        //Start loading animation and behaviour
+        setLoading(true);
+
         const response = await fetch('/api/set/create', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -50,6 +54,9 @@ export default function AddSetForm({exercise, close, mutate}: Props){
                 exerciseId: exercise.id
             })
         })
+
+        //remove loading state once a response is received
+        setLoading(false);
 
         //if the response is not ok, present the user with an error feedback message
         if(!response.ok) return setFeedback({type: 'failure', message: 'Set was not saved'});
@@ -81,7 +88,7 @@ export default function AddSetForm({exercise, close, mutate}: Props){
             <h2 className="font-bold w-full mb-2 text-sm sm:text-lg lg:text-xl border-b-2 border-violet-300">
                 Add New Set
             </h2>
-            <SetForm exercise={exercise} inputs={inputs} handleSubmit={handleSubmit} handleInputChange={handleInputChange}/>
+            <SetForm exercise={exercise} inputs={inputs} handleSubmit={handleSubmit} handleInputChange={handleInputChange} loading={loading}/>
         </div>
     ) : 
     <div>Form could not load.</div>
