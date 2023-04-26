@@ -15,6 +15,7 @@ interface Props {
 }
 
 export default function Button({label, className, handleClick, type, icon, iconRight, disabled, loading}: Props){
+    
     return (
         <button onClick={handleClick} type={type} disabled={disabled || loading} className={`rounded bg-rose-500 text-white p-1 hover:bg-rose-400 disabled:bg-gray-300 px-4 ${className}`}>
             {!icon ?
