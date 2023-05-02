@@ -14,7 +14,8 @@ interface Props {
     max?: number,
     required?: boolean,
     autofocus?: boolean,
-    customClassName?: string
+    customClassName?: string,
+    autoComplete?: string
 }
 
 export default function FormInput(props: Props){
@@ -39,6 +40,7 @@ export default function FormInput(props: Props){
                 required={props?.required}
                 disabled={props?.disabled}
                 autoFocus={props?.autofocus}
+                autoComplete={props?.autoComplete}
             />
         </div>
     );
