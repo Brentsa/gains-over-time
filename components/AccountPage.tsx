@@ -4,7 +4,6 @@ import { userContext } from "../pages";
 import FormInput from "./forms/FormInput";
 import Button from "./buttons/Button";
 import { faLock, faSave, faUnlock } from "@fortawesome/free-solid-svg-icons";
-import IconButton from "./buttons/IconButton";
 import IconSwitchButton from "./buttons/IconSwitchButton";
 
 export default function AccountPage(){
@@ -37,7 +36,7 @@ export default function AccountPage(){
 
     return (
         <div className="flex justify-center mt-4">
-            <Paper className="rounded w-10/12 md:w-4/12">
+            <Paper className="rounded w-full md:w-4/12">
                 <form 
                     onSubmit={handleFormSubmit}
                     className="flex flex-col items-center justify-center px-4 py-2 space-y-6"

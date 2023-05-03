@@ -39,6 +39,11 @@ export default function Navbar({isMobile, currentPage, setPage}: Props){
                             Account Details
                         </h1>
                     }
+                    {currentPage === 'templates' && 
+                        <h1 className='w-full text-3xl sm:text-4xl rounded text-center font-bold'>
+                            Exercise Templates
+                        </h1>
+                    }
                 </div>
                 <div className='order-3 col-span-6 md:col-span-4 xl:col-span-3 flex justify-end items-center'>
                     {!isMobile && currentPage === 'home' &&
@@ -46,7 +51,7 @@ export default function Navbar({isMobile, currentPage, setPage}: Props){
                             <SearchBar/>
                         </div>
                     }
-                    <OptionsMenu currentPage={currentPage} setPage={setPage}/>
+                    <OptionsMenu currentPage={currentPage} setPage={setPage} isMobile={isMobile}/>
                 </div>
             </div>
             <div className='w-full h-3 bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
