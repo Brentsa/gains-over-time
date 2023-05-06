@@ -11,14 +11,13 @@ interface Props {
 
 export default function ExercisePage({isMobile}: Props){
 
-    return ( isMobile 
-        ?
+    return ( isMobile ?
         <div className='flex flex-col'>
             <div className='basis-1/3'>
                 <div className='flex flex-col flex-wrap space-y-4'>
                     <div className="w-full">
                         <div className="sticky top-0 z-30 flex flex-col items-end">
-                            <Paper className='flex flex-col w-full' id='search-add-box'>
+                            <Paper className='flex flex-col w-full pt-4' id='search-add-box'>
                                 <AddExerciseForm/>
                             </Paper>
                             <MobileSearchBar/>
