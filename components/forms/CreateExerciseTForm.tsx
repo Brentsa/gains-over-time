@@ -17,7 +17,7 @@ export interface Inputs {
 
 export default function CreateExerciseTForm(){
 
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
 
     const [inputs, setInputs] = useState<Inputs>({name: '', muscles: [], targetSets: '', targetReps: '', type: ''});

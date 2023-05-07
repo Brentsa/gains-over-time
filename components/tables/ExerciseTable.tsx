@@ -21,7 +21,7 @@ export interface ExerciseFromSWR{
 
 export default function ExerciseTable(){
 
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
     const {search} = useContext(searchContext);
 
     //fetch all of the user's exercises using their ID

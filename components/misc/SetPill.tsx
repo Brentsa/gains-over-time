@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function SetPill({set, setSets, setSelectedSet, setType, editable}: Props){
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
 
     const shakeDegrees = 4
     const [rotationDeg, setRotationDeg] = useState<number>(0);

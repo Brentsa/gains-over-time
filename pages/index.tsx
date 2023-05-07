@@ -3,27 +3,36 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from '../utils/iron-session-config';
 import { Account } from '@prisma/client'
 import { useMediaQuery } from 'react-responsive';
-import { createContext, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, createContext, useEffect, useState } from 'react';
 import MainPageContainer from '../components/MainPageContainer';
 
 type User = Omit<Account, 'password' | 'createdAt'>
 
 interface Props {
-  user? : User
+  user: User
 }
 
-export const userContext = createContext<User | undefined>({
-  id: 0, 
-  email: '', 
-  firstName: '', 
-  lastName: '', 
-  username: ''
+interface UserPackage {
+  user: User,
+  setUser: Dispatch<SetStateAction<User>>
+}
+
+export const userContext = createContext<UserPackage>({
+  user:{
+    id: 0, 
+    email: '', 
+    firstName: '', 
+    lastName: '', 
+    username: ''
+  },
+  setUser: () => {}
 });
 
-export default function Home({user}: Props){
+export default function Home(props: Props){
 
   const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
 
+  const [user, setUser] = useState(props.user)
   const [showOnMobile, setShowOnMobile] = useState(true);
 
   useEffect(() => {
@@ -31,7 +40,7 @@ export default function Home({user}: Props){
   }, [isMobile])
 
   return (
-    <userContext.Provider value={user}>
+    <userContext.Provider value={{user, setUser}}>
       <div>
         <Head>
           <title>Gains Over Time</title>

@@ -15,13 +15,13 @@ export function getPrismaClientError(error:  PrismaClientKnownRequestError): str
     if(error instanceof Prisma.PrismaClientKnownRequestError){
         switch(error.code){
             case 'P2002':
-                message = 'Unique constraint violation'
+                message = 'Unique constraint violation';
                 break;
             case 'P2003':
                 message = 'Foreign key constraint failed on field: ' + error.meta?.field_name;
                 break;
             case 'P2025': 
-                message = 'Object not found in database.'
+                message = 'Object not found in database.';
                 break;
             case 'P2022': 
                 message = 'Object not created.' + error.message;

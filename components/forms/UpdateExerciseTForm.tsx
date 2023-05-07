@@ -18,7 +18,7 @@ export type ExerciseTemplateWithMuscles = Prisma.ExerciseTemplateGetPayload<type
 
 export default function UpdateExerciseTForm(){
 
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
 
     //retrieve the user's exercise templates

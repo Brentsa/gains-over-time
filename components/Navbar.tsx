@@ -14,7 +14,7 @@ interface Props {
 
 export default function Navbar({isMobile, currentPage, setPage}: Props){
 
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
 
     return (
         <nav className="bg-white shadow-lg z-50 static lg:sticky top-0">

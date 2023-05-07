@@ -1,22 +1,26 @@
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useContext, useEffect, useState } from "react";
 import Paper from "./utilities/Paper";
 import { userContext } from "../pages";
 import FormInput from "./forms/FormInput";
 import Button from "./buttons/Button";
 import { faLock, faSave, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import IconSwitchButton from "./buttons/IconSwitchButton";
+import { feedbackContext } from "./MainPageContainer";
 
 export default function AccountPage(){
 
-    const user = useContext(userContext);
+    const {user, setUser} = useContext(userContext);
+    const {setFeedback} = useContext(feedbackContext);
 
+    //form inputs filled with current user data
     const [inputs, setInputs] = useState({
-        email: user?.email || '', 
-        firstName: user?.firstName || '', 
-        lastName: user?.lastName || '', 
-        username: user?.username || ''
+        username: user.username || '',
+        firstName: user.firstName || '', 
+        lastName: user.lastName || '', 
+        email: user.email || ''
     });
 
+    //locked states for input fields
     const [locked, setLocked] = useState({
         email: true, 
         firstName: true, 
@@ -24,15 +28,64 @@ export default function AccountPage(){
         username: true
     })
 
+    const [changed, setChanged] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     function handleInputChange(event:ChangeEvent<HTMLInputElement | HTMLSelectElement>){
         const {value, name} = event.target;
         setInputs(prevInputs => ({...prevInputs, [name]: value}))
     }
 
-    function handleFormSubmit(event:FormEvent){
+    async function handleFormSubmit(event:FormEvent){
         event.preventDefault();
-        console.log(inputs)
+
+        setLoading(true);
+
+        const response = await fetch(`api/account/update/${user.id}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(inputs)
+        });
+
+        const data = await response.json();
+
+        setLoading(false);
+
+        //handle any response errors with failure feedback
+        if(!response.ok){
+            return setFeedback({type: 'failure', message: data.error});
+        }
+
+        //give user feedback
+        setFeedback({type: 'success', message: 'Account successfully updated'});
+
+        //lock the form again
+        setLocked({
+            email: true, 
+            firstName: true, 
+            lastName: true, 
+            username: true
+        })
+        
+        //update the user's global state data
+        setUser(data);
     }
+
+    //check to see if inputs have been altered, returns true if inputs have been changed
+    const haveInputsChanged = useCallback(()=>{
+        let hasChanged = false;
+        
+        if(inputs.username !== user.username || inputs.firstName !== user.firstName || inputs.lastName !== user.lastName || inputs.email !== user.email){
+            hasChanged = true;
+        }
+
+        setChanged(hasChanged);
+    }, [setChanged, inputs, user]);
+
+    useEffect(()=>{
+        //check if inputs have deviated from original user data anytime they are changed
+        haveInputsChanged();
+    }, [inputs, haveInputsChanged])
 
     return (
         <div className="flex justify-center mt-4">
@@ -61,7 +114,7 @@ export default function AccountPage(){
                         
                         <div className="flex items-end space-x-2">
                             <FormInput
-                                className="w-full"
+                                className="grow"
                                 id="lastName"
                                 name="lastName"
                                 onChange={handleInputChange}
@@ -78,7 +131,7 @@ export default function AccountPage(){
 
                         <div className="flex items-end space-x-2">
                             <FormInput
-                                className="w-full"
+                                className="grow"
                                 id="username"
                                 name="username"
                                 onChange={handleInputChange}
@@ -97,7 +150,7 @@ export default function AccountPage(){
 
                         <div className="flex items-end space-x-2">
                             <FormInput
-                                className="w-full"
+                                className="grow"
                                 id="email"
                                 name="email"
                                 onChange={handleInputChange}
@@ -119,6 +172,8 @@ export default function AccountPage(){
                         type="submit"
                         className="w-fit"
                         icon={faSave}
+                        disabled={!changed}
+                        loading={loading}
                     />
                 </form>
             </Paper>

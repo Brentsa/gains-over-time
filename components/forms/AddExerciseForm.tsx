@@ -10,7 +10,7 @@ import { feedbackContext } from '../MainPageContainer';
 
 export default function AddExerciseForm(){
 
-    const user = useContext(userContext);
+    const {user} = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
 
     const {data, error } = useSWR<ExerciseTemplate[]>(`api/exercise-templates/${user?.id}`, fetcher);
