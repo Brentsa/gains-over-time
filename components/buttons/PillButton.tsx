@@ -20,10 +20,13 @@ export default function PillButton({label, id, setArray}: Props){
     }
 
     return (
-        <div className="flex justify-between items-center h-full bg-violet-200 rounded-full px-2 space-x-2">
-            <p className="text-sm">{capitalizeAllWords(label)}</p>
-            <button className="text-white bg-rose-500 rounded-full w-5 h-5 text-sm" onClick={removePill}>
-                <FontAwesomeIcon icon={faX}/>
+        <div className="relative flex items-center h-full bg-violet-200 rounded-full px-4 space-x-2">
+            <p className="text-sm pr-1">{capitalizeAllWords(label)}</p>
+            <button 
+                className="absolute -top-1 -right-1 h-5 w-5 rounded-full text-white bg-rose-600 shadow text-sm  hover:bg-rose-500 hover:text-gray-100 z-10" 
+                onClick={removePill}
+            >
+                x
             </button>
         </div>
     );

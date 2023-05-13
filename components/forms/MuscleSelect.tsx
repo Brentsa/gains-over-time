@@ -50,7 +50,7 @@ export default function MuscleSelect({setInputs, reset, resetFunction, initialMu
     return (
         <div className="w-full">
             <label htmlFor="exercise-muscle-select" className="text-sm">
-                Add Muscles:
+                Muscle Groups:
             </label>
             <div className="grid grid-cols-12 gap-x-4">
                 <div className="col-span-full flex w-full" style={{maxHeight: 38}}>
