@@ -41,7 +41,7 @@ export default function VerticalTabs({children}: Props){
 
     return (
        <div className="flex">
-            <div className="basis-auto flex flex-col items-end space-y-2">
+            <div className="basis-1/4 flex flex-col items-end space-y-2">
                 {children.map((child, i)=>
                     <TabItem 
                         label={child.props.label} 
@@ -64,7 +64,7 @@ export default function VerticalTabs({children}: Props){
                 />
                 <div className="bg-gray-200 w-0.5 h-full"/>
             </div>
-            <div className="basis-full py-2 px-2 lg:px-4 my-auto">
+            <div className="grow py-2 px-2 lg:px-4 my-auto">
                 { children[tabInfo.index] }
             </div>
        </div> 

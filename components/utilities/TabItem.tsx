@@ -22,10 +22,15 @@ const TabItem = forwardRef((props: Props, ref: Ref<HTMLDivElement>) => {
 
     return (
         <div ref={ref}>
-            <button onClick={handleClick} className={`p-2 rounded-l whitespace-nowrap space-x-2 hover:bg-gray-100 ${active && 'text-rose-500 font-bold'}`}>
-                {label && <span>{label}</span>}
+            <button 
+                onClick={handleClick} 
+                className={`p-2 rounded-l flex items-center justify-center space-x-2 hover:bg-gray-100 ${active && 'text-rose-500 font-bold'}`}
+            >
+                {label && 
+                    <span>{label}</span>
+                }
                 {props?.icon &&
-                    <FontAwesomeIcon icon={props.icon}/>
+                    <FontAwesomeIcon icon={props.icon} size="lg"/>
                 }
             </button>
         </div>
