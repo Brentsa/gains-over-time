@@ -86,5 +86,22 @@ export default function AddExerciseForm(){
                 disabled={!selectedExercise}
             />
         </form>
+
+        // <form onSubmit={handleSubmit} className="flex" id='add-exercise-form'>
+        //     <ExerciseDropdownList 
+        //         className={`transition-all duration-1000 basis-full`}
+        //         state={selectedExercise}
+        //         dropdownItems={data}
+        //         updateState={setSelectedExercise}
+        //     />
+        //     <Button 
+        //         className={`transition-all duration-1000 ${!selectedExercise ? "w-0 px-0 p-0" : "grow"}`}
+        //         label='Add' 
+        //         type='submit' 
+        //         icon={faPlus} 
+        //         iconRight  
+        //         disabled={!selectedExercise}
+        //     />
+        // </form>
     )
 }

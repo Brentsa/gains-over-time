@@ -49,25 +49,27 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
                     <p>Select Muscles</p>
                     <FontAwesomeIcon className="text-xs" icon={!open ? faChevronDown : faChevronUp}/>
                 </button>
-                <ul className={`${open ? 'absolute' : 'hidden'} z-50 ${openAbove ? 'bottom-1' : 'top-1'} -left-2 rounded w-full border p-2 space-y-0.5 bg-gray-200 border-gray-300 h-[${menuSize}px] select-none overflow-scroll hover:cursor-pointer shadow-xl shadow-gray-400`}>
-                    {dropdownItems
-                        .map((muscle, i) => 
-                        <li
-                            key={i}
-                            className={`px-2 py-0.5 rounded text-sm ${ bIsIdInArray(muscle.id) ? 'bg-rose-500 text-white' : 'sm:hover:bg-rose-200'} `}
-                            onClick={() => {
-                                if(bIsIdInArray(muscle.id)){
-                                    //remove muscle ID from the selected muscles array
-                                    setSelectedMuscles(prev => prev.filter(item => item.id !== muscle.id));
-                                }
-                                else{
-                                    //add muscle ID to the selected muscles array
-                                    setSelectedMuscles(prev => prev.concat({id: muscle.id, name: muscle.name}));
-                                }
-                            }}
-                        >
-                            {capitalizeAllWords(muscle.name)}
-                        </li>
+                <ul 
+                    className={`${open ? 'absolute' : 'hidden'} z-50 ${openAbove ? 'bottom-1' : 'top-1'} -left-2 rounded w-full border p-2 space-y-0.5 bg-gray-200 border-gray-300 select-none overflow-scroll hover:cursor-pointer shadow-xl shadow-gray-400`}
+                    style={{height: menuSize}}
+                >
+                    {dropdownItems.map((muscle, i) => 
+                            <li
+                                key={i}
+                                className={`px-2 py-0.5 rounded text-sm ${ bIsIdInArray(muscle.id) ? 'bg-rose-500 text-white' : 'sm:hover:bg-rose-200'} `}
+                                onClick={() => {
+                                    if(bIsIdInArray(muscle.id)){
+                                        //remove muscle ID from the selected muscles array
+                                        setSelectedMuscles(prev => prev.filter(item => item.id !== muscle.id));
+                                    }
+                                    else{
+                                        //add muscle ID to the selected muscles array
+                                        setSelectedMuscles(prev => prev.concat({id: muscle.id, name: muscle.name}));
+                                    }
+                                }}
+                            >
+                                {capitalizeAllWords(muscle.name)}
+                            </li>
                         )
                     }
                 </ul>
