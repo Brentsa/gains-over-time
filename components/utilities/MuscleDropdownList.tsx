@@ -20,6 +20,8 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
     
     const divRef = useRef<HTMLDivElement>(null);
 
+    const menuSize = 240;
+
     //check if the muscle array contains the given muscle based on the supplied ID
     function bIsIdInArray(id: number): boolean{
         for(let i = 0; i < selectedMuscles.length; i++){
@@ -31,7 +33,7 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
 
     useEffect(()=>{
         //set the menu to open above the select button if the screen space is too small to contain it
-        if(divRef.current) setOpenAbove(divRef.current?.getBoundingClientRect().bottom + 240 > window.screen.availHeight);
+        if(divRef.current) setOpenAbove(divRef.current?.getBoundingClientRect().bottom + menuSize > window.screen.availHeight);
     }, [divRef])
 
     return (
@@ -47,7 +49,7 @@ export default function MuscleDropdownList({dropdownItems, selectedMuscles, setS
                     <p>Select Muscles</p>
                     <FontAwesomeIcon className="text-xs" icon={!open ? faChevronDown : faChevronUp}/>
                 </button>
-                <ul className={`${open ? 'absolute' : 'hidden'} z-50 ${openAbove ? 'bottom-1' : 'top-1'} -left-2 rounded w-full border p-2 space-y-0.5 bg-gray-200 border-gray-300 h-60 select-none overflow-scroll hover:cursor-pointer shadow-xl shadow-gray-400`}>
+                <ul className={`${open ? 'absolute' : 'hidden'} z-50 ${openAbove ? 'bottom-1' : 'top-1'} -left-2 rounded w-full border p-2 space-y-0.5 bg-gray-200 border-gray-300 h-[${menuSize}px] select-none overflow-scroll hover:cursor-pointer shadow-xl shadow-gray-400`}>
                     {dropdownItems
                         .map((muscle, i) => 
                         <li
