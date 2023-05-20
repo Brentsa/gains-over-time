@@ -20,13 +20,13 @@ export default function Button({label, className, handleClick, type, icon, iconR
 
     //return button with no icon
     if(!icon) return (
-        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes}>
+        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes} style={{WebkitTapHighlightColor: 'transparent'}}>
             {label}
         </button>
     )
     //return button with left icon
     else if(!iconRight) return (
-        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes}>
+        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes} style={{WebkitTapHighlightColor: 'transparent'}}>
             <FontAwesomeIcon 
                 icon={loading ? faCircleNotch : icon} 
                 className={`mr-2 ${loading && 'animate-spin'}`}
@@ -36,7 +36,7 @@ export default function Button({label, className, handleClick, type, icon, iconR
     )
     //return button with right icon
     else return(
-        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes}>
+        <button onClick={handleClick} type={type} disabled={disabled || loading} className={classes} style={{WebkitTapHighlightColor: 'transparent'}}>
             {label}
             <FontAwesomeIcon 
                 icon={loading ? faCircleNotch : icon} 
