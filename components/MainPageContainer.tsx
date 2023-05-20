@@ -50,7 +50,7 @@ export default function MainPageContainer({showOnMobile}: Props){
         <feedbackContext.Provider value={{feedback, setFeedback}}>
             <main>
                 <Navbar isMobile={showOnMobile} currentPage={page} setPage={setPage}/>
-                <section className='container pb-8 pt-0 sm:pt-4'>
+                <section className='container pb-12 pt-0 sm:pt-4'>
                     {page === 'home' && <ExercisePage isMobile={showOnMobile}/>}
                     {page === 'account' && <AccountPage/>}
                     {page === 'templates' && showOnMobile && <TemplatesPage/>}

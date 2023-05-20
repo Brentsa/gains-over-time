@@ -16,7 +16,7 @@ interface Props {
 
 export default function Button({label, className, handleClick, type, icon, iconRight, disabled, loading}: Props){
 
-    const classes = `transition-colors rounded bg-rose-500 text-white p-1 px-4 hover:bg-rose-400 disabled:bg-gray-300 ${className} whitespace-nowrap`;
+    const classes = `rounded bg-rose-500 text-white p-1 px-4 hover:bg-rose-400 disabled:bg-gray-300 ${className} whitespace-nowrap`;
 
     //return button with no icon
     if(!icon) return (

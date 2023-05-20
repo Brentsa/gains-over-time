@@ -8,7 +8,11 @@ import fetcher from "../../utils/swrFetcher"
 import ExerciseDropdownList from '../utilities/ExerciseDropdownList';
 import { feedbackContext } from '../MainPageContainer';
 
-export default function AddExerciseForm(){
+interface Props{
+    mobile?: boolean
+}
+
+export default function AddExerciseForm({mobile}: Props){
 
     const {user} = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
@@ -70,15 +74,32 @@ export default function AddExerciseForm(){
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
+        // <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
+        //     <ExerciseDropdownList 
+        //         className="basis-full xl:basis-3/4"
+        //         state={selectedExercise}
+        //         dropdownItems={data}
+        //         updateState={setSelectedExercise}
+        //     />
+        //     <Button 
+        //         className="basis-full xl:basis-1/4 mt-2 xl:mt-0 xl:ml-2"
+        //         label='Add' 
+        //         type='submit' 
+        //         icon={faPlus} 
+        //         iconRight  
+        //         disabled={!selectedExercise}
+        //     />
+        // </form>
+
+        <form onSubmit={handleSubmit} className={mobile ? "relative" : "flex"} id='add-exercise-form'>
             <ExerciseDropdownList 
-                className="basis-full xl:basis-3/4"
+                className={mobile ? "w-full" : "basis-3/4"}
                 state={selectedExercise}
                 dropdownItems={data}
                 updateState={setSelectedExercise}
             />
             <Button 
-                className="basis-full xl:basis-1/4 mt-2 xl:mt-0 xl:ml-2"
+                className={mobile ? `absolute rounded-b-full px-8 -z-10 duration-200 shadow-lg transition-all right-0 h-12 ${selectedExercise ? 'top-14' : 'top-0'}` : 'basis-1/4 ml-2'}
                 label='Add' 
                 type='submit' 
                 icon={faPlus} 
