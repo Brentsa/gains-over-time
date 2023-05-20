@@ -12,8 +12,8 @@ interface Props {
 export default function DropdownItem({children, exercise, setSelected, setOpen, active}: Props){
 
     function handleClick(){
-        //update the selected exercise with this item's exercise and close the dropdown list
-        setSelected(exercise);
+        //update the selected exercise with this item's exercise and close the dropdown list, clear the selected exercise if the user clicks the active exercise
+        setSelected(current => exercise === current ? undefined : exercise);
         setOpen(false);
     }
     

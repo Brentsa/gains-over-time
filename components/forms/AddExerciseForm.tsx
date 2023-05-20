@@ -74,23 +74,6 @@ export default function AddExerciseForm({mobile}: Props){
     }
 
     return (
-        // <form onSubmit={handleSubmit} className="flex flex-col xl:flex-row" id='add-exercise-form'>
-        //     <ExerciseDropdownList 
-        //         className="basis-full xl:basis-3/4"
-        //         state={selectedExercise}
-        //         dropdownItems={data}
-        //         updateState={setSelectedExercise}
-        //     />
-        //     <Button 
-        //         className="basis-full xl:basis-1/4 mt-2 xl:mt-0 xl:ml-2"
-        //         label='Add' 
-        //         type='submit' 
-        //         icon={faPlus} 
-        //         iconRight  
-        //         disabled={!selectedExercise}
-        //     />
-        // </form>
-
         <form onSubmit={handleSubmit} className={mobile ? "relative" : "flex"} id='add-exercise-form'>
             <ExerciseDropdownList 
                 className={mobile ? "w-full" : "basis-3/4"}
