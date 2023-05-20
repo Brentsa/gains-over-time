@@ -38,7 +38,7 @@ export default function IconButton({className, handleClick, type, icon, disabled
             onClick={handleClick} 
             type={type} 
             disabled={disabled} 
-            className={`rounded-full w-12 h-12 text-2xl p-1 shrink-0 ${iconColor} ${!buttonFlash ? bgColor : bgColorTouch} disabled:bg-gray-300 disabled:text-white ${className}`}
+            className={`select-none rounded-full w-12 h-12 text-2xl p-1 shrink-0 ${iconColor} ${!buttonFlash ? bgColor : bgColorTouch} disabled:bg-gray-300 disabled:text-white ${className}`}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             onMouseDown={handleClickStart}

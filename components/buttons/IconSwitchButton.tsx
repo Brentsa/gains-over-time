@@ -32,7 +32,7 @@ export default function IconSwitchButton({className, on, handleClick, icon, disa
         <button 
             onClick={handleSwitchClick} 
             disabled={disabled} 
-            className={`rounded-full w-12 h-12 text-2xl p-1 ${colors} disabled:bg-gray-300 disabled:text-white ${className ?? ''}`}
+            className={`select-none rounded-full w-12 h-12 text-2xl p-1 ${colors} disabled:bg-gray-300 disabled:text-white ${className ?? ''}`}
         >
             <FontAwesomeIcon icon={icon}/>
         </button>
