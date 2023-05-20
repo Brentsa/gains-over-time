@@ -1,4 +1,3 @@
-import { useState } from "react"
 import MobileSearchBar from "./MobileSearchBar"
 import RenderVerticalTabs from "./RenderVerticalTabs"
 import AddExerciseForm from "./forms/AddExerciseForm"

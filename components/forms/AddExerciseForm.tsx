@@ -99,7 +99,7 @@ export default function AddExerciseForm({mobile}: Props){
                 updateState={setSelectedExercise}
             />
             <Button 
-                className={mobile ? `absolute rounded-b-full px-8 -z-10 duration-200 shadow-lg transition-all right-0 h-12 ${selectedExercise ? 'top-14' : 'top-0'}` : 'basis-1/4 ml-2'}
+                className={mobile ? `absolute rounded-b-full px-8 -z-10 duration-200 shadow-lg shadow-black/20 transition-all right-0 h-12 ${selectedExercise ? 'top-14' : 'top-0'}` : 'basis-1/4 ml-2'}
                 label='Add' 
                 type='submit' 
                 icon={faPlus} 
