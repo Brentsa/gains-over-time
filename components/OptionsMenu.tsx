@@ -1,4 +1,4 @@
-import { IconDefinition, faBars, faDumbbell, faGear, faHouse, faUser, faXmark } from "@fortawesome/free-solid-svg-icons"
+import { IconDefinition, faBars, faDumbbell, faGear, faHouse, faUser, faWeightScale, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import LogoutButton from "./buttons/LogoutButton"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
@@ -71,6 +71,7 @@ export default function OptionsMenu({currentPage, setPage, isMobile}: Props){
                     <Paper className="absolute mt-1 right-0 rounded shadow-xl border z-50 w-40 sm:w-44">
                         <ul className="space-y-2 mb-4">
                             <MenuItem icon={faHouse} page="home" currentPage={currentPage} setPage={setPage} setOpen={setOpen}/>
+                            <MenuItem icon={faWeightScale} page="weight" currentPage={currentPage} setPage={setPage} setOpen={setOpen}/>
                             {isMobile && <MenuItem icon={faDumbbell} page="templates" currentPage={currentPage} setPage={setPage} setOpen={setOpen}/>}
                             <MenuItem icon={faUser} page="account" currentPage={currentPage} setPage={setPage} setOpen={setOpen}/>
                         </ul>

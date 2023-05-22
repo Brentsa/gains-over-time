@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import ExercisePage from "./ExercisePage";
 import AccountPage from "./AccountPage";
 import TemplatesPage from "./TemplatesPage";
+import WeightTrackingPage from "./WeightTrackingPage";
 
 interface Props {
     showOnMobile: boolean
@@ -24,7 +25,7 @@ interface SearchPackage {
     setSearch: Dispatch<SetStateAction<string>>
 }
 
-export type Pages = 'home' | 'account' | 'templates';
+export type Pages = 'home' | 'weight' | 'account' | 'templates';
 
 export const feedbackContext = createContext<FeedbackPackage>({
     feedback: {
@@ -52,6 +53,7 @@ export default function MainPageContainer({showOnMobile}: Props){
                 <Navbar isMobile={showOnMobile} currentPage={page} setPage={setPage}/>
                 <section className='container pb-12 pt-0 sm:pt-4'>
                     {page === 'home' && <ExercisePage isMobile={showOnMobile}/>}
+                    {page === 'weight' && <WeightTrackingPage/>}
                     {page === 'account' && <AccountPage/>}
                     {page === 'templates' && showOnMobile && <TemplatesPage/>}
                 </section>

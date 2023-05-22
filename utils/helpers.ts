@@ -59,7 +59,7 @@ export function capitalizeAllWords(string: string): string {
 }
 
 //eg. "January 1, 2022"
-export function formatDateFullString(dateString: string): string {
+export function formatDateFullString(dateString: string | Date): string {
     const date = new Date(dateString);
     return `${WEEKDAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
@@ -71,25 +71,25 @@ export function formatDateNumerical(dateString: string): string {
 }
 
 //eg. "Jan 1"
-export function formatDateShort(dateString:string): string {
+export function formatDateShort(dateString:string | Date): string {
     const date = new Date(dateString);
     return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}`;
 }
 
 //eg. "Jan 1, 2022"
-export function formatDateShortMonth(dateString:string): string {
+export function formatDateShortMonth(dateString:string | Date): string {
     const date = new Date(dateString);
     return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
 //return tailwind text color class dependand on the supplied weekday
-export function getWeekdayColor(dateString: string): string {
+export function getWeekdayColor(dateString: string | Date): string {
     const date = new Date(dateString);
     return COLORS[date.getDay()];
 }
 
 //calculate and return the number of days from today
-export function daysFromToday(dateString: string): number {
+export function daysFromToday(dateString: string | Date): number {
     if(!dateString) return 0;
 
     let date = new Date(dateString);

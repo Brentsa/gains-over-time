@@ -34,6 +34,11 @@ export default function Navbar({isMobile, currentPage, setPage}: Props){
                             Welcome {user?.firstName} {user?.lastName}
                         </h1>
                     }
+                    {currentPage === 'weight' && 
+                        <h1 className='w-full text-3xl sm:text-4xl rounded text-center font-bold'>
+                            Weight Tracking
+                        </h1>
+                    }
                     {currentPage === 'account' && 
                         <h1 className='w-full text-3xl sm:text-4xl rounded text-center font-bold'>
                             Account Details
