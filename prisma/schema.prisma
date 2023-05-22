@@ -20,7 +20,17 @@ model Account {
   createdAt   DateTime  @default(now())
   exercises   Exercise[]
   eTemplates  ExerciseTemplate[]
+  weights     Weight[]
   workouts    Workout[]
+}
+
+model Weight {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  weight      Float     
+  massUnit    MassUnit  @default(lbs)
+  account     Account   @relation(fields: [accountId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  accountId   Int
 }
 
 model Workout {
@@ -78,4 +88,9 @@ enum RepType {
   seconds
   bodyWeight
   levels
+}
+
+enum MassUnit {
+  lbs
+  kg
 }
