@@ -32,7 +32,7 @@ export default function WeightChart({weights}: Props){
     if(weights.length < 2) return <div>Log your weight a few more times to view your weight tracking graph</div>
 
     return (
-        <Line 
+        <Line
             options={{
                 responsive: true,
                 plugins: {

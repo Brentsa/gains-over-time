@@ -16,13 +16,15 @@ export default function WeightTrackingPage(){
     console.log(data);
 
     return (
-        <div className="flex justify-center mt-4">
+        <div className="flex flex-col justify-center items-center mt-4 space-y-4">
             <Paper className="rounded space-y-4 w-full md:w-4/12">
                 <WeightForm mutate={mutate}/>
-                {data &&
-                    <WeightChart weights={data}/>
-                }
             </Paper>
+            {data &&
+                <Paper className="rounded w-full"> 
+                    <WeightChart weights={data}/>
+                </Paper>
+            }
         </div>
     )
 }
