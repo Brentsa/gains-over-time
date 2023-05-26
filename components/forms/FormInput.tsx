@@ -25,7 +25,7 @@ export default function FormInput(props: Props){
     const inputClasses = "appearance-none shadow-inner rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-1 focus:ring-violet-400 focus:border-violet-400 disabled:text-gray-400 focus:z-20 z-10 sm:text-sm";
 
     return (
-        <div className={props?.label ? className : className + 'sr-only'}>
+        <div className={className}>
             <label htmlFor={id} className="text-sm">
                 {props?.label}
             </label>
