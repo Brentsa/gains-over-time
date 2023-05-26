@@ -8,7 +8,7 @@ import { feedbackContext } from "../MainPageContainer";
 import { KeyedMutator } from "swr";
 
 interface Inputs{
-    weight: number | "",
+    weight: number | '',
     massUnit: 'lbs' | 'kg'
 }
 
@@ -21,12 +21,11 @@ export default function WeightForm({mutate}: Props){
     const {user} = useContext(userContext);
     const {setFeedback} = useContext(feedbackContext);
 
-    const [inputs, setInputs] = useState<Inputs>({weight: "", massUnit: 'lbs'});
+    const [inputs, setInputs] = useState<Inputs>({weight: '', massUnit: 'lbs'});
     const [loading, setLoading] = useState<boolean>(false);
 
     function handleChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
-        const {name} = event.target;
-        const value = name === 'weight' && event.target.value != "" ? parseFloat(event.target.value) : event.target.value;
+        const {name, value} = event.target;
 
         //update input states on change event
         setInputs(prevInputs => ({...prevInputs, [name]: value}));
@@ -42,7 +41,7 @@ export default function WeightForm({mutate}: Props){
 
         const body: Omit<Weight, 'id' | 'createdAt'> = {
             accountId: user.id,
-            weight: inputs.weight,
+            weight: parseFloat(inputs.weight as any),
             massUnit: inputs.massUnit
         }
 
