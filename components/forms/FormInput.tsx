@@ -16,6 +16,7 @@ interface Props {
     autofocus?: boolean,
     customClassName?: string,
     autoComplete?: string
+    step?: string
 }
 
 export default function FormInput(props: Props){
@@ -43,6 +44,7 @@ export default function FormInput(props: Props){
                 disabled={props?.disabled}
                 autoFocus={props?.autofocus}
                 autoComplete={props?.autoComplete}
+                step={props?.step}
             />
         </div>
     );

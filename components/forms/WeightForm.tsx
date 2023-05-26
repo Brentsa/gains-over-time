@@ -1,28 +1,74 @@
 import FormInput from "./FormInput";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Button from "../buttons/Button";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { userContext } from "../../pages";
+import { Weight } from "@prisma/client";
+import { feedbackContext } from "../MainPageContainer";
+import { KeyedMutator } from "swr";
 
 interface Inputs{
     weight: number | "",
     massUnit: 'lbs' | 'kg'
 }
 
-export default function WeightForm(){
+interface Props{
+    mutate: KeyedMutator<Weight[]>
+}
+
+export default function WeightForm({mutate}: Props){
+
+    const {user} = useContext(userContext);
+    const {setFeedback} = useContext(feedbackContext);
 
     const [inputs, setInputs] = useState<Inputs>({weight: "", massUnit: 'lbs'});
-
-    function handleSubmit(event: FormEvent<HTMLFormElement>){
-        event.preventDefault()
-
-        console.log(inputs)
-    }
+    const [loading, setLoading] = useState<boolean>(false);
 
     function handleChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>){
-        const {name, value} = event.target;
+        const {name} = event.target;
+        const value = name === 'weight' && event.target.value != "" ? parseFloat(event.target.value) : event.target.value;
 
         //update input states on change event
         setInputs(prevInputs => ({...prevInputs, [name]: value}));
+    }
+
+    async function handleSubmit(event: FormEvent<HTMLFormElement>){
+        event.preventDefault()
+
+        console.log(inputs)
+
+        //stop user from logging if weight hasn't been entered
+        if(!inputs.weight) return; 
+
+        const body: Omit<Weight, 'id' | 'createdAt'> = {
+            accountId: user.id,
+            weight: inputs.weight,
+            massUnit: inputs.massUnit
+        }
+
+        console.log(body)
+
+        setLoading(true);
+
+        const response = await fetch('/api/weights/create', {
+            method: 'POST', 
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        })
+
+        setLoading(false);
+
+        //if the response is not ok, present the user with an error feedback message
+        if(!response.ok) return setFeedback({type: 'failure', message: 'Your weight was not logged.'});
+
+        //reset the form on success
+        setInputs({weight: "", massUnit: 'lbs'});
+
+        //revalidate weight data in parent
+        mutate();
+
+        //return feedback to the user
+        setFeedback({type: 'success', message: 'New set logged'});
     }
 
     return ( 
@@ -38,6 +84,7 @@ export default function WeightForm(){
                     className="basis-1/4"
                     placeholder="Weight"
                     min={0}
+                    step=".01"
                     required
                 />
                 <select 
@@ -51,7 +98,13 @@ export default function WeightForm(){
                     <option value="lbs">lbs</option>
                     <option value="kg">kg</option>
                 </select>
-                <Button label="Log" icon={faPlus} type="submit"/>
+                <Button 
+                    label="Log" 
+                    icon={faPlus} 
+                    type="submit" 
+                    disabled={!inputs.weight}
+                    loading={loading}
+                />
             </form>
         </div>
     )
