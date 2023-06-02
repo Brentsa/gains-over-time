@@ -170,7 +170,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                 </div>
             }
 
-            <Paper className="flex flex-col p-2" paddingNone>
+            <Paper className="flex flex-col p-2 rounded" paddingNone>
                 <div id={"exercise-" + exercise.id} className="w-full flex flex-wrap justify-between items-center md:space-x-2">
 
                     <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>

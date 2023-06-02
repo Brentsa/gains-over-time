@@ -71,7 +71,7 @@ export default function WeightForm({mutate}: Props){
     }
 
     return ( 
-        <div className="flex flex-col justify-center items-center space-y-2">
+        <div className="flex flex-col justify-center items-center space-y-2 py-2">
             <h2>Today&apos;s Weight</h2>
             <form className="flex flex-wrap justify-center space-x-2" onSubmit={handleSubmit}>
                 <FormInput 
