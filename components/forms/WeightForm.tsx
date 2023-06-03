@@ -80,7 +80,7 @@ export default function WeightForm({mutate}: Props){
                     type="number"
                     value={inputs.weight}
                     onChange={handleChange}
-                    className="basis-1/4"
+                    className="basis-2/5"
                     placeholder="Weight"
                     min={0}
                     step=".01"

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { LegacyRef, ReactNode } from "react";
 
 type Props = {
     children: ReactNode,
@@ -10,7 +10,10 @@ type Props = {
 export default function Paper({children, className, id, paddingNone}: Props){
 
     return (
-        <div id={id} className={`bg-white shadow-lg sm:rounded ${!paddingNone ? 'p-2 sm:p-3 md:p-4 xl:p-5' : ''} ${className ?? ''}`}>
+        <div 
+            id={id} 
+            className={`bg-white shadow-lg sm:rounded ${!paddingNone ? 'p-2 sm:p-3 md:p-4 xl:p-5' : ''} ${className ?? ''}`}
+        >
             {children}
         </div>
     )
