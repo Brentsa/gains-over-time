@@ -30,17 +30,19 @@ function MenuItem({currentPage, setPage, page, icon, setOpen}: MenuItemProps){
     }
 
     //show the menu item if the current page is different than the menu item
-    return ( currentPage !== page ?
+    return (
         <li>
-            <button onClick={handleClick} className="hover:bg-black/5 px-2 py-1 rounded w-full">
+            <button
+                onClick={handleClick} 
+                className="hover:bg-black/5 px-2 py-1 rounded w-full disabled:bg-gray-300 disabled:text-white"
+                disabled={currentPage === page}
+            >
                 <div className="flex justify-start items-center space-x-2 text-lg">
                     <FontAwesomeIcon icon={icon} className="basis-1/5"/> 
                     <p className="basis-4/5 text-left">{capitalizeFirstChar(page)}</p>
                 </div>
             </button>
         </li>
-        :
-        null
     );
 }
 

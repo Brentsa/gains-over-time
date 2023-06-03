@@ -81,7 +81,7 @@ export default function ExerciseTable(){
             <Modal open={modalOpen} closeModal={closeModal}>
                 <AddSetForm exercise={getExerciseById(selectedExerciseId)} close={closeModal} mutate={mutate}/>         
             </Modal>
-            <ul className="p-2 space-y-2 sm:space-y-3">
+            <ul className="p-2 sm:p-0 space-y-2 sm:space-y-3">
                 {data
                     .filter((exercise) => exercise.exerciseT.name.toLowerCase().includes(search.toLowerCase()))
                     .map((exercise, i, array) => {
