@@ -28,12 +28,12 @@ export default function WeightTableRow({weightRecord}:Props){
         switch (eventData.dir) {
             case 'Left':
                 setSwipedOpen(true);
-                setStopScroll(false);
+                //setStopScroll(false);
                 break;
         
             case 'Right':
                 setSwipedOpen(false);
-                setStopScroll(false);
+                //setStopScroll(false);
                 break;
         }
     };
@@ -48,8 +48,12 @@ export default function WeightTableRow({weightRecord}:Props){
 
     //define swipe handlers for the component
     const handlers = useSwipeable({
-        onSwiped: handleSwipe,
-        onSwipeStart: startSwipe,
+        //onSwiped: handleSwipe,
+        //onSwipeStart: startSwipe,
+        onSwipedLeft: () => setSwipedOpen(true),
+        onSwipedRight: () => setSwipedOpen(false),
+        swipeDuration: 250,
+        preventScrollOnSwipe: true,
         trackMouse: true
     });
 
