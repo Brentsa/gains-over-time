@@ -17,6 +17,9 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
     const shakeDegrees = 4
     const [rotationDeg, setRotationDeg] = useState<number>(0);
 
+    //state to handle pop-in animation when the pill is created
+    const [mounted, setMounted] = useState(false);
+
     //shake the pill once using the supplied degrees
     function shake(degrees: number): void{
         setRotationDeg(degrees);
@@ -51,6 +54,11 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
         setSets(prevSetArray => prevSetArray.filter(prevSet => prevSet.id !== set.id));
     }
 
+    //set mounted to true for pop-in animation
+    useEffect(()=>{
+        setMounted(true);
+    }, []);
+
     useEffect(()=>{
         if(!editable) return; 
 
@@ -64,7 +72,7 @@ export default function SetPill({set, setSets, setSelectedSet, setType, editable
 
     return (
         <div 
-            className={`bg-violet-500 text-white rounded-full transition-all duration-100 ${editable && 'shadow shadow-gray-800'}`}
+            className={`bg-violet-500 text-white rounded-full transition-all duration-150 ${mounted ? 'scale-100' : 'scale-0'} ${editable && 'shadow shadow-gray-800'}`}
             style={editable ? {transform: `rotate(${rotationDeg}deg)`} : undefined}
         >
             <button 
