@@ -81,14 +81,19 @@ export default function AddExerciseForm({mobile}: Props){
                 dropdownItems={data}
                 updateState={setSelectedExercise}
             />
-            <Button 
-                className={mobile ? `absolute rounded-b-full px-8 -z-10 duration-200 shadow-lg shadow-black/20 transition-all right-0 h-12 ${selectedExercise ? 'top-14' : 'top-0'}` : 'basis-1/4 ml-2'}
-                label='Add' 
-                type='submit' 
-                icon={faPlus} 
-                iconRight  
-                disabled={!selectedExercise}
-            />
+            <div
+                className={mobile ? `absolute rounded-b-lg p-4 -z-10 bg-white duration-200 transition-all right-0 h-16 ${selectedExercise ? 'top-14 shadow-lg shadow-black/20' : '-top-4'}` : 'basis-1/4 ml-2'}
+            >
+                <Button 
+                    className='w-full h-full'
+                    label='Add' 
+                    type='submit' 
+                    icon={faPlus} 
+                    iconRight  
+                    disabled={!selectedExercise}
+                />
+            </div>
+            
         </form>
     )
 }
