@@ -1,6 +1,6 @@
 import { Weight } from "@prisma/client"
 import Paper from "../utilities/Paper"
-import { formatDateShortMonth } from "../../utils/helpers"
+import { formatDateMonth, formatDateShortMonth } from "../../utils/helpers"
 import { SwipeEventData, useSwipeable } from "react-swipeable"
 import { useContext, useEffect, useRef, useState } from "react"
 import IconButton from "../buttons/IconButton"
@@ -10,10 +10,11 @@ import { mutate } from "swr"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 interface Props{
-    weightRecord: Weight
+    weightRecord: Weight,
+    showMonth: boolean
 }
 
-export default function WeightTableRow({weightRecord}:Props){
+export default function WeightTableRow({weightRecord, showMonth}:Props){
 
     const {setFeedback} = useContext(feedbackContext);
 
@@ -45,17 +46,25 @@ export default function WeightTableRow({weightRecord}:Props){
     };
 
     return (
-        <div className="w-full md:w-1/2 h-12 relative select-none" {...handlers}>
-            <div className="absolute -left-2 z-0">
-                <FontAwesomeIcon icon={faCaretLeft} size="3x" className="text-violet-300"/>
+        <>
+            {showMonth &&
+                <div className="text-2xl sm:text-3xl w-full md:w-1/2 font-light text-center">
+                    <h2>{formatDateMonth(weightRecord.createdAt)}</h2>
+                    <div className='w-full h-1 mb-2 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
+                </div>
+            }
+            <div className="w-full md:w-1/2 h-12 relative select-none" {...handlers}>
+                <div className="absolute -left-2 z-0">
+                    <FontAwesomeIcon icon={faCaretLeft} size="3x" className="text-violet-300"/>
+                </div>
+                <Paper className={`absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'} flex justify-between items-center px-4 w-full h-full rounded z-10`}>
+                    <h2 className="text-2xl">{weightRecord.weight} <span className="text-sm">{weightRecord.massUnit}</span></h2>
+                    <p className="text-sm">{formatDateShortMonth(weightRecord.createdAt)}</p>
+                </Paper>
+                <div className="absolute right-0 z-0">
+                    <IconButton bgColor="bg-rose-500" bgColorTouch="bg-rose-400" iconColor="text-white" icon={faTrashCan} handleClick={deleteWeightRecord}/>
+                </div>
             </div>
-            <Paper className={`absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'} flex justify-between items-center px-4 w-full h-full rounded z-10`}>
-                <h2 className="text-2xl">{weightRecord.weight} <span className="text-sm">{weightRecord.massUnit}</span></h2>
-                <p className="text-sm">{formatDateShortMonth(weightRecord.createdAt)}</p>
-            </Paper>
-            <div className="absolute right-0 z-0">
-                <IconButton bgColor="bg-rose-500" bgColorTouch="bg-rose-400" iconColor="text-white" icon={faTrashCan} handleClick={deleteWeightRecord}/>
-            </div>
-        </div>
+        </>
     )
 }

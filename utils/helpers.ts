@@ -82,6 +82,12 @@ export function formatDateShortMonth(dateString:string | Date): string {
     return `${SHORT_MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
+//eg. "January"
+export function formatDateMonth(dateString: string | Date){
+    const date = new Date(dateString);
+    return `${MONTHS[date.getMonth()]}`;
+}
+
 //return tailwind text color class dependand on the supplied weekday
 export function getWeekdayColor(dateString: string | Date): string {
     const date = new Date(dateString);
@@ -121,11 +127,19 @@ export function calculateSum(numbers: number[]): number {
 }
 
 //take in two date strings and check if they are the same date
-export function isSameDate(date1: string, date2: string){
+export function isSameDate(date1: string | Date, date2: string | Date){
     const d1 = new Date(date1); 
     const d2 = new Date(date2);
 
     return d1.getDate() === d2.getDate() && d1.getMonth() === d2.getMonth() && d1.getFullYear() === d2.getFullYear()
+}
+
+//check if two date stamps are in the same month
+export function isSameMonth(date1: string | Date, date2: string | Date){
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+
+    return d1.getMonth() === d2.getMonth();
 }
 
 //check if a supplied date is today

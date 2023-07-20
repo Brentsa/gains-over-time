@@ -163,7 +163,7 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
         <li ref={liRef}>
             {!bSameDate && 
                 <div className="px-2 sm:px-0">
-                    <div className={`${index !== 0 && 'pt-6'} pl-0 sm:pl-2 text-2xl sm:text-3xl w-full font-light`}>
+                    <div className={`pl-0 sm:pl-2 text-2xl sm:text-3xl w-full font-light ${index !== 0 ? 'pt-6' : ''} `}>
                         <p>{ isToday(exercise.createdAt) ? "Today's Workout" : formatDateFullString(exercise.createdAt) }</p>
                     </div>
                     <div className='w-full h-1 mb-3 sm:mb-4 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
