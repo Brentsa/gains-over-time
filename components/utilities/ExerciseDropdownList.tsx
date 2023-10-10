@@ -51,7 +51,6 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
                         <div className="flex items-center justify-between w-full space-x-2 sticky top-0 bg-white">
                             <FontAwesomeIcon icon={faMagnifyingGlass}/>
                             <input 
-                                autoFocus
                                 className="w-full border-none outline-none p-0 focus:ring-0 focus:outline-none focus:z-20"
                                 type="text" 
                                 placeholder="Search For Exercise"
@@ -62,6 +61,7 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
                         :
                         <button
                             className={`w-full text-left ${state?.name && !open ? 'text-black' : 'text-gray-500'}`}
+                            style={{WebkitTapHighlightColor: 'transparent'}}
                             onClick={(toggleDropdown)}
                         >
                             {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise To Record'}
