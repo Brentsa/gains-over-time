@@ -1,7 +1,7 @@
 import { faChevronDown, faChevronUp, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ExerciseTemplate } from "@prisma/client";
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useEffect, useState } from "react";
 import { capitalizeAllWords } from "../../utils/helpers";
 import DropdownItem from "./DropdownItem";
 import OutsideClickHandler from "./OutsideClickHandler";
@@ -31,6 +31,11 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
         return name1 > name2 ? 1 : -1; 
     }
 
+    function toggleDropdown(event:MouseEvent<HTMLButtonElement>){
+        event?.preventDefault();
+        return setOpen(prev => !prev);
+    }
+
     useEffect(()=>{
         if(!open) setSearch('');
     }, [open])
@@ -40,24 +45,36 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
             <div>
                 <div
                     id="exercise-template-select"
-                    className={`flex justify-between items-center ${open ? 'rounded-t shadow-xl shadow-black/40': 'rounded'} w-full px-3 py-2 border border-gray-300 ${state?.name ? 'text-black' : 'text-gray-500'} focus:outline-none focus:ring-violet-400 focus:border-violet-400 focus:z-20 z-10`}
-                    onClick={()=>setOpen(prev => !prev)}
+                    className={`flex justify-between items-center select-none ${open ? 'rounded-t shadow-xl shadow-black/40': 'rounded'} w-full px-3 py-2 border border-gray-300 text-gray-500  z-10`}
                 >
-                    {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise To Record'}
-                    <FontAwesomeIcon className="text-xl text-black" icon={!open ? faChevronDown : faChevronUp}/>
-                </div>
-                {open &&
-                    <ul className="absolute rounded-b w-full border border-t-0 border-gray-300 bg-white z-50 max-h-96 overflow-scroll hover:cursor-pointer shadow-lg shadow-black/40">
-                        <div className="flex items-center justify-between px-2 sticky top-0 bg-white">
+                    {open ? 
+                        <div className="flex items-center justify-between w-full space-x-2 sticky top-0 bg-white">
                             <FontAwesomeIcon icon={faMagnifyingGlass}/>
                             <input 
-                                className="w-full border-none outline-none focus:ring-0"
+                                autoFocus
+                                className="w-full border-none outline-none p-0 focus:ring-0 focus:outline-none focus:z-20"
                                 type="text" 
-                                placeholder="Enter Exercise Name"
+                                placeholder="Search For Exercise"
                                 value={search}
                                 onChange={handleSearchChange}
                             />
                         </div>
+                        :
+                        <button
+                            className={`w-full text-left ${state?.name && !open ? 'text-black' : 'text-gray-500'}`}
+                            onClick={(toggleDropdown)}
+                        >
+                            {state?.name ? capitalizeAllWords(state.name) : 'Select Exercise To Record'}
+                        </button>
+                    }
+                    <button
+                        style={{WebkitTapHighlightColor: 'transparent'}}
+                        onClick={toggleDropdown}>
+                        <FontAwesomeIcon className="text-xl" icon={!open ? faChevronDown : faChevronUp}/>
+                    </button>
+                </div>
+                {open &&
+                    <ul className="absolute rounded-b w-full border border-t-0 border-gray-300 bg-white z-50 max-h-96 overflow-scroll hover:cursor-pointer shadow-lg shadow-black/40">
                         {dropdownItems
                             .filter(exercise => exercise.name.toLowerCase().includes(search.toLowerCase()))
                             .sort(compareExercises)

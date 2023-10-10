@@ -48,7 +48,7 @@ export default function WeightTableRow({weightRecord, showMonth}:Props){
     return (
         <>
             {showMonth &&
-                <div className="text-2xl sm:text-3xl w-full md:w-1/2 font-light text-center">
+                <div className="mt-3 text-2xl sm:text-3xl w-full md:w-1/2 font-light text-center">
                     <h2>{formatDateMonth(weightRecord.createdAt)}</h2>
                     <div className='w-full h-1 mb-2 rounded bg-gradient-to-r from-rose-500 via-violet-500 to-rose-500'/>
                 </div>
