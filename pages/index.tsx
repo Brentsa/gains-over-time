@@ -17,6 +17,9 @@ interface UserPackage {
   setUser: Dispatch<SetStateAction<User>>
 }
 
+type MobilePackage = boolean;
+
+//create global state for user information
 export const userContext = createContext<UserPackage>({
   user:{
     id: 0, 
@@ -28,25 +31,32 @@ export const userContext = createContext<UserPackage>({
   setUser: () => {}
 });
 
+//create global state for screen size
+export const mobileContext = createContext<MobilePackage>(true)
+
 export default function Home(props: Props){
 
-  const isMobile = useMediaQuery({query: `(max-width: 1024px)`});
+  //check if the screen is mobile or desktop in realtime
+  const isMobileScreen = useMediaQuery({query: `(max-width: 1024px)`});
 
   const [user, setUser] = useState(props.user)
-  const [showOnMobile, setShowOnMobile] = useState(true);
+  const [isMobile, setIsMobile] = useState(true);
 
+  //Whenever the screen size changes set the mobile screen flag
   useEffect(() => {
-    setShowOnMobile(isMobile);
-  }, [isMobile])
+    setIsMobile(isMobileScreen);
+  }, [isMobileScreen])
 
   return (
     <userContext.Provider value={{user, setUser}}>
+    <mobileContext.Provider value={isMobile}>
       <div>
         <Head>
           <title>Gains Over Time</title>
         </Head>
-        <MainPageContainer showOnMobile={showOnMobile}/>
+        <MainPageContainer/>
       </div>
+      </mobileContext.Provider>
     </userContext.Provider>
   );
 }

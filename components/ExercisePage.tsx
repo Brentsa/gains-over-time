@@ -1,14 +1,14 @@
+import { useContext } from "react"
 import MobileSearchBar from "./MobileSearchBar"
 import RenderVerticalTabs from "./RenderVerticalTabs"
 import AddExerciseForm from "./forms/AddExerciseForm"
 import ExerciseTable from "./tables/ExerciseTable"
 import Paper from "./utilities/Paper"
+import { mobileContext } from "../pages"
 
-interface Props {
-    isMobile: boolean
-}
+export default function ExercisePage(){
 
-export default function ExercisePage({isMobile}: Props){
+    const isMobile = useContext(mobileContext);
 
     return ( isMobile ?
         <div className='flex flex-col'>

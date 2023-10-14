@@ -15,6 +15,7 @@ import ExerciseHistory from "../misc/ExerciseHistory";
 import { feedbackContext } from "../MainPageContainer";
 import Paper from "../utilities/Paper";
 import ExerciseDeleteForm from "../forms/ExerciseDeleteForm";
+import RowButtons from "./RowButtons";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -44,25 +45,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
     const [editSet, setEditSet] = useState<boolean>(false);
     const [selectedSet, setSelectedSet] = useState<Set | null>(null);
 
-    useEffect(() => {
-        if(!selectedSet) return; 
-        setEditSet(true);
-    }, [selectedSet])
-
-    function closeSetEditModal(){
-        setEditSet(false);
-        setSelectedSet(null);
-    }
-
-    function toggleShowButtons(){
-        setShowButtons(prev => !prev);
-    }
-
-    //switch edit row to false if show buttons is changed to false
-    useEffect(()=>{
-        if(!showButtons) setEditRow(false);
-    }, [showButtons])
-
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
         const setArray: JSX.Element[] = [];
@@ -82,6 +64,15 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
 
         return setArray;
     }, [exercise.exerciseT, sets.length]);
+
+    function closeSetEditModal(){
+        setEditSet(false);
+        setSelectedSet(null);
+    }
+
+    function toggleShowButtons(){
+        setShowButtons(prev => !prev);
+    }
 
     function addSet(event: MouseEvent<HTMLDivElement>){
         event.preventDefault();
@@ -136,6 +127,16 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
     function clickOutsideRow(event: globalThis.MouseEvent){
         if(!liRef.current?.contains(event.target as Node)) setShowButtons(false);
     }
+
+    //switch edit row to false if show buttons is changed to false
+    useEffect(()=>{
+        if(!showButtons) setEditRow(false);
+    }, [showButtons]);
+
+    useEffect(() => {
+        if(!selectedSet) return; 
+        setEditSet(true);
+    }, [selectedSet]);
 
     useEffect(()=>{ 
         if(showButtons) 
@@ -200,20 +201,14 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                         }
                         {showTargetSets && targetSetsArray}
                     </div> 
-                    
-                    <div className={`flex ${showButtons ? 'basis-5/12  md:basis-36' : 'basis-9'} transition-all duration-500 overflow-hidden space-x-2 justify-end items-center order-2 sm:order-3`}>
-                        <button 
-                            className={`${showButtons && 'rotate-180'} select-none transition-all duration-500 text-violet-500`} 
-                            onClick={toggleShowButtons}
-                            style={{WebkitTapHighlightColor: 'transparent'}}
-                        >
-                            <FontAwesomeIcon icon={faAnglesLeft} size='2x'/>
-                        </button>  
-                        <div className={`flex justify-evenly overflow-hidden space-x-1`}>
-                            <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-amber-500' bgColor='bg-amber-200'/>
-                            <IconButton bgColor="bg-white" bgColorTouch="bg-rose-50" iconColor="text-rose-500" icon={faTrashCan} handleClick={openDeleteExerciseModal}/> 
-                        </div>
-                    </div>
+
+                    <RowButtons 
+                        editRow={editRow} 
+                        openDeleteExerciseModal={openDeleteExerciseModal} 
+                        showButtons={showButtons} 
+                        toggleShowButtons={toggleShowButtons}
+                        triggerEdit={triggerEdit}
+                    />
                 </div>
 
                 {selectedSet &&
