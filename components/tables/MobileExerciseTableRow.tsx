@@ -35,7 +35,7 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
 
     //define swipe handlers for the component
     const handlers = useSwipeable({
-        onSwiped: (eventData) => console.log("User Swiped!", eventData),
+        //onSwiped: (eventData) => console.log("User Swiped!", eventData),
         onSwipedLeft: () => setSwipedOpen(true),
         onSwipedRight: () => setSwipedOpen(false),
         swipeDuration: 350,
