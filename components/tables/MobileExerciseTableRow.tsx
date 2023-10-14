@@ -182,8 +182,8 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
 
             <div className="relative h-32">
                 <Paper className={`flex flex-col p-2 w-full h-full z-10 rounded absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'}`} paddingNone>
-                    <div id={"exercise-" + exercise.id} className="w-full flex-col md:space-x-2" {...handlers}>
-                        <div className="flex justify-between">
+                    <div id={"exercise-" + exercise.id} className="w-full flex-col md:space-x-2">
+                        <div className="flex justify-between" {...handlers}>
                             <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0" onClick={openExerciseHistory}>
                                 <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                                 <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
