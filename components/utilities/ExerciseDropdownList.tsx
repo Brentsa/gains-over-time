@@ -36,6 +36,34 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
         return setOpen(prev => !prev);
     }
 
+    //renders all the exercises in the dropdown list after accounting for searches
+    function renderDropdownItems(){
+
+        //copy all dropdown items after the search term has been applied
+        const dropdownList = [...dropdownItems.filter(exercise => exercise.name.toLowerCase().includes(search.toLowerCase()))];
+
+        return (dropdownList.length > 0 ?
+            dropdownList
+                .sort(compareExercises)
+                .map((exercise, id) => 
+                    <DropdownItem 
+                        key={id} 
+                        exercise={exercise}
+                        setSelected={updateState}
+                        setOpen={setOpen}
+                        active={state?.id === exercise.id}
+                    >
+                        <div className="w-full flex justify-between items-center overflow-hidden">
+                            <p className="whitespace-nowrap">{capitalizeAllWords(exercise.name)}</p>
+                            <p className="whitespace-nowrap text-xs">{exercise.targetSets} x {exercise.targetReps} reps</p>
+                        </div>
+                    </DropdownItem>
+                )
+            :
+            <li className='px-2 py-1'>No exercises found.</li>
+        );
+    }
+
     useEffect(()=>{
         if(!open) setSearch('');
     }, [open])
@@ -75,24 +103,7 @@ export default function ExerciseDropdownList({dropdownItems, state, updateState,
                 </div>
                 {open &&
                     <ul className="absolute rounded-b w-full border border-t-0 border-gray-300 bg-white z-50 max-h-96 overflow-scroll hover:cursor-pointer shadow-lg shadow-black/40">
-                        {dropdownItems
-                            .filter(exercise => exercise.name.toLowerCase().includes(search.toLowerCase()))
-                            .sort(compareExercises)
-                            .map((exercise, id) => 
-                                <DropdownItem 
-                                    key={id} 
-                                    exercise={exercise}
-                                    setSelected={updateState}
-                                    setOpen={setOpen}
-                                    active={state?.id === exercise.id}
-                                >
-                                    <div className="w-full flex justify-between items-center overflow-hidden">
-                                        <p className="whitespace-nowrap">{capitalizeAllWords(exercise.name)}</p>
-                                        <p className="whitespace-nowrap text-xs">{exercise.targetSets} x {exercise.targetReps} reps</p>
-                                    </div>
-                                </DropdownItem>
-                            )
-                        }
+                        {renderDropdownItems()}
                     </ul>
                 }
             </div>
