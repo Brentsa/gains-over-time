@@ -2,6 +2,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, useEffect } from "react";
 import OutsideClickHandler from "./OutsideClickHandler";
+import { createPortal } from "react-dom";
 
 interface Props {
     open: boolean,
@@ -19,11 +20,11 @@ export default function Modal({open, closeModal, children}: Props){
 
     if(!open) return null;
 
-    return (
+    return createPortal(
         <div className="z-50 fixed top-0 left-0 w-screen h-screen animate-fade-in-modal flex items-center justify-center">
             <OutsideClickHandler 
                 onClickOutside={() => closeModal()} 
-                className="bg-white rounded pt-8 p-2 pb-4 sm:p-4 sm:pt-10 lg:p-6 max-h-[98%] max-w-[98%] sm:w-6/12 lg:w-fit lg:max-w-2xl relative shadow-xl shadow-gray-900/50 pointer-events-auto overflow-scroll"
+                className="bg-white rounded pt-8 p-2 pb-4 sm:p-4 sm:pt-10 lg:p-6 max-h-[98%] max-w-[96%] sm:w-6/12 lg:w-fit lg:max-w-2xl relative shadow-xl shadow-gray-900/50 pointer-events-auto overflow-scroll"
             >
                 <>
                     <button className="absolute top-2 right-3 text-rose-500" onClick={closeModal}>
@@ -34,6 +35,7 @@ export default function Modal({open, closeModal, children}: Props){
                     </section>
                 </>
             </OutsideClickHandler>
-        </div>
+        </div>,
+        document.body
     );
 }

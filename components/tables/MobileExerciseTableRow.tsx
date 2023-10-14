@@ -12,6 +12,10 @@ import { feedbackContext } from "../MainPageContainer";
 import Paper from "../utilities/Paper";
 import ExerciseDeleteForm from "../forms/ExerciseDeleteForm";
 import RowButtons from "./RowButtons";
+import { useSwipeable } from "react-swipeable";
+import IconButton from "../buttons/IconButton";
+import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import IconSwitchButton from "../buttons/IconSwitchButton";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -20,11 +24,24 @@ interface Props {
     index: number
 }
 
-export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSameDate, index}: Props){
+export default function MobileExerciseTableRow({exercise, setSelectedExerciseId, bSameDate, index}: Props){
 
     const {setFeedback} = useContext(feedbackContext);
 
     const liRef = useRef<HTMLLIElement>(null);
+
+    //state to determine if the row is swiped open or not
+    const [swipedOpen, setSwipedOpen] = useState(false);
+
+    //define swipe handlers for the component
+    const handlers = useSwipeable({
+        onSwiped: (eventData) => console.log("User Swiped!", eventData),
+        onSwipedLeft: () => setSwipedOpen(true),
+        onSwipedRight: () => setSwipedOpen(false),
+        swipeDuration: 350,
+        preventScrollOnSwipe: true,
+        trackMouse: true
+    });
 
     //state variables to handle set pill rendering
     const [sets, setSets] = useState<Set[]>(exercise.sets);
@@ -64,10 +81,6 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
     function closeSetEditModal(){
         setEditSet(false);
         setSelectedSet(null);
-    }
-
-    function toggleShowButtons(){
-        setShowButtons(prev => !prev);
     }
 
     function addSet(event: MouseEvent<HTMLDivElement>){
@@ -167,60 +180,56 @@ export default function ExerciseTableRow({exercise, setSelectedExerciseId, bSame
                 </div>
             }
 
-            <Paper className="flex flex-col p-2 rounded" paddingNone>
-                <div id={"exercise-" + exercise.id} className="w-full flex flex-wrap justify-between items-center md:space-x-2">
+            <div className="relative h-32">
+                <Paper className={`flex flex-col p-2 w-full h-full z-10 rounded absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'}`} paddingNone>
+                    <div id={"exercise-" + exercise.id} className="w-full flex-col md:space-x-2" {...handlers}>
+                        <div className="flex justify-between">
+                            <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0" onClick={openExerciseHistory}>
+                                <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
+                                <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
+                            </button>
+                            <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-violet-400' bgColor='bg-violet-200'/>
+                        </div>
+                        <div 
+                            className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
+                            onClick={addSet}
+                            onTouchStart={() => setShowTargetSets(true)}
+                            onTouchEnd={() => setShowTargetSets(false)}
+                        >
+                            {sets.length > 0 &&
+                                sets.map((set, i) => 
+                                    <SetPill 
+                                        key={i} 
+                                        set={set}
+                                        setSets={setSets}
+                                        setType={exercise.exerciseT.type} 
+                                        editable={editRow}
+                                        setSelectedSet={setSelectedSet}
+                                    />
+                                )
+                            }
+                            {showTargetSets && targetSetsArray}
+                        </div>
+                    </div>
 
-                    <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0 order-1" onClick={openExerciseHistory}>
-                        <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
-                        <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
-                    </button>
+                    {selectedSet &&
+                        <Modal closeModal={closeSetEditModal} open={editSet}>
+                            <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
+                        </Modal>
+                    }
 
-                    <div 
-                        className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
-                        onClick={addSet}
-                        onMouseOver={() => setShowTargetSets(true)}
-                        onMouseOut={() => setShowTargetSets(false)}
-                        onTouchStart={() => setShowTargetSets(true)}
-                        onTouchEnd={() => setShowTargetSets(false)}
-                    >
-                        {sets.length > 0 &&
-                            sets.map((set, i) => 
-                                <SetPill 
-                                    key={i} 
-                                    set={set}
-                                    setSets={setSets}
-                                    setType={exercise.exerciseT.type} 
-                                    editable={editRow}
-                                    setSelectedSet={setSelectedSet}
-                                />
-                            )
-                        }
-                        {showTargetSets && targetSetsArray}
-                    </div> 
-
-                    <RowButtons 
-                        editRow={editRow} 
-                        openDeleteExerciseModal={openDeleteExerciseModal} 
-                        showButtons={showButtons} 
-                        toggleShowButtons={toggleShowButtons}
-                        triggerEdit={triggerEdit}
-                    />
-                </div>
-
-                {selectedSet &&
-                    <Modal closeModal={closeSetEditModal} open={editSet}>
-                        <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
+                    <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
+                        <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
                     </Modal>
-                }
 
-                <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
-                    <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
-                </Modal>
-
-                <Modal closeModal={closeDeleteExerciseModal} open={openDeleteModal}>
-                    <ExerciseDeleteForm deleteExercise={deleteExercise} closeForm={closeDeleteExerciseModal}/>
-                </Modal>
-            </Paper>
+                    <Modal closeModal={closeDeleteExerciseModal} open={openDeleteModal}>
+                        <ExerciseDeleteForm deleteExercise={deleteExercise} closeForm={closeDeleteExerciseModal}/>
+                    </Modal>
+                </Paper>
+                <div className="absolute right-0 h-full flex items-center">
+                    <IconButton bgColor="bg-rose-500" bgColorTouch="bg-rose-400" iconColor="text-white" icon={faTrashCan} handleClick={openDeleteExerciseModal}/> 
+                </div>
+            </div>
         </li>
     )
 }

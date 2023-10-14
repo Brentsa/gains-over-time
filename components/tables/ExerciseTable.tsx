@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { userContext } from "../../pages";
+import { mobileContext, userContext } from "../../pages";
 import fetcher from "../../utils/swrFetcher";
 import ExerciseTableRow from "./ExerciseTableRow";
 import { ExerciseTemplate, Set } from "@prisma/client";
@@ -9,6 +9,7 @@ import AddSetForm from "../forms/AddSetForm";
 import { isSameDate } from "../../utils/helpers";
 import { searchContext } from "../MainPageContainer";
 import LoadingTable from "./LoadingTable";
+import MobileExerciseTableRow from "./MobileExerciseTableRow";
 
 export interface ExerciseFromSWR{
     id: number,
@@ -23,6 +24,7 @@ export default function ExerciseTable(){
 
     const {user} = useContext(userContext);
     const {search} = useContext(searchContext);
+    const isMobile = useContext(mobileContext);
 
     //fetch all of the user's exercises using their ID
     const {data, error, mutate} = useSWR<ExerciseFromSWR[]>(`api/exercises/${user?.id}`, fetcher);
@@ -95,7 +97,9 @@ export default function ExerciseTable(){
                         //reset the date ref on the last array item
                         if(i + 1 === array.length){ date.current = ''; }
                         
-                        return <ExerciseTableRow key={exercise.id} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
+                        return isMobile
+                        ? <MobileExerciseTableRow key={exercise.id} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>
+                        : <ExerciseTableRow key={exercise.id} index={i} exercise={exercise} setSelectedExerciseId={setSelectedExerciseId} bSameDate={bSameDate}/>;
                     })
                 }
             </ul> 

@@ -33,6 +33,7 @@ export default function IconSwitchButton({className, on, handleClick, icon, disa
             onClick={handleSwitchClick} 
             disabled={disabled} 
             className={`select-none rounded-full w-12 h-12 text-2xl p-1 ${colors} disabled:bg-gray-300 disabled:text-white ${className ?? ''}`}
+            style={{WebkitTapHighlightColor: 'transparent'}}
         >
             <FontAwesomeIcon icon={icon}/>
         </button>
