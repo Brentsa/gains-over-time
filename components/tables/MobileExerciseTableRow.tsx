@@ -16,6 +16,7 @@ import { useSwipeable } from "react-swipeable";
 import IconButton from "../buttons/IconButton";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import IconSwitchButton from "../buttons/IconSwitchButton";
+import ChangeExerciseForm from "../forms/ChangeExerciseForm";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -50,9 +51,10 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
     const [showButtons, setShowButtons] = useState<boolean>(false);
     const [viewExerciseHistory, setViewExerciseHistory] = useState<boolean>(false);
 
-    //state that determines if the sets in the row can be altered
+    //state that determines if the row can be altered
     const [editRow, setEditRow] = useState<boolean>(false);
-    const [openDeleteModal, setOpenDeleteModal] =useState<boolean>(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+    const [openChangeExerciseModal, setOpenChangeExerciseModal] = useState<boolean>(false);
 
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
@@ -132,6 +134,18 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
         setViewExerciseHistory(false);
     }
 
+    //Open a model to switch a row's associated exercise
+    function openSwitchExercise(event: MouseEvent<HTMLButtonElement>){
+        event.preventDefault();
+        setOpenChangeExerciseModal(true)
+    }
+
+    //close the change exercise modal
+    function closeSwitchExercise(){
+        setOpenChangeExerciseModal(false);
+    }
+
+
     //if the user clicks outside this component, set the buttons to closed
     function clickOutsideRow(event: globalThis.MouseEvent){
         if(!liRef.current?.contains(event.target as Node)) setShowButtons(false);
@@ -180,18 +194,22 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
                 </div>
             }
 
-            <div className="relative h-32">
+            <div className="relative h-36">
                 <Paper className={`flex flex-col p-2 w-full h-full z-10 rounded absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'}`} paddingNone>
-                    <div id={"exercise-" + exercise.id} className="w-full flex-col md:space-x-2">
+                    <div id={"exercise-" + exercise.id} className="w-full flex flex-col justify-end">
                         <div className="flex justify-between" {...handlers}>
-                            <button className="flex flex-col sm:items-center basis-7/12 md:basis-52 pb-2 sm:pb-0" onClick={openExerciseHistory}>
+                            <button 
+                                className={`flex flex-col sm:items-center p-1 px-2 mb-2 rounded-lg ${editRow && 'shadow-lg text-white bg-rose-500'}`} 
+                                style={{WebkitTapHighlightColor: 'transparent'}}
+                                onClick={!editRow ? openExerciseHistory : openSwitchExercise}
+                            >
                                 <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
                                 <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
                             </button>
                             <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-violet-400' bgColor='bg-violet-200'/>
                         </div>
                         <div 
-                            className={`flex basis-full md:basis-0 grow transition-all duration-500 shadow-inner h-14 order-3 sm:order-2 space-x-1 overflow-x-auto p-1 rounded bg-violet-200 hover:bg-violet-100 ${!editRow && 'hover:cursor-pointer'}`}
+                            className={`flex shadow-inner h-16 p-2 space-x-1 overflow-x-auto rounded bg-violet-200`}
                             onClick={addSet}
                             onTouchStart={() => setShowTargetSets(true)}
                             onTouchEnd={() => setShowTargetSets(false)}
@@ -217,6 +235,10 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
                             <UpdateSetForm set={selectedSet} exercise={exercise} closeModal={closeSetEditModal} setSets={setSets}/>
                         </Modal>
                     }
+
+                    <Modal closeModal={closeSwitchExercise} open={openChangeExerciseModal}>
+                        <ChangeExerciseForm/>
+                    </Modal>
 
                     <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>
                         <ExerciseHistory userId={exercise.accountId} exerciseTId={exercise.exerciseTId} exerciseType={exercise.exerciseT.type}/>
