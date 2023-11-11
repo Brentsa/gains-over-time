@@ -17,6 +17,7 @@ import IconButton from "../buttons/IconButton";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import IconSwitchButton from "../buttons/IconSwitchButton";
 import ChangeExerciseForm from "../forms/ChangeExerciseForm";
+import ShakeSystem from "../misc/ShakeSystem";
 
 interface Props {
     exercise: ExerciseFromSWR
@@ -34,21 +35,10 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
     //state to determine if the row is swiped open or not
     const [swipedOpen, setSwipedOpen] = useState(false);
 
-    //define swipe handlers for the component
-    const handlers = useSwipeable({
-        //onSwiped: (eventData) => console.log("User Swiped!", eventData),
-        onSwipedLeft: () => setSwipedOpen(true),
-        onSwipedRight: () => setSwipedOpen(false),
-        swipeDuration: 350,
-        preventScrollOnSwipe: true,
-        trackMouse: true
-    });
-
     //state variables to handle set pill rendering
     const [sets, setSets] = useState<Set[]>(exercise.sets);
     const [showTargetSets, setShowTargetSets] = useState<boolean>(false);
 
-    const [showButtons, setShowButtons] = useState<boolean>(false);
     const [viewExerciseHistory, setViewExerciseHistory] = useState<boolean>(false);
 
     //state that determines if the row can be altered
@@ -59,6 +49,16 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
     //state that determines which set is being edited
     const [editSet, setEditSet] = useState<boolean>(false);
     const [selectedSet, setSelectedSet] = useState<Set | null>(null);
+
+    //define swipe handlers for the component
+    const handlers = useSwipeable({
+        //onSwiped: (eventData) => console.log("User Swiped!", eventData),
+        onSwipedLeft: () => setSwipedOpen(true),
+        onSwipedRight: () => setSwipedOpen(false),
+        swipeDuration: 350,
+        preventScrollOnSwipe: true,
+        trackMouse: true
+    });
 
     //return an array of target set pills for rendering in JSX
     const targetSetsArray = useMemo(() => {
@@ -95,16 +95,7 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
         setSelectedExerciseId(exercise.id)
     }
 
-    function openDeleteExerciseModal(){
-        setOpenDeleteModal(true);
-    }
-
-    function closeDeleteExerciseModal(){
-        setOpenDeleteModal(false);
-    }
-
     async function deleteExercise(){
-        
         //try deleting this exercise
         const response = await fetch(`api/exercise/delete/${exercise.id}`, {
             method: 'DELETE'
@@ -123,6 +114,14 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
     function triggerEdit(event: MouseEvent<HTMLButtonElement>){
         event.preventDefault();
         setEditRow(!editRow);
+    }
+
+    function openDeleteExerciseModal(){
+        setOpenDeleteModal(true);
+    }
+
+    function closeDeleteExerciseModal(){
+        setOpenDeleteModal(false);
     }
 
     function openExerciseHistory(event: MouseEvent<HTMLButtonElement>){
@@ -145,16 +144,10 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
         setOpenChangeExerciseModal(false);
     }
 
-
     //if the user clicks outside this component, set the buttons to closed
     function clickOutsideRow(event: globalThis.MouseEvent){
-        if(!liRef.current?.contains(event.target as Node)) setShowButtons(false);
+        if(!liRef.current?.contains(event.target as Node)) setEditRow(false);
     }
-
-    //switch edit row to false if show buttons is changed to false
-    useEffect(()=>{
-        if(!showButtons) setEditRow(false);
-    }, [showButtons]);
 
     useEffect(() => {
         if(!selectedSet) return; 
@@ -162,7 +155,7 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
     }, [selectedSet]);
 
     useEffect(()=>{ 
-        if(showButtons) 
+        if(editRow) 
             //add an event listener when the buttons are showing to close them if the user clicks outside this component
             document.addEventListener('mousedown', clickOutsideRow);
         else 
@@ -171,12 +164,7 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
 
         //remove the event listener if the component is unmounted
         return ()=> document.removeEventListener('mousedown', clickOutsideRow);
-    }, [showButtons])
-
-    //if the exercise in the row changes, close the edit buttons
-    useEffect(()=>{
-        setShowButtons(false);
-    }, [exercise])
+    }, [editRow]);
 
     useEffect(()=>{
         //update the sets in state if the supplied set array changes
@@ -198,14 +186,20 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
                 <Paper className={`flex flex-col p-2 w-full h-full z-10 rounded absolute transition-all ${swipedOpen ? '-left-14' : 'left-0'}`} paddingNone>
                     <div id={"exercise-" + exercise.id} className="w-full flex flex-col justify-end">
                         <div className="flex justify-between" {...handlers}>
-                            <button 
-                                className={`flex flex-col sm:items-center p-1 px-2 mb-2 rounded-lg ${editRow && 'shadow-lg text-white bg-rose-500'}`} 
-                                style={{WebkitTapHighlightColor: 'transparent'}}
-                                onClick={!editRow ? openExerciseHistory : openSwitchExercise}
+                            <ShakeSystem 
+                                bShake={editRow}
+                                className={`flex flex-col sm:items-center p-1 px-2 mb-2 rounded-lg ${editRow && 'text-white bg-rose-500'}`}
+                                shakeDegree={2}
                             >
-                                <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
-                                <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
-                            </button>
+                                <button 
+                                    className="flex flex-col justify-start items-start"
+                                    style={{WebkitTapHighlightColor: 'transparent'}}
+                                    onClick={!editRow ? openExerciseHistory : openSwitchExercise}
+                                >
+                                    <p className="font-medium text-lg">{capitalizeAllWords(exercise.exerciseT.name)}</p>
+                                    <p className="text-sm">{exercise.exerciseT.targetSets} sets x {exercise.exerciseT.targetReps} reps</p>
+                                </button>
+                            </ShakeSystem>
                             <IconSwitchButton icon={faEdit} handleClick={triggerEdit} on={editRow} iconColor='text-violet-400' bgColor='bg-violet-200'/>
                         </div>
                         <div 
