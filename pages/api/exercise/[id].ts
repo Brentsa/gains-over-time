@@ -15,12 +15,23 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Da
             id: parseInt(<string>id)
         },
         include: {
+            exerciseT:{
+                select: {
+                    id: true,
+                    name: true
+                }
+            },
             account: {
                 select: {
                     id: true,
                     firstName: true,
                     lastName: true,
                     username: true
+                }
+            },
+            sets: {
+                select: {
+                    id: true
                 }
             }
         }

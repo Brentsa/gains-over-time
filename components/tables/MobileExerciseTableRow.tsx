@@ -11,7 +11,6 @@ import ExerciseHistory from "../misc/ExerciseHistory";
 import { feedbackContext } from "../MainPageContainer";
 import Paper from "../utilities/Paper";
 import ExerciseDeleteForm from "../forms/ExerciseDeleteForm";
-import RowButtons from "./RowButtons";
 import { useSwipeable } from "react-swipeable";
 import IconButton from "../buttons/IconButton";
 import { faEdit, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -230,8 +229,8 @@ export default function MobileExerciseTableRow({exercise, setSelectedExerciseId,
                         </Modal>
                     }
 
-                    <Modal closeModal={closeSwitchExercise} open={openChangeExerciseModal}>
-                        <ChangeExerciseForm/>
+                    <Modal closeModal={closeSwitchExercise} open={openChangeExerciseModal} overflowVisible>
+                        <ChangeExerciseForm exercise={exercise} closeModal={closeSwitchExercise}/>
                     </Modal>
 
                     <Modal closeModal={closeExerciseHistory} open={viewExerciseHistory}>

@@ -40,6 +40,12 @@ export default function Button({label, className, handleClick, type, icon, iconR
             style={{WebkitTapHighlightColor: 'transparent'}}
         >
             {label}
+            {loading &&
+                <FontAwesomeIcon 
+                icon={faCircleNotch} 
+                className={`ml-2 animate-spin`}
+            />
+            }
         </button>
     )
     //return button with left icon

@@ -21,12 +21,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             where: {
                 id: parseInt(<string>id)
             },
-            data:{
-                sets: {
-                    set: sets
-                }
+            data:
+            {
+                exerciseT: {
+                    connect: {
+                        id: req.body?.exerciseTId
+                    }
+                },
+                sets: sets && {set: sets}
             },
             include: {
+                exerciseT:{
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                },
                 account: {
                     select: {
                         id: true,
@@ -35,9 +45,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                         username: true,
                         email: true
                     }
+                },
+                sets: {
+                    select: {
+                        id: true
+                    }
                 }
             }
         })
+
+        console.log(updatedExercise);
     
         return res.status(200).json(updatedExercise);
     }
